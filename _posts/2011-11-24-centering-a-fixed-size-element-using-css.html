@@ -1,0 +1,63 @@
+---
+layout: post
+title: Centering a fixed-size element using CSS
+tags:
+- CSS
+- HTML
+status: trash
+type: post
+published: false
+meta:
+  _edit_last: '2'
+  _wp_trash_meta_status: publish
+  _wp_trash_meta_time: '1354895594'
+---
+<p><a href="http://blog.themeforest.net/tutorials/vertical-centering-with-css/">This blog post</a> summarizes several options you have to vertically center a div using CSS.<!--more--></p>
+<p>The option 4 applies in particular to elements whose height is known: in a nutshell, you ask the browser to stick an element of a specified height to the borders of a bigger containing box, which leads to an automatic adjustment of the container inner margins.</p>
+<pre class="prettyprint">
+.centered {
+position: absolute;
+margin: auto;
+top: 0px;
+bottom: 0px;
+left: 0px;
+right: 0px;
+}
+
+#red {
+background-color: red;
+}
+
+#blue {
+background-color: blue;
+width:25%;
+height: 25%;
+}
+</pre>
+<pre class="prettyprint">
+&lt;div id=&quot;red&quot; class=&quot;centered&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;blue&quot; class=&quot;centered&quot;&gt;&lt;/div&gt;
+</pre>
+
+<style>.container {
+position:relative;
+width: 200px;
+height: 200px;
+border: 1px solid black;
+}.centered {
+position: absolute;
+margin: auto;
+top: 0px;
+bottom: 0px;
+left: 0px;
+right: 0px;
+}#blue {
+background-color: blue;
+width:25%;
+height: 25%;
+}#red {
+background-color: red;
+}
+</style>
+<div style="-webkit-column-count:2"><div class="container"><div id="red" class="centered"></div></div><div class="container"><div id="blue" class="centered"></div></div></div>
+<p>As you can see, the red div stretches to stick to the containing div borders, but the blue div keeps its dimensions and is centered.</p>

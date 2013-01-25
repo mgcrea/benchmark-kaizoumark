@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=UTF-8>
+	<title>David Corvoysier: Resume</title>
+	<style type="text/css">
+	html {
+		background-color: lightgrey;
+	}
+	body {
+		min-width: 30em;
+		max-width: 45em;
+		margin: 1em auto;
+		background-color: white;
+		color: #666;
+		box-shadow: 1px 1px 5px 2px rgba(0,0,0,.3);
+		font-family: 'Open Sans', sans-serif;
+		font-size: 16px;
+		border-radius: 5px;
+	}	
+	h1 {
+		font-size: 18px;
+		color: black;
+	}
+	a:link, a:hover, a:visited {
+		color: #508B88;
+		text-decoration: none;
+		font-weight: normal;
+	}
+	header {
+		text-align: center;
+		padding-top: 2em;
+		font-size: 12px;
+	}
+		header > h1 {
+			font-size: 24px;
+		}
+		header > h2 {
+			font-size: 20px;
+		}
+		header > ol > li {
+			display: inline;
+		}
+		header > ol > li::before {
+			content: '● ';
+		}
+		header > ol > li:first-child::before {
+			content: none;
+		}
+		
+	section {
+		margin-left: 2em;
+		margin-right: 2em;
+		border-top: 1px solid;
+	}
+		section > *:first-child {
+			float: left;
+		}
+		section > div {
+			margin-left: 9em;
+		}
+		section > div > div {
+			display: inline-block;
+			vertical-align: top;
+			margin-left: 1em;
+		}
+		section ol {
+			clear: both;
+		}
+		section ol > li {
+			list-style: none;
+		}
+		section > ol > li h1 {
+			font-size: 12px;
+		}
+		section > ol > li > * {
+			margin-left: 6em;
+		}
+		section > ol > li > *:first-child {
+			float: left;
+			margin-top: 0;
+			margin-left: 1em;
+		}
+		section > ol > li p {
+			font-size: 10px;
+		}
+	</style>
+  <script type="text/javascript" src="http://www.kaizou.org/code/3rdparty/prefixfree/prefixfree.min.js"></script>
+</head>
+<body>
+<article>
+<header>
+	<h1>David CORVOYSIER</h1>
+	<ol>				
+		<li><a href="mailto:kaizouman@kaizou.org">kaizouman@kaizou.org</a></li>
+		<li><a href="https://github.com/kaizouman">Github (Personal)</a></li>
+		<li><a href="https://github.com/dcorvoysier">Github (Corporate)</a></li>
+		<li><a href="http://www.kaizou.org">Web Site</a></li>
+	</ol>
+	<p>13 rue Pierre Gourdel - 35000 Rennes, France</p>
+</header>
+<section>
+	<h1>Main Skills</h1>
+	<div>
+		<div>
+			<h1>Web Standards</h1>
+			<p>HTML5, CSS3</p>
+			<p>CE-HTML, OIPF, HbbTV</p>
+			<p>XMPP, SIP/SIMPLE</p>
+		</div>
+		<div>
+			<h1>Software Engineering</h1>
+			<p>HTML, CSS, Javascript</p>
+			<p>C/C++, Linux</p>
+			<p>subversion, git</p>
+		</div>
+	</div>
+</section>
+<section >
+	<h1>Other Skills</h1>
+	<div>
+		<div>
+			<h1>Open Source</h1>
+			<p>GStreamer</p>
+			<p>WebKit</p>
+		</div>
+		<div>
+			<h1>Embedded Systems</h1>
+			<p>Cross-compiling tools</p>
+			<p>DirectFB, OpenGL ES</p>
+		</div>
+	</div>
+</section>
+<section>
+	<h1>Work Experience</h1>
+	<ol>
+		<li>
+			<h1>2007-2013</h1>
+			<div>
+				<h1>FT/Orange - Senior R&D Engineer - TV &amp; STB browsers</h1>
+				<p>Write Orange TV browser specifications. Provide support to application developers. Participate in Web & TV standardization (W3C,Open IPTV Forum,DLNA). Provide reference native Web & TV clients based on Open Source components (WebKit, GStreamer), push corresponding patches upstream.</p>
+			</div>
+		</li>
+		<li>
+			<h1>2001-2007</h1>
+			<div>
+				<h1>FT/Orange - Senior R&D Engineer - Instant Messaging</h1>
+				<p>Write FT/Orange Presence Server specifications. Participate in Instant Messaging standardization (IETF,JSF). Technical Project Manager on FT/Orange "Le Messager" Instant Messaging Server project.</p>
+			</div>
+		</li>
+		<li>
+			<h1>1999-2001</h1>
+			<div>
+				<h1>Sema Group Telecom - Project Manager - Telecommunications</h1>
+				<p>Head of a team of 10-15 people working on several subcontracting projects for FT/Orange (including the web self-care).</p>
+			</div>
+		</li>
+		<li>
+			<h1>1996-1999</h1>
+			<div>
+				<h1>AQL - Software Engineer - Telecommunications</h1>
+				<p>Developer and Project Manager (1-5 people)</p>
+			</div>
+		</li>
+	</ol>
+</section>
+<section>
+	<h1>Selected Open Source Contributions</h1>
+	<ol>
+		<li>
+			<h1><a href='https://github.com/Orange-OpenSource/orangemark'>orangemark</a></h1>
+			<div>
+				<h1>Orange Browser Graphics Performance Test Suite</h1>
+				<p>An automated Test Suite to benchmark browser graphics (CSS3,Canvas,WebGL)</p>
+			</div>
+		</li>
+		<li>
+			<h1><a href='https://github.com/Orange-OpenSource/gstdashdemux'>dashdemux</a></h1>
+			<div>
+				<h1>GStreamer DASH demux</h1>
+				<p>GStreamer plugin allowing the playback of MPEG DASH streams</p>
+			</div>
+		</li>
+	</ol>
+</section>
+<section>
+	<h1>Education</h1>
+	<ol>
+		<li>
+			<h1>1993-1995</h1>
+			<div>
+				<h1>Ecole des Mines de Paris</h1>
+				<p>Engineer's degree (Master's Degree) - Project Management & Product Design</p>
+			</div>
+		</li>
+		<li>
+			<h1>1990-1993</h1>
+			<div>
+				<h1>Ecole Polytechnique</h1>
+				<p>Engineer's degree (Master's Degree) - Applied Mathematics and Mechanics</p>
+			</div>
+		</li>
+	</ol>
+</section>
+<section>
+	<h1>Languages</h1>
+	<div>
+	<div>
+		<div>
+			<h1>English</h1>
+		</div>
+		<div>
+			<p>Fluent</p>
+		</div>
+	</div>
+	<div>
+		<div>
+			<h1>German</h1>
+		</div>
+		<div>
+			<p>Moderate</p>
+		</div>
+	</div>
+	<div>
+		<div>
+			<h1>Japanese</h1>
+		</div>
+		<div>
+			<p>Basic</p>
+		</div>
+	</div>
+	</div>
+</section>
+</article>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset=UTF-8>
+
+	<title>{{ page.title }}</title>
+
+	<link rel="stylesheet" media="all" data-noprefix href="/css/style.css">
+	<link rel="stylesheet" media="all" data-noprefix href="/code/3rdparty/google-code-prettify/prettify.css">
+	<link rel="stylesheet" media="all" data-noprefix href="/code/3rdparty/google-code-prettify/sunburst.css">
+	
+  <script type="text/javascript" src="/code/3rdparty/prefixfree/prefixfree.min.js"></script>
+  <script type="text/javascript" src="/code/3rdparty/google-code-prettify/prettify.js"></script>
+  <script type="text/javascript" src="/code/gh/modernizr-cache/modernizr-cache.php"></script>
+</head>
+<body>
+<header role="banner">
+    <h1><a href='/' alt='Reconstruct the Web'>Kaizou</a>
+	<div class="menu-header">
+		<ul id="menu-header-menu" class="menu">
+			<li id="menu-item-718" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-718"><a href="/tools/">tools</a></li>
+			<li id="menu-item-703" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-703"><a href="/demos/">demos</a></li>
+			<li id="menu-item-704" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-704"><a href="/about.html">?</a></li>
+		</ul>
+	</div>
+	</h1>
+<!--
+    <form id="searchform" method="get" action="http://www.kaizou.org">
+	    <fieldset>
+		    <input type="text" name="s" id="s" size="15" />
+		    <input type="submit" value="Search" />
+	    </fieldset>
+	</form>
+-->
+</header>
+<a href="/" class="logo"></a>
+<section id="wrap">     
+	<section role="main">
+  	{{ content }}
+    </section>
+</section>
+<footer role="contentinfo">
+		<a href="/license.txt">License</a> - 
+		<a href="http://www.kaizou.org/rss.xml">Entries (RSS)</a> - 
+        <a href="http://www.kaizou.org/atom.xml">Entries (Atom)</a>
+</footer>
+<script>
+	prettyPrint();
+</script>
+</body>
