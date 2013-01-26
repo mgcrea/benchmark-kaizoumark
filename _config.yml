@@ -3,7 +3,7 @@ server: false
 lsi: false
 markdown: rdiscount
 pygments: true
-permalink: pretty
+permalink: /:year/:month/:title
 paginate: 10
 category_dir: topics
 category_title_prefix: 
