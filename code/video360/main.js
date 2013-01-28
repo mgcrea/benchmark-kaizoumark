@@ -18,7 +18,7 @@ function start() {
                 {name:"textured_fs", path: "/code/video360/texture.frag"}
             ]
         },
-        textures: [{name:"video", type:"Video", path: "/media/new_york.ogv"}]
+        textures: [{name:"video", type:"Video", path: "http://media.kaizou.org/new_york.ogv"}]
     };
 
 

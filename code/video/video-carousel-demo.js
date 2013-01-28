@@ -20,43 +20,43 @@
 var videos = [
 {
     name: "Sintel",
-    url: "/media/sintel_trailer-480p.mp4",
+    url: "http://media.kaizou.org/sintel_trailer-480p.mp4",
     author: "Blender Foundation",
     license: "http://creativecommons.org/licenses/by/3.0/"
 },
 {
     name: "Big Buck Bunny",
-    url: "/media/bbunny_trailer.ogg",
+    url: "http://media.kaizou.org/bbunny_trailer.ogg",
     author: "Peach Open Movie Project",
     license: "http://creativecommons.org/licenses/by/3.0/"
 },
 {
     name: "Elephant Dreams",
-    url: "/media/edreams.mp4",
+    url: "http://media.kaizou.org/edreams.mp4",
     author: "Orange Open Movie Project",
     license: "http://creativecommons.org/licenses/by/2.5/"
 },
 {
     name: "Gizmo",
-    url: "/media/gizmo.mp4",
+    url: "http://media.kaizou.org/gizmo.mp4",
     author: "Ulrik D. Hansen",
     license: "http://creativecommons.org/licenses/by/3.0/"
 },
 {
     name: "A Shared Culture",
-    url: "/media/ASharedCulture_480p.webm",
+    url: "http://media.kaizou.org/ASharedCulture_480p.webm",
     author: "Jesse Dylan",
     name: "http://creativecommons.org/licenses/by-nc-sa/3.0/us/"
 },
 {
     name: "Mayer And Beetle 2",
-    url: "/media/MayerandBettle2_240p.webm",
+    url: "http://media.kaizou.org/MayerandBettle2_240p.webm",
     author: "Creative Commons Australia IV Motion and Black Brow",
     license: "http://creativecommons.org/licenses/by/2.5/au/"
 },
 {
     name: "Wired NextMusic",
-    url: "/media/WiredNextMusic_360p.webm",
+    url: "http://media.kaizou.org/WiredNextMusic_360p.webm",
     author: "Creative Commons",
     license: "http://creativecommons.org/licenses/by/3.0/"
 }
