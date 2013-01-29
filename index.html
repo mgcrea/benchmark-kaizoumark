@@ -17,12 +17,16 @@ published: true
       <p><a href="{{ post.url }}">(more…)</a></p>
     </section>
     <footer>
+      <span>Categories: 
+        {% for cat in post.categories %}
+        <a href="/categories.html#{{ cat }}" rel="tag">{{ cat }}</a>
+        {% endfor %}
+      </span>
       <span>Tags: 
         {% for tag in post.tags %}
         <a href="/tags.html#{{ tag }}" rel="tag">{{ tag }}</a>
         {% endfor %}
-        | </span>
-      <span><a href="http://www.kaizou.org/2012/10/maintainable-efficient-css3-animations/#respond" title="Comment on How to write maintainable and efficient CSS3 animation effects"><span class='IDCommentsReplace' style='display:none'>890</span>Comments (0)<span style='display:none' id='IDCommentPostInfoPermalink890'>http%3A%2F%2Fwww.kaizou.org%2F2012%2F10%2Fmaintainable-efficient-css3-animations%2F</span><span style='display:none' id='IDCommentPostInfoTitle890'>How+to+write+maintainable+and+efficient+CSS3+animation+effects</span><span style='display:none' id='IDCommentPostInfoTime890'>2012-10-09+15%3A44%3A22</span><span style='display:none' id='IDCommentPostInfoAuthor890'>David+Corvoysier</span><span style='display:none' id='IDCommentPostInfoGuid890'>http%3A%2F%2Fwww.kaizou.org%2F%3Fp%3D890</span></a></span>
+      </span>
     </footer>
 </article>
 {% endfor %}
