@@ -6,9 +6,42 @@ status: publish
 type: page
 published: true
 ---
-<h1>Blog Posts</h1>
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
+{% for post in paginator.posts %}
+<article>
+    <header>
+      <h1><a href="{{ post.url }}" rel="bookmark">{{ post.title }}</a></h1>
+      <small><span>{{ post.date | date_to_string }}</span> by David Corvoysier</small>
+    </header>
+    <section>
+      <p>{{ post.content | split:'<!--more-->' | first }}</p>
+      <p><a href="{{ post.url }}">(more…)</a></p>
+    </section>
+    <footer>
+      <span>Tags: 
+        {% for tag in post.tags %}
+        <a href="/tags.html#{{ tag }}" rel="tag">{{ tag }}</a>
+        {% endfor %}
+        | </span>
+      <span><a href="http://www.kaizou.org/2012/10/maintainable-efficient-css3-animations/#respond" title="Comment on How to write maintainable and efficient CSS3 animation effects"><span class='IDCommentsReplace' style='display:none'>890</span>Comments (0)<span style='display:none' id='IDCommentPostInfoPermalink890'>http%3A%2F%2Fwww.kaizou.org%2F2012%2F10%2Fmaintainable-efficient-css3-animations%2F</span><span style='display:none' id='IDCommentPostInfoTitle890'>How+to+write+maintainable+and+efficient+CSS3+animation+effects</span><span style='display:none' id='IDCommentPostInfoTime890'>2012-10-09+15%3A44%3A22</span><span style='display:none' id='IDCommentPostInfoAuthor890'>David+Corvoysier</span><span style='display:none' id='IDCommentPostInfoGuid890'>http%3A%2F%2Fwww.kaizou.org%2F%3Fp%3D890</span></a></span>
+    </footer>
+</article>
+{% endfor %}
+
+<!-- Pagination links -->
+<div class="pagination">
+  {% if paginator.previous_page %}
+    {% if paginator.previous_page == 1 %}
+        <a href="/" class="previous">Previous</a>
+      {% else %}
+        <a href="/page{{paginator.previous_page}}" class="previous">Previous</a>
+    {% endif %}
+  {% else %}
+    <span class="previous">Previous</span>
+  {% endif %}
+  <span class="page_number ">Page: {{paginator.page}} of {{paginator.total_pages}}</span>
+  {% if paginator.next_page %}
+    <a href="/page{{paginator.next_page}}" class="next ">Next</a>
+  {% else %}
+    <span class="next ">Next</span>
+  {% endif %}
+</div>
