@@ -148,24 +148,24 @@ p.postMeta { }
 
 #pagination {
 	list-style: none;
-    position: relative;
-}
-
-ul#pagination {
     -moz-padding-start: 0px;
     -webkit-padding-start: 0px;
+    height: 20px;
 }
 
 #pagination li {
-	display: inline;
+	float: left;
+    width: 33.3%;
 }
 #pagination .previous {
 	text-align: left;
 }
-#pagination .future {
+#pagination .page_number {
+	text-align: center;
+    margin-right: auto;
+}
+#pagination .next {
 	text-align: right;
-    position: absolute;
-    right: 0px;
 }
 
 footer[role=contentinfo] {

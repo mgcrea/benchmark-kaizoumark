@@ -6,6 +6,8 @@ status: publish
 type: page
 published: true
 ---
+<!-- No specific header for this page -->
+<!-- List of Posts -->
 {% for post in paginator.posts %}
 <article>
     <header>
@@ -32,20 +34,28 @@ published: true
 {% endfor %}
 
 <!-- Pagination links -->
-<div class="pagination">
-  {% if paginator.previous_page %}
-    {% if paginator.previous_page == 1 %}
-        <a href="/" class="previous">Previous</a>
-      {% else %}
-        <a href="/page{{paginator.previous_page}}" class="previous">Previous</a>
+<nav>
+  <ul id="pagination">
+    <li class="previous">
+    {% if paginator.previous_page %}
+        {% if paginator.previous_page == 1 %}
+        <a href="/">Previous</a>
+        {% else %}
+        <a href="/page{{paginator.previous_page}}">Previous</a>
+        {% endif %}
+    {% else %}
+        <span>First</span>
     {% endif %}
-  {% else %}
-    <span class="previous">Previous</span>
-  {% endif %}
-  <span class="page_number ">Page: {{paginator.page}} of {{paginator.total_pages}}</span>
-  {% if paginator.next_page %}
-    <a href="/page{{paginator.next_page}}" class="next ">Next</a>
-  {% else %}
-    <span class="next ">Next</span>
-  {% endif %}
-</div>
+    </li>
+    <li class="page_number">
+      <span>Page: {{paginator.page}} of {{paginator.total_pages}}</span>
+    </li>
+    <li class="next">
+    {% if paginator.next_page %}
+      <a href="/page{{paginator.next_page}}" class="next">Next</a>
+    {% else %}
+        <span>Last</span>
+    {% endif %}
+    </li>
+  </ul>
+</nav>
