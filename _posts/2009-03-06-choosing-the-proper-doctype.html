@@ -1,17 +1,14 @@
 ---
 layout: post
 title: Choosing the proper DOCTYPE
+categories:
+- Web Development
 tags:
-- doctype
 - HTML
-- strict
-- transitional
 - XHTML
 status: publish
 type: post
 published: true
-meta:
-  _edit_last: '2'
 ---
 <p>I have been recently asked to tell the differences between HTML 4.0, XHTML 1.0 and HTML 5.0, and I had to dig in the specifications to provide an answer. <!--more-->Doing this, I realized that I did not really pay attention to the DOCTYPE declarations in my web pages so far, possibly leading to unexpected behaviours in some browsers (see the very detailed article on Wikipedia about <a href="http://en.wikipedia.org/wiki/Quirks_mode" alt="Quirks mode">Quirks mode</a>).</p>
 <p>To be short, HTML documents must start with a DOCTYPE declaration that is used by the browser to choose the appropriate rendering. It allows in particular to distinguish between real HTML documents and XHTML documents served as <code>text/html</code> to non-XHTML browsers (though required by the XHTML specification, the DOCTYPE declaration is actually redundant with the namepace declaration if the document is served as <code>application/xhtml+xml</code>).</p>
