@@ -1,1 +1,6 @@
 ErrorDocument 404 /404.html
+
+RewriteEngine on
+    RewriteBase /
+    RewriteRule ^tag/([^/]+)/? /tags.html#$1 [R,NE]
+
