@@ -6,8 +6,11 @@ layout: default
 {{ content }}
 <!-- Comments -->
 <script type="text/javascript" src="http://comments.kaizou.org/intensedebate.js"></script>
+<script>
+    var idcomments_post_url = 'http://www.kaizou.org{{ page.url }}';
+</script>
 <span id=”IDCommentsPostTitle” style=”display:none”></span>
-<script type="text/javascript" src="http://www.intensedebate.com/js/genericLinkWrapperV2.js"></script>
+<script type="text/javascript" src="http://www.intensedebate.com/js/genericCommentWrapperV2.js"></script>
 <!-- Related Posts -->
 <div id="related">
   <h2>Related Posts</h2>
