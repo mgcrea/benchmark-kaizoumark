@@ -169,15 +169,22 @@ p.postMeta { }
 }
 
 footer[role=contentinfo] {
-	background: -webkit-gradient(linear, left top, left bottom, from(white), to(lightgrey));
-	background: -moz-linear-gradient(top, white, lightgrey);
-	background: -o-linear-gradient(top, white, lightgrey);
-	border-top: 2px solid darkgray;
-	clear: both;
 	height: 40px;
 	text-align: center;
-	font-size: 80%;
 }
+    footer[role=contentinfo] > ul {
+        -moz-padding-start: 0px;
+        -webkit-padding-start: 0px;
+        list-style: none;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    
+    footer[role=contentinfo] > ul > li {
+        display: inline-block;
+        width: 150px;
+        vertical-align: middle;
+    }
 
 .gh-ribbon {
     position: absolute;
