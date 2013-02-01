@@ -1,0 +1,163 @@
+---
+layout: post
+title: 'Different ways of arranging a list of items horizontally'
+categories:
+- Web Development
+tags:
+- CSS
+status: publish
+type: post
+published: false
+---
+This is a very common use case in Web design to arrange a list of items horizontally, be it to render a header, a menu, a navigation bar or a footer. 
+CSS provides several options to display items horizontally, each with its own specificities.
+I will describe some of them below: up to you to choose the one that corresponds to the exact rendering you want to achieve.
+<!--more-->
+
+h2. Our base structure
+
+I assume that the elements are organized into an ordered (ol) or unordered (ul) list, as it is what makes the most sense in terms of accessibility.
+
+<pre class='prettyprint'>
+<ul class='container'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+</pre>
+
+h2. Common styling
+
+It is often necessary to override a few style properties that are defined automatically by the User Agent:
+
+<pre class='prettyprint'>
+ul.container {
+    list-style: none;
+    padding-start: 0px;
+    margin-before: 0px;
+    margin-after: 0px;
+}
+</pre>
+
+Generic styling properties also apply to all solutions:
+
+<pre class='prettyprint'>
+ul.container > li {
+    background-color: lightgrey;
+    text-align: center;
+}
+</pre>
+
+Below is the rendering that we will use as a base for our transformations:
+
+<notextile>
+<style>
+ul.container {
+    list-style: none;
+    -webkit-padding-start: 0px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+}
+ul.container > li {
+    background-color: lightgrey;
+    text-align: center;
+}
+</style>
+<ul class='container'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+</notextile>
+
+h2. Option 1: floating an arbitrary set of elements of fixed-size length
+
+The first option is to use the CSS float property, so that the items stack horizontally starting from the side of their container.
+It is also necessary to add a clear rule to prevent the following elements to further stack to the right.
+
+<pre class='prettyprint'>
+#uc1 {
+}
+#uc1 > li {
+    float: left;
+}
+#uc1+* {
+    clear: both;
+}
+</pre>
+
+However, as you can see below, the elements overlap (WHY ?)
+
+<notextile>
+<style>
+#uc1 {
+}
+#uc1 > li {
+    float: left;
+}
+#uc1+* {
+    clear: both;
+}
+</style>
+<ul id='uc1' class='container'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+</notextile>
+
+To avoid this behavior, you also need to specify a width for each item:
+
+<pre class='prettyprint'>
+#uc2 {
+}
+#uc2 > li {
+    float: left;
+    width: 100px;
+}
+#uc2+* {
+    clear: both;
+}
+</pre>
+
+And the rendering is now correct:
+
+<notextile>
+<style>
+#uc2 {
+}
+#uc2 > li {
+    float: left;
+    width: 100px;
+}
+#uc2+* {
+    clear: both;
+}
+</style>
+<ul id='uc2' class='container'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+</notextile>
+    
+float
+
+display: inline
+
+cons: no width
+
+display: inline-block
+
+display: table + display: table-cell
+
+
+
