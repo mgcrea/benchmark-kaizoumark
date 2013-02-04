@@ -26,11 +26,14 @@ I assume that the elements are organized into an ordered (ol) or unordered (ul) 
     <li>sit</li>
     <li>amet</li>
 </ul>
+<p>Some text</p>
 </pre>
+
+We want to display the list items horizontally, whatever the actual width of the browser window is.
 
 h2. Common styling
 
-It is often necessary to override a few style properties that are defined automatically by the User Agent:
+Most (all?) browsers provide a default styling for List elements, so our first task would be to override a few style properties:
 
 <pre class='prettyprint'>
 ul.container {
@@ -41,12 +44,19 @@ ul.container {
 }
 </pre>
 
-Generic styling properties also apply to all solutions:
+Note: if you are interested, a more generic approach to the issue of dealing with browser default stylesheets is described in <a href='http://meyerweb.com/eric/tools/css/reset/'>this post</a> by <a href='http://meyerweb.com/'>Eric Meyer</a>.
+
+Then, we apply a few styling to give our examples a better look:
 
 <pre class='prettyprint'>
-ul.container > li {
+ul.container {
     background-color: lightgrey;
+}
+ul.container > li {
+    border: 1px solid grey;
     text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 </pre>
 
@@ -54,17 +64,26 @@ Below is the rendering that we will use as a base for our transformations:
 
 <notextile>
 <style>
+div.figure {
+    width: 600px;
+    border: 1px solid blue;
+    margin: 0 auto;
+}
 ul.container {
     list-style: none;
     -webkit-padding-start: 0px;
     -webkit-margin-before: 0px;
     -webkit-margin-after: 0px;
+    background-color: lightgrey;
 }
 ul.container > li {
-    background-color: lightgrey;
+    border: 1px solid grey;
     text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 </style>
+<div class='figure'>
 <ul class='container'>
     <li>Lorem</li>
     <li>ipsum</li>
@@ -72,84 +91,159 @@ ul.container > li {
     <li>sit</li>
     <li>amet</li>
 </ul>
+<p>Some text</p>
+</div>
 </notextile>
 
-h2. Option 1: floating an arbitrary set of elements of fixed-size length
+As you can see, the items are arranged vertically, and extend horizontally to fill the full width of their parent.
+
+h2. Option 1: Use the CSS float property
 
 The first option is to use the CSS float property, so that the items stack horizontally starting from the side of their container.
-It is also necessary to add a clear rule to prevent the following elements to further stack to the right.
 
 <pre class='prettyprint'>
-#uc1 {
-}
-#uc1 > li {
+ul.float > li {
     float: left;
-}
-#uc1+* {
-    clear: both;
 }
 </pre>
-
-However, as you can see below, the elements overlap (WHY ?)
-
 <notextile>
 <style>
-#uc1 {
-}
-#uc1 > li {
+ul.float > li {
     float: left;
 }
-#uc1+* {
-    clear: both;
-}
 </style>
-<ul id='uc1' class='container'>
+</notextile>
+
+Having the list items float to the left is however not enough to achieve a correct rendering, as you can see below:
+
+<notextile>
+<div class='figure'>
+<ul class='container float'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
+<p>Some text</p>
+</div>
 </notextile>
 
-To avoid this behavior, you also need to specify a width for each item:
+Let's solve the issues one by one.
+
+h3. Issue 1: the element following the list wraps around it to the right.
+
+The legacy fix is to use the CSS clear property on a dummy element following the list.
 
 <pre class='prettyprint'>
-#uc2 {
-}
-#uc2 > li {
-    float: left;
-    width: 100px;
-}
-#uc2+* {
+<div style="clear: both"></div>
+</pre>
+
+or, using only CSS, and taking avantage of the after selector:
+
+<pre class='prettyprint'>
+.container:after {
+    content: ".";
+    display: block;
+    height: 0;
     clear: both;
+    visibility: hidden;
 }
 </pre>
 
-And the rendering is now correct:
-
 <notextile>
-<style>
-#uc2 {
-}
-#uc2 > li {
-    float: left;
-    width: 100px;
-}
-#uc2+* {
-    clear: both;
-}
-</style>
-<ul id='uc2' class='container'>
+<div class='figure'>
+<ul class='container float'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
+<div style="clear: both"></div> 
+<p>Some Text</p>
+</div>
 </notextile>
-    
-float
+
+A better solution exist however, as we will see below solving the next issue. 
+
+h3. Issue 2: the list container doesn't expand vertically to include its children.
+
+As a matter of fact, since its children elements have been removed from the document flow, the list container has no height unless you specify one explicitly.
+See below the boundaries of the list container outlined in red:  
+
+<notextile>
+<div class='figure'>
+<ul class='container float' style='border: 1px solid red'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+<div style="clear: both"></div> 
+<p>Some Text</p>
+</div>
+</notextile>
+
+Although this may not be an issue under some specific circumstances, in most cases it does matter:
+- you may need (as in our example) to apply a common style to the container, like a border or a background,
+- you may want to associate behaviour to the list container to handle mouse hovering and clicks.
+
+In those cases, a solution is to use the overflow property to force the container to expand vertically:
+
+<pre class='prettyprint'>
+ul.float {
+    overflow: auto;
+}
+</pre>
+
+<notextile>
+<style>
+ul.fit {
+    overflow: hidden;
+}
+</style>
+
+<div class='figure'>
+<ul class='container float fit'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+<p>Some Text</p>
+</div>
+</notextile>
+
+As a bonus, this also prevents the elements following the list to wrap to the right, so we don't need to use the CSS clear property. Two birds killed with one stone !
+
+h3. Issue 3: the list container does now wrap horizontally around its children
+
+This is an issue if the width of the container exceeds the aggregated width of its children, as a gap will appear on the right, but it is worse if there is not enough space for all items to fit, as they will expand on several lines.
+
+<notextile>
+<div class='figure'>
+<ul class='container float fit' style="width: 300px;margin: 0 auto">
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+<p>Some Text</p>
+</div>
+</notextile>
+
+The only solution to have the container wrap exactly around its children is to specify its width explicitly.
+However this means you need to know in advance:
+- the number of items,
+- the width of each item.
+
+In other words++
+
+h2. Option 2: Use the CSS display property
 
 display: inline
 
