@@ -35,6 +35,7 @@ header[role=banner] {
 	position: fixed;
 	top: 0px;
 	width: 100%;
+	min-width: 800px;
 	height: 100px;
 	background: -webkit-gradient(linear, left top, left bottom, from(darkorange), to(red));
 	background: -moz-linear-gradient(top, #FF0000, #FF8C00);
@@ -102,7 +103,7 @@ header[role=banner] fieldset{
 
 section#wrap {
 	min-width: 800px;
-    max-width: 1200px;
+	max-width: 1200px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 125px;
