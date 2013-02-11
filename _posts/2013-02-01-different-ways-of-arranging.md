@@ -106,10 +106,10 @@ The basic structure and styling for our use cases is now:
     .centered {
         text-align: center;
     }
-    .centered > ul {
+    .centered > * {
         display: inline-block;
     }
-    
+^
     <p>A centered list of items</p>
     <div class='centered'>
         <ul class='container'>
@@ -128,7 +128,8 @@ The basic structure and styling for our use cases is now:
         <li>sit</li>
         <li>amet</li>
     </ul>    
-    
+    <p>Some text after</p>
+
 <style>
 div.figure {
     width: 40em;
@@ -150,57 +151,63 @@ ul.container > li {
 .centered {
     text-align: center;
 }
-.centered > ul {
+.centered > * {
     display: inline-block;
 }
 </style>
-<div class='figure'>
-<p>A centered list of items</p>
-<div class='centered'>
-<ul class='container'>
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-</div>
-<p>A list of items evenly distributed</p>
-<ul class='container'>
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-</div>
 
 Now, let's apply more styling to arrange the items horizontally. 
 
-## Option 1: Use the CSS float property
+## Option 1: Float list items to one side
 
 The first option is to use the CSS float property, so that the items 
 stack horizontally starting from the side of their container.
+
+
+    ul.float > li {
+        float: left;
+    }
 
 However, as we saw before, the 
 <a href='http://www.w3.org/TR/CSS21/visudet.html#Computing_widths_and_margins'>
     CSS 2.1 specification
 </a>specifies that floated elements have their width calculated
 using a 'shrink-to-fit' algorithm, meaning that we need to specify either
-the horizontal margins or the width of the list items to avoid them to 
-wrap too closely around their content.
+the horizontal padding or the width of the list items to avoid them
+wrapping too closely around their content.
 
-    ul.float > li {
-        float: left;
+For the first use case, we want to allow the items to adjust their width
+to the text content, so we will just set the padding: 
+
+    .centered > ul.float > li {
         padding-left: 1em;
         padding-right: 1em;
+    }
+
+For the second use case, it is a bit more difficult, as we want the
+items to be spread evenly.
+
+Ideally, we would have liked to rely on auto-margins to adjust the
+position of each item, but since the items are floated, their auto
+computed margins are always set to zero. We therefore need instead to 
+set the width of each item explicitly as a fraction of the container
+full width. This means in particular that we need to know the exact
+number of items in advance.
+
+    ul.float.even > li {
+        width: 20%;
     }
 
 <style>
 ul.float > li {
     float: left;
+}
+.centered > ul.float > li {
     padding-left: 1em;
     padding-right: 1em;
+}
+ul.float.even > li {
+    width: 20%;
 }
 </style>
 <div class='figure'>
@@ -215,57 +222,49 @@ ul.float > li {
 </ul>
 </div>
 <p>A list of items evenly distributed</p>
-<ul class='container float'>
+<ul class='container float even'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
+<p>Some text after</p>
 </div>
 
 As you can see, the rendering is correct for the first use case, but
 there are two issues with the second one:
 
-- the list container seems to have disappeared,
-- the element following the list wraps around it to the right.
+- the element following the list has a reduced vertical margin,
+- the list container seems to have disappeared.
 
-Let's solve these two issues one by one.
+The first issue is directly related to the behaviour of floated elements:
+ the text following the list tries to wrap around the floated list, but
+ since there is no space left, the browser inserts a line-break to 
+ continue the wrapping. In other words, the p element following the list
+ behaves like an inline element instead of a block element.
+ 
+This issue is typically solved by using the CSS clear property to tell 
+the browser when it should stop wrapping elements around the float.
+
+However, as we can see below, it is possible to solve the second issue 
+and the first one at once.
 
 ### Force the list container to include its children
 
 As a matter of fact, since its children elements have been removed from 
 the document flow, the list container has no height unless you specify 
 one explicitly.
-See below the boundaries of the list container outlined in red:  
-
-<div class='figure'>
-<p>A centered list of items</p>
-<div class='centered'>
-<ul class='container float'>
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-</div>
-<p>A list of items evenly distributed</p>
-<ul class='container float' style='border: 1px solid red'>
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-</div>
 
 Although this may not be an issue under some specific circumstances, in 
 most cases it does matter:
-- you may need (as in our example) to apply a common style to the container, like a border or a background,
-- you may want to associate behaviour to the list container to handle mouse hovering and clicks.
+- you may need (as in our example) to apply a common style to the
+container, like a border or a background,
+- you may want to associate behaviour to the list container to handle
+mouse hovering and clicks.
 
-In those cases, a solution is to use the overflow property to force the container to expand vertically:
+In those cases, a solution is to use the overflow property to force the 
+container to expand vertically:
 
     ul.float {
         overflow: auto;
@@ -277,125 +276,142 @@ ul.fit {
 }
 </style>
 <div class='figure'>
-<ul class='container float fixed fit'>
+<p>A centered list of items</p>
+<div class='centered'>
+<ul class='container float'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
-<p>Some Text</p>
 </div>
-
-As a bonus, this also prevents the elements following the list to wrap around it, so we don't need to use the CSS clear property. Two birds killed with one stone !
-
-### Stop wrapping after the list 
-
-The legacy fix is to use the CSS clear property on a dummy element following the list.
-
-    <div style="clear: both"></div>
-
-or, using only CSS, and taking avantage of the after selector:
-
-    ul.container:after {
-        content: ".";
-        display: block;
-        height: 0;
-        clear: both;
-        visibility: hidden;
-    }
-
-<div class='figure'>
-<ul class='container float fixed'>
+<p>A list of items evenly distributed</p>
+<ul class='container float fit even'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
-<div style="clear: both"></div> 
-<p>Some Text</p>
+<p>Some text after</p>
 </div>
 
-A better solution exist however, as we will see below solving the next issue. 
-
-
-### Issue 4: the list container does now wrap horizontally around its children
-
-This is an issue if the width of the container exceeds the aggregated width of its children, as a gap will appear on the right, but it is worse if there is not enough space for all items to fit, as they will expand on several lines.
-
-<div class='figure'>
-<ul class='container float fixed fit' style="width: 300px;margin: 0 auto">
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-<p>Some Text</p>
-</div>
-
-The only solution to have the container wrap exactly around its children is to specify its width explicitly.
-However this means you need to know in advance:
-- the number of items,
-- the width of each item.
+As a bonus, this also prevents the elements following the list to wrap 
+around it, so we don't need to use the CSS clear property.
+Two birds killed with one stone !
 
 ### Summary of the float technique
 
-As a rule of thumb, use this method only if you have a fixed number of items, and if you can control the width of each item. 
+Here is the full styling: 
 
     ul.float {
-        width: 30em;
         overflow: auto;
     }
     ul.float > li {
-        width: 6em;
         float: left;
     }
+    .centered > ul.float > li {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    ul.float.even > li {
+        width: 20%;
+    }
 
-<div class='figure'>
-<p>A centered list of items</p>
-<ul class='container float fit centered'>
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-<p>A list of items evenly distributed</p>
-<ul class='container float fixed fit even'>
-    <li>Lorem</li>
-    <li>ipsum</li>
-    <li>dolor</li>
-    <li>sit</li>
-    <li>amet</li>
-</ul>
-</div>
+And markup:
 
-## Option 2: Use the CSS display property
+    <p>A centered list of items</p>
+    <div class='centered'>
+    <ul class='container float'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    </div>
+    <p>A list of items evenly distributed</p>
+    <ul class='container float even'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    <p>Some text after</p>
 
-Using the CSS display property, we can specify that the block-level list items behave like inline-level elements. 
+As a rule of thumb, use this method:
+- if you want to center an arbitrary number of items,
+- if you want to distribute a fixed number of items.
+
+## Option 2: Force list items to behave like inline elements
+
+We can force block-level elements to behave like inline-level elements 
+by setting the CSS <code>display</code> property to <code>inline</code>
+or <code>inline-block</code>. 
 
     ul.inline > li {
         display: inline;
     }
 
-As you can see below, the items do now arrange themselves horizontally, but it is not quite yet the rendering we were trying to achieve. 
+or
+
+    ul.inline > li {
+        display: inline-block;
+    }
+
+The only difference between the two values is that when using
+<code>display: inline-block</code>, the element retains some of 
+its block-level properties, such as the ability to have a width specified.
+
+This may come handy in some configurations, as as mentioned before, 
+<code>inline</code> and <code>inline-block</code> elements have their 
+width calculated using a 'shrink-to-fit' algorithm, meaning that we need
+ to specify either the horizontal padding or the width of the list items
+to avoid them wrapping too closely around their content.
+
+In our first use case, we want to let the items adjust to their
+text content, so we would only need to specify padding, just as in the
+<code>float</code> solution.
+
+    .centered > ul.inline > li {
+        display: inline;
+        margin-left: 1em;
+        margin-right: 1em;        
+    }
+
+In the second use case, there is no way to tell the browser that we want
+the total width of each item to be calculated evenly, so we will need to
+specify it explicitly also (and thus use <code>inline-block</code>):
+
+    ul.inline.even > li {
+        display: inline-block;
+        width: 20%;        
+    }
 
 <style>
-ul.inline > li {
+ul.inline.even > li {
+    display: inline-block;
+    width: 20%;
+}
+.centered > ul.inline > li {
     display: inline;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 </style>
 <div class='figure'>
 <p>A centered list of items</p>
-<ul class='container inline centered'>
+<div class='centered'>
+<ul class='container inline'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
+</div>
 <p>A list of items evenly distributed</p>
 <ul class='container inline even'>
     <li>Lorem</li>
@@ -404,60 +420,254 @@ ul.inline > li {
     <li>sit</li>
     <li>amet</li>
 </ul>
+<p>Some text after</p>
 </div>
 
-Again, let's solve the corresponding issues one by one.
+Again, there seems to be an issue with the second use case, as the 
+browser has inserted a line-break, as if items couldn't fit in their 
+container despite their relative width.
 
-### Issue 1: the items shrink to wrap around their text content
+### Mind the gap
 
-CSS 2.1 <a href='http://www.w3.org/TR/CSS21/visudet.html#inline-width'>specifies</a> that inline elements have by default no margin left and right, and that their width cannot be specified explicitly.
+A careful examination of the two rendering reveals that there is an 
+extra spacing between list items.
 
-There are two ways to solve this:
-- if you don't care about the actual size of the items, then you can just specify explicitly the left and right margins
+This gap is neither margin nor padding: it does actually correspond to 
+the space that the browser inserts between words inside a text.
 
-    ul.inline > li {
-        display: inline;
-        margin-left: 1em;
-        margin-right: 1em;
+You can remove this gap by setting the CSS <code>word-spacing</code> 
+property to a negative value:
+
+    ul.inline.even {
+        word-spacing: -1em;
     }
+    
+This is very cryptic in my opinion, and could have nasty side-effects, 
+for instance if you have multiple words in you menu items, but it 
+actually works: 
 
-- if you really care about the width, then you can set the display property to inline-block instead of inline. It forces the items to behave as inline-level elements, yet retaining the ability to control their width.
-
-    ul.inline > li {
-        display: inline-block;
-        width: 6em;
-    }
-
-Let's put things straight: most of the time, inline-block is the way to go.  
-As a matter of fact, the only advantage of using inline versus inline-block is that an inline element can span on multiple lines whereas an inline-block can't.
-
-Here is the updated rendering:
-
-<style>
-ul.inline-block > li {
-    display: inline-block;
-    width: 6em;
-}
-</style>
 <div class='figure'>
-<ul class='container inline-block'>
+<p>A centered list of items</p>
+<div class='centered'>
+<ul class='container inline'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
     <li>sit</li>
     <li>amet</li>
 </ul>
-<p>Some Text</p>
+</div>
+<p>A list of items evenly distributed</p>
+<ul class='container inline even' style='word-spacing: -1em;'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+<p>Some text after</p>
 </div>
 
-### Issue 2: there is an extra spacing between items
+### Summary of the inline technique
 
-This gap is neither margin nor padding: it does actually correspond to the space that the browser inserts between words and letters in text.
+Here is the full styling: 
+    
+    ul.inline.even {
+        word-spacing: -1em;
+    }
+    ul.inline.even > li {
+        display: inline-block;
+        width: 20%;        
+    }
+    .centered > ul.inline > li {
+        display: inline;
+        margin-left: 1em;
+        margin-right: 1em;        
+    }
 
-You can somehow control it using the CSS letter-spacing and browser-spacing properties, but it is somekind of hackish in my opinion.
+And markup:
 
+    <div class='figure'>
+    <p>A centered list of items</p>
+    <div class='centered'>
+    <ul class='container inline'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    </div>
+    <p>A list of items evenly distributed</p>
+    <ul class='container inline even'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    <p>Some text after</p>
+    </div>
 
-display: table + display: table-cell
+There is no real advantage in using this technique as compared as using
+the <code>float</code> technique.
 
+Both methods are suitable:
 
+- if you want to center an arbitrary number of items,
+- if you want to distribute a fixed number of items.
 
+## Option 3: Use a CSS Table layout
+
+If you read carefully through the two previous paragraphs, you may have
+noticed that we haven't find so far a solution to automatically spread 
+list items evenly in our second use case. 
+
+This is precisely what ou second option will bring: let me introduce
+<a href="http://www.w3.org/TR/CSS2/tables.html">CSS Tables</a>.
+
+Without going into too much details, and as you may have guessed, CSS 
+Tables allow you to define a layout consisting in a 'rectangular grid of
+ cells'.
+
+First, we will assign to the list container and list items the following
+display types from the 
+<a href="http://www.w3.org/TR/CSS2/tables.html#">CSS Table Model</a>:
+
+    ul.table {
+        display: table-row;
+    }
+    ul.table > li {
+        display: table-cell;
+    }
+
+Setting explicitly the display mode of the list container is however an 
+issue for our first use case, as it will not be centered anymore (it
+used to be centered thanks to its <code>inline-block</code> behaviour).
+We will therefore need to add an extra <code>div</code> to wrap the 
+container:
+
+    <div class='centered'>
+    <div>
+    <ul class='container table'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    </div>
+    
+Then, similarly as what we did for the two other techniques, we will
+need to set the list items padding explicitly as the <code>table-cell</code>
+display-mode also uses the shrink-to-wrap algorithm.
+
+    .centered ul.table > li {
+        padding-left: 1em;
+        padding-right: 1em;    
+    }
+  
+Now, for the second use case, we will take advantage of the CSS Tables
+<a href='http://www.w3.org/TR/CSS2/tables.html#fixed-table-layout'>
+Fixed Table Layout algorithm
+</a>
+to force the horizontal layout to be calculated so that the table fills
+the whole width of its container regardless of each cell content.
+
+    ul.table.even {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+<style>
+ul.table {
+    display: table;
+}
+ul.table > li {
+    display: table-cell;
+}
+.centered ul.table > li {
+    padding-left: 1em;
+    padding-right: 1em;    
+}
+ul.table.even {
+    width: 100%;
+    table-layout: fixed;
+}
+</style>
+<div class='figure'>
+<p>A centered list of items</p>
+<div class='centered'>
+<div>
+<ul class='container table'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+</div>
+</div>
+<p>A list of items evenly distributed</p>
+<ul class='container table even'>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+</ul>
+<p>Some text after</p>
+</div>
+
+### Summary of the CSS table technique
+
+Here is the full styling: 
+
+    ul.table {
+        display: table;
+    }
+    ul.table > li {
+        display: table-cell;
+    }
+    .centered ul.table > li {
+        padding-left: 1em;
+        padding-right: 1em;    
+    }
+    ul.table.even {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+and markup:
+
+    <p>A centered list of items</p>
+    <div class='centered'>
+    <div>
+    <ul class='container table'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    </div>
+    </div>
+    <p>A list of items evenly distributed</p>
+    <ul class='container table even'>
+        <li>Lorem</li>
+        <li>ipsum</li>
+        <li>dolor</li>
+        <li>sit</li>
+        <li>amet</li>
+    </ul>
+    <p>Some text after</p>
+    
+This solution is in my opinion cleaner than the previous ones. 
+
+It requires however an extra wrapping <code>div</code> to address the 
+first use case. 
+
+It can be used either:
+
+- if you want to center an arbitrary number of items,
+- if you want to distribute an arbitrary number of items.
