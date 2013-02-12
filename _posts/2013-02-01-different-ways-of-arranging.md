@@ -84,7 +84,7 @@ that the border doesn't increase the width of the item.
 
 Our first use case requires that our list of items be centered in the page.
 
-Setting the CSS text-align property to center on the main containing
+Setting the CSS `text-align` property to center on the main containing
 block will center all children elements whose width can be computed.
 
 However, the list container being a block element, it will by default
@@ -106,7 +106,7 @@ But since we want to center the element, we obviously don't want to use
 float or absolute positioning.
 
 We also need to add an element wrapping the list container, whose 
-text-align property will be set to center.
+`text-align` property will be set to center.
 
 The basic structure and styling for our use cases is now:
 
@@ -265,6 +265,7 @@ one explicitly.
 
 Although this may not be an issue under some specific circumstances, in 
 most cases it does matter:
+
 - you may need (as in our example) to apply a common style to the
 container, like a border or a background,
 - you may want to associate behaviour to the list container to handle
@@ -349,6 +350,7 @@ And markup:
     <p>Some text after</p>
 
 As a rule of thumb, use this method:
+
 - if you want to center an arbitrary number of items,
 - if you want to distribute a fixed number of items.
 
