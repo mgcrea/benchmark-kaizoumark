@@ -9,9 +9,14 @@ status: publish
 type: post
 published: false
 ---
-    
-* Will be replaced by the ToC
+<nav markdown="1" class='toc'>
+<h1>Table of Contents</h1>
+* Will be replaced by the TOC
 {:toc}
+</nav>
+
+<section class='paragraph' markdown='1'>
+## Introduction
 
 This is a very common use case in Web design to arrange a list of items 
 horizontally, be it to render a header, a menu, a navigation bar or a footer.
@@ -20,9 +25,11 @@ I will describe some of them below, explaining how they can support the two foll
 
 - a centered list of items,
 - an evenly distributed list of items.
-
+</section>
 <!--more-->
 
+
+<section class='paragraph' markdown='1'>
 ## Common styling
 
 ### Base structure
@@ -132,7 +139,7 @@ The basic structure and styling for our use cases is now:
 
 <style>
 div.figure {
-    width: 40em;
+    width: 95%;
     border: 1px solid blue;
     margin: 0 auto;
 }
@@ -345,6 +352,8 @@ As a rule of thumb, use this method:
 - if you want to center an arbitrary number of items,
 - if you want to distribute a fixed number of items.
 
+</section>
+<section markdown='1' class='paragraph'>
 ## Option 2: Force list items to behave like inline elements
 
 We can force block-level elements to behave like inline-level elements 
@@ -517,6 +526,8 @@ Both methods are suitable:
 - if you want to center an arbitrary number of items,
 - if you want to distribute a fixed number of items.
 
+</section>
+<section markdown='1' class='paragraph'>
 ## Option 3: Use a CSS Table layout
 
 If you read carefully through the two previous paragraphs, you may have
@@ -671,3 +682,4 @@ It can be used either:
 
 - if you want to center an arbitrary number of items,
 - if you want to distribute an arbitrary number of items.
+</section>
