@@ -2,7 +2,10 @@
 layout: default
 ---
 <!-- Post -->
-<h1><a href="{{ page.url }}" rel='bookmark'>{{ page.title }}</a></h1>
+<header>
+  <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title }}</a></h1>
+  <small><span>{{ page.date | date_to_string }}</span> by David Corvoysier</small>
+</header>
 {{ content }}
 <!-- Comments -->
 <script type="text/javascript" src="http://comments.kaizou.org/intensedebate.js"></script>
