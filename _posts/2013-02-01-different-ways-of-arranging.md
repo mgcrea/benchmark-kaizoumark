@@ -7,7 +7,7 @@ tags:
 - CSS
 status: publish
 type: post
-published: false
+published: true
 ---
 <nav markdown="1" class='toc'>
 <h1>Table of Contents</h1>
@@ -20,15 +20,27 @@ published: false
 
 This is a very common use case in Web design to arrange a list of items 
 horizontally, be it to render a header, a menu, a navigation bar or a footer.
-CSS provides several options to display items horizontally, each with its own specificities.
-I will describe some of them below, explaining how they can support the two following use-cases:
 
-- a centered list of items,
-- an evenly distributed list of items.
-</section>
+In this article, I will describe three CSS techniques that can be used to
+display items horizontally and will try to outline their differences.
+
 <!--more-->
 
+Among the great number of combinations you may want to achieve, I will only 
+focus on two layout patterns that are in my opinion the most common ones:
 
+- a centered list of items: you don't care about the relative width of the items as long as they fit on one line in the middle of their container,
+- an evenly distributed list of items: you want the items to spread evenly on a single line to take the maximum space horizontally.
+ 
+After a first paragraph detailing the CSS rules that will apply to the three techniques, I will describe in the next paragraphs the following techniques:
+
+- <code>float</code>,
+- <code>inline</code>,
+- <code>table</code>.
+
+The last paragraph is a quick wrap-up and a tiny bit of advice.
+
+</section>
 <section class='paragraph' markdown='1'>
 ## Common styling
 
@@ -103,10 +115,9 @@ The 'shrink-to-fit' algorithm applies to:
 - inside-block elements.
 
 But since we want to center the element, we obviously don't want to use 
-float or absolute positioning.
-
-We also need to add an element wrapping the list container, whose 
-`text-align` property will be set to center.
+float or absolute positioning: we will therefore use an <code>inline-block</code>
+list container inside a parent whose <code>text-align</code> property
+is set to <code>center</code>.
 
 The basic structure and styling for our use cases is now:
 
@@ -140,6 +151,7 @@ The basic structure and styling for our use cases is now:
 <style>
 div.figure {
     width: 95%;
+    max-width: 50em;
     border: 1px solid blue;
     margin: 0 auto;
 }
@@ -167,7 +179,7 @@ Now, let's apply more styling to arrange the items horizontally.
 
 ## Option 1: Float list items to one side
 
-The first option is to use the CSS float property, so that the items 
+The first option is to use the CSS <code>float</code> property, so that the items 
 stack horizontally starting from the side of their container.
 
 
@@ -175,7 +187,7 @@ stack horizontally starting from the side of their container.
         float: left;
     }
 
-However, as we saw before, the 
+However, as we saw in the previous paragraph, the 
 <a href='http://www.w3.org/TR/CSS21/visudet.html#Computing_widths_and_margins'>
     CSS 2.1 specification
 </a>specifies that floated elements have their width calculated
@@ -204,6 +216,13 @@ number of items in advance.
     ul.float.even > li {
         width: 20%;
     }
+
+Note: here I am using a percentage value, but using a pixel value
+is also possible if you know the exact width of the list container 
+    
+On that subject, we would also need for both use cases to make sure
+ that there is enough space horizontally for the items to fit, or 
+ the browser will insert a line-break.
 
 <style>
 ul.float > li {
@@ -349,10 +368,11 @@ And markup:
     </ul>
     <p>Some text after</p>
 
-As a rule of thumb, use this method:
+We managed to render our two use cases OK, but there are a two limitations:
 
-- if you want to center an arbitrary number of items,
-- if you want to distribute a fixed number of items.
+- we can only distribute a fixed number of items,
+- we need to make sure the container is large enough, 
+otherwise the browser will insert a line-break.
 
 </section>
 <section markdown='1' class='paragraph'>
@@ -400,6 +420,9 @@ specify it explicitly also (and thus use <code>inline-block</code>):
         display: inline-block;
         width: 20%;        
     }
+    
+Note: as in the previsous technique, we need to make sure that all the 
+items can fit on one line. 
 
 <style>
 ul.inline.even > li {
@@ -446,16 +469,17 @@ extra spacing between list items.
 This gap is neither margin nor padding: it does actually correspond to 
 the space that the browser inserts between words inside a text.
 
-You can remove this gap by setting the CSS <code>word-spacing</code> 
+You then either need to take this gap into account when calculating 
+the width of indivudual items so that they fit in the line, or remove 
+this gap altogether by setting the CSS <code>word-spacing</code> 
 property to a negative value:
 
     ul.inline.even {
         word-spacing: -1em;
     }
     
-This is very cryptic in my opinion, and could have nasty side-effects, 
-for instance if you have multiple words in you menu items, but it 
-actually works: 
+Be carefoul though, as this could have nasty side-effects, for instance
+ if you have multiple words in your menu items.
 
 <div class='figure'>
 <p>A centered list of items</p>
@@ -520,28 +544,33 @@ And markup:
     <p>Some text after</p>
     </div>
 
-There is no real advantage in using this technique as compared as using
-the <code>float</code> technique.
+There is no real advantage in using this technique over using
+the <code>float</code> technique, because we have the same limitations:
 
-Both methods are suitable:
+- we can only distribute a fixed number of items,
+- we need to make sure the container is large enough, 
+otherwise the browser will insert a line-break.
 
-- if you want to center an arbitrary number of items,
-- if you want to distribute a fixed number of items.
+In addition, the automatic insertion of word-spacing between items 
+complexifies the calculations to achieve the right layout.
 
 </section>
 <section markdown='1' class='paragraph'>
 ## Option 3: Use a CSS Table layout
 
-If you read carefully through the two previous paragraphs, you may have
+If you've read carefully through the two previous paragraphs, you may have
 noticed that we haven't find so far a solution to automatically spread 
 list items evenly in our second use case. 
 
-This is precisely what ou second option will bring: let me introduce
+This is precisely what our second option will bring: let me introduce
 <a href="http://www.w3.org/TR/CSS2/tables.html">CSS Tables</a>.
 
 Without going into too much details, and as you may have guessed, CSS 
 Tables allow you to define a layout consisting in a 'rectangular grid of
- cells'.
+ cells' aka … a table !
+ 
+The idea here will be to define a single-line CSS Table to hold our list
+of items.
 
 First, we will assign to the list container and list items the following
 display types from the 
@@ -591,6 +620,10 @@ the whole width of its container regardless of each cell content.
         table-layout: fixed;
         width: 100%;
     }
+
+Note: one big difference with the previous two techniques is that we don't need
+to take care of the line width, as the items will be rendered on a single
+line even if they don't fit in their container.
 
 <style>
 ul.table {
@@ -675,13 +708,68 @@ and markup:
     </ul>
     <p>Some text after</p>
     
-This solution is in my opinion cleaner than the previous ones. 
+This solution allows more flexibility thant the previous ones:
+
+- we can spread an arbitrary number of items,
+- the items will stay in line whatever the width of their container is.
 
 It requires however an extra wrapping <code>div</code> to address the 
 first use case. 
 
-It can be used either:
-
-- if you want to center an arbitrary number of items,
-- if you want to distribute an arbitrary number of items.
 </section>
+
+## To conclude
+
+In the table below, I have summarized the differences between the three techniques.
+<style>
+table {
+	max-width: 95%;
+	text-align: center;
+}
+table,tr,td {
+	border: 1px solid;
+	border-collapse: collapse;
+}
+tr:first-child {
+	background-color: lightgrey; 
+}
+td {
+	width: 8em; 
+}
+</style>
+<table>
+<tr>
+<td>Technique</td>
+<td>Center items</td>
+<td>Spread items (fixed)</td>
+<td>Spread items (arbitrary)</td>
+<td>Line-break Hazard</td>
+</tr>
+<tr>
+<td>float</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>inline</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>table</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</table>
+
+All three methods allow you to achieve the target rendering for both use cases.
+
+If you can live with their limitations, you can use either one of the first two (although I have a mild preference for the <code>float</code> technique).
+
+The most flexible technique, and the one providing the most predictible results is however the <code>table</code> technique, and that would be my recommendation for these two use cases.
