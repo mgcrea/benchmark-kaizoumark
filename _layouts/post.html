@@ -7,6 +7,19 @@ layout: default
   <small><span>{{ page.date | date_to_string }}</span> by David Corvoysier</small>
 </header>
 {{ content }}
+<!-- Tips -->
+<a href="http://tiptheweb.org/tip/" class="ttw-button ttw-button-large">Tip This</a>
+<script>
+(function (window, document) {
+    var ref = document.getElementsByTagName('script')[0],
+        script = document.createElement('script'),
+        secure = window.location.protocol === 'https:';
+    script.async = true;
+    script.src = secure ? 'https://secure-platform.tiptheweb.org/tip/button.js'
+                        : 'http://platform.tiptheweb.org/tip/button.js';
+    ref.parentNode.insertBefore(script, ref);
+}(this, this.document));
+</script>
 <!-- Comments -->
 <script type="text/javascript" src="http://comments.kaizou.org/intensedebate.js"></script>
 <script>
