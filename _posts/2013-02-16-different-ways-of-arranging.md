@@ -175,6 +175,7 @@ ul.container > li {
 Now, let's apply more styling to arrange the items horizontally. 
 
 <!--page-break-->
+
 ## Option 1: Float list items to one side
 
 The first option is to use the CSS <code>float</code> property, so that the items 
@@ -373,6 +374,7 @@ We managed to render our two use cases OK, but there are a two limitations:
 otherwise the browser will insert a line-break.
 
 <!--page-break-->
+
 ## Option 2: Force list items to behave like inline elements
 
 We can force block-level elements to behave like inline-level elements 
@@ -552,6 +554,7 @@ In addition, the automatic insertion of word-spacing between items
 complexifies the calculations to achieve the right layout.
 
 <!--page-break-->
+
 ## Option 3: Use a CSS Table layout
 
 If you've read carefully through the two previous paragraphs, you may have
@@ -713,6 +716,7 @@ It requires however an extra wrapping <code>div</code> to address the
 first use case. 
 
 <!--page-break-->
+
 ## To conclude
 
 In the table below, I have summarized the differences between the three techniques.
