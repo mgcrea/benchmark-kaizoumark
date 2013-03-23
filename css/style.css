@@ -1,10 +1,6 @@
 /*
-Theme Name: Kaizou
-Theme URI: http://www.kaizou.org/
-Description: The Kaizou theme.
-Version: 2.0 (HTML 5)
-Author: David Corvoysier
-Author URI: http://www.kaizou.org/
+Copyright David Corvoysier 2013
+http://www.kaizou.org/
 */
 @font-face {
 	font-family: "Soviet";
@@ -31,7 +27,6 @@ a:link, a:hover, a:visited {
 }
 
 header[role=banner] {
-	position: fixed;
 	top: 0px;
 	width: 100%;
 	min-width: 800px;
@@ -75,6 +70,7 @@ header[role=banner] fieldset{
 }
 
 .logo {
+    display: none;
     -webkit-user-select: none;
     user-select: none;
     background-image: url('/images/kaizou_m.png');
@@ -126,23 +122,39 @@ header[role=banner] fieldset{
 }
 */
 
-section#wrap {
-	min-width: 800px;
-	max-width: 1200px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 125px;
-	margin-bottom: 25px;
-	border-radius: 15px 15px 15px 15px;
-	border: 2px solid darkgray;
+header.title {
+	background-color: #303030;
+	padding: 0.5em;
+	padding-top: 0.5em;
+}
+
+.page {
+	min-width: 50em;
+	max-width: 75em;
 	background-color: white;
+	padding: 1em;
+	display: table-cell;
+	border-radius: 5px 5px 5px 5px;
+	border: 2px solid darkgray;
+	border-collapse: collapse;
+}
+
+/* When there is a single page */
+.page:only-child {
+	display: block;
+	border: none;
+	border-radius: 0px;
+	margin: 0px auto;
+}
+
+.pages-container {
+	overflow-x: scroll;
+	border-spacing: 1em;
 }
 
 /** main content */
 section[role=main] {
     position: relative;
-	margin-left: 25px;
-	margin-right: 25px;
 	color: #666;
 }
 
@@ -195,8 +207,12 @@ p.postMeta { }
 }
 
 footer[role=contentinfo] {
-	height: 50px;
 	text-align: center;
+	background: -webkit-gradient(linear, left top, left bottom, from(red), to(darkorange));
+	background: linear-gradient(top, #FF8C00, #FF0000);
+	background: -moz-linear-gradient(top, #FF8C00, #FF0000);
+	background: -o-linear-gradient(top, #FF8C00, #FF0000);
+	padding: 1em;
 }
     footer[role=contentinfo] > ul {
         -moz-padding-start: 0px;

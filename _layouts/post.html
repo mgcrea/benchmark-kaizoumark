@@ -2,13 +2,13 @@
 layout: default
 ---
 <!-- Post -->
-<header>
+<header class='title'>
   <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title }}</a></h1>
   <small><span>{{ page.date | date_to_string }}</span> by David Corvoysier</small>
 </header>
+<div class='pages-container'>
 <section class='page'>
 {{ content | replace:'<!--page-break-->','</section><section class="page">'}}
-</section>
 <!-- Tips -->
 <a href="http://tiptheweb.org/tip/" class="ttw-button ttw-button-large">Tip This</a>
 <script>
@@ -37,4 +37,6 @@ layout: default
       <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
+</div>
+</section>
 </div>
