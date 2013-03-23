@@ -15,7 +15,6 @@ published: true
 {:toc}
 </nav>
 
-<section class='paragraph' markdown='1'>
 ## Introduction
 
 This is a very common use case in Web design to arrange a list of items 
@@ -40,8 +39,6 @@ After a first paragraph detailing the CSS rules that will apply to the three tec
 
 The last paragraph is a quick wrap-up and a tiny bit of advice.
 
-</section>
-<section class='paragraph' markdown='1'>
 ## Common styling
 
 ### Base structure
@@ -177,6 +174,7 @@ ul.container > li {
 
 Now, let's apply more styling to arrange the items horizontally. 
 
+<!--page-break-->
 ## Option 1: Float list items to one side
 
 The first option is to use the CSS <code>float</code> property, so that the items 
@@ -374,8 +372,7 @@ We managed to render our two use cases OK, but there are a two limitations:
 - we need to make sure the container is large enough, 
 otherwise the browser will insert a line-break.
 
-</section>
-<section markdown='1' class='paragraph'>
+<!--page-break-->
 ## Option 2: Force list items to behave like inline elements
 
 We can force block-level elements to behave like inline-level elements 
@@ -554,8 +551,7 @@ otherwise the browser will insert a line-break.
 In addition, the automatic insertion of word-spacing between items 
 complexifies the calculations to achieve the right layout.
 
-</section>
-<section markdown='1' class='paragraph'>
+<!--page-break-->
 ## Option 3: Use a CSS Table layout
 
 If you've read carefully through the two previous paragraphs, you may have
@@ -716,8 +712,7 @@ This solution allows more flexibility thant the previous ones:
 It requires however an extra wrapping <code>div</code> to address the 
 first use case. 
 
-</section>
-
+<!--page-break-->
 ## To conclude
 
 In the table below, I have summarized the differences between the three techniques.
