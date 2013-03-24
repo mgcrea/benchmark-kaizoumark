@@ -130,7 +130,7 @@ header.title {
 
 /* Per-Post pagination */
 .page {
-	min-width: 30em;
+	min-width: 50em;
 	max-width: 75em;
 	background-color: white;
 	padding: 1em;
@@ -156,6 +156,7 @@ header.title {
 section[role=main] {
     position: relative;
 	color: #666;
+	min-width: 50em;
 }
 
 section[role=main] h1 {
