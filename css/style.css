@@ -2,11 +2,14 @@
 Copyright David Corvoysier 2013
 http://www.kaizou.org/
 */
+
+/* Fonts */
 @font-face {
 	font-family: "Soviet";
 	src: url("/fonts/Soviet2.ttf") format("truetype");
 }
 
+/* General styling */
 html {
 	overflow-y: scroll;
 }
@@ -26,6 +29,7 @@ a:link, a:hover, a:visited {
     color: #508B88;
 }
 
+/* Banner */
 header[role=banner] {
 	top: 0px;
 	width: 100%;
@@ -115,21 +119,18 @@ header[role=banner] fieldset{
         text-align: center;
         font-size: 100%;
     }
-    
-.paragraph {
-    min-width: 30em;
-    max-width: 40em;
-}
 */
 
+/* Page & Posts title */
 header.title {
 	background-color: #303030;
 	padding: 0.5em;
 	padding-top: 0.5em;
 }
 
+/* Per-Post pagination */
 .page {
-	min-width: 50em;
+	min-width: 30em;
 	max-width: 75em;
 	background-color: white;
 	padding: 1em;
@@ -149,10 +150,9 @@ header.title {
 
 .pages-container {
 	overflow-x: scroll;
-	border-spacing: 1em;
 }
 
-/** main content */
+/* main content */
 section[role=main] {
     position: relative;
 	color: #666;
@@ -175,15 +175,7 @@ ol#posts {
 	padding: 0;
 }
 
-li.postWrapper,
-div.postWrapper { }
-
-.postWrapper img { }
-
-div.post { }
-
-p.postMeta { }
-
+/* Jekyll pagination */
 #pagination {
 	list-style: none;
     -moz-padding-start: 0px;
@@ -206,6 +198,7 @@ p.postMeta { }
 	text-align: right;
 }
 
+/* Footer */
 footer[role=contentinfo] {
 	text-align: center;
 	background: -webkit-gradient(linear, left top, left bottom, from(red), to(darkorange));
