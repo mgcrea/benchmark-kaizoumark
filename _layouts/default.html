@@ -12,24 +12,21 @@
 </head>
 <body>
 <header role="banner">
-    <h1><a href='/'>Kaizou</a>
-	<div class="menu-header">
-		<ul id="menu-header-menu" class="menu">
-			<li id="menu-item-718" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-718"><a href="/tools/">tools</a></li>
-			<li id="menu-item-703" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-703"><a href="/demos/">demos</a></li>
-			<li id="menu-item-704" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-704"><a href="/about.html">?</a></li>
-		</ul>
-	</div>
-	</h1>
-    <form id="searchform" method="get" action="http://www.google.com/search">
-	    <fieldset>
-		    <input type="text" name="s" id="s" size="15" />
-		    <input type="submit" value="Search" />
-		    <input type="hidden" name="sitesearch" value="www.kaizou.org" />
-	    </fieldset>
-	</form>
+	<ul>
+<!--		<li><a href='/'><img src='/images/kaizou_m.png' class="logo"></a></li>-->
+    	<li><a href='/'>Kaizou</a></li>
+		<li><a href="/tools/">tools</a></li>
+		<li><a href="/demos/">demos</a></li>
+		<li><a href="/about.html">?</a></li>
+		<li>
+		<form id="searchform" method="get" action="http://www.google.com/search">
+				<input type="text" name="s" id="s" size="15" />
+				<input type="submit" value="Search" />
+				<input type="hidden" name="sitesearch" value="www.kaizou.org" />
+		</form>
+		</li>
+	</ul>
 </header>
-<a href="/" class="logo"></a>   
 <section role="main">
 	{{ content }}
 </section>

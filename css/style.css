@@ -31,41 +31,57 @@ a:link, a:hover, a:visited {
 
 /* Banner */
 header[role=banner] {
+	font: 56px 'Soviet', 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-serif;
+	color: black;
 	top: 0px;
 	width: 100%;
 	min-width: 800px;
-	height: 100px;
 	background: -webkit-gradient(linear, left top, left bottom, from(darkorange), to(red));
 	background: -moz-linear-gradient(top, #FF0000, #FF8C00);
 	background: -o-linear-gradient(top, #FF0000, #FF8C00);
 	text-align: center;
 	z-index:99;
+	margin: 0px;
 }
 
-header[role=banner] > * {
-	display: inline-block; 
+header[role=banner] h1{
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-moz-margin-before: 0em;
+	-moz-margin-after: 0em;
+	-moz-margin-start: 0px;
+	-moz-margin-end: 0px;
+}
+
+header[role=banner] ul{
+	display: inline-block;
+	list-style: none;
+	list-style-image: none;
+	margin: 0px;
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 0px;
+	-moz-margin-before: 0em;
+	-moz-margin-after: 0em;
+	-moz-margin-start: 0px;
+	-moz-margin-end: 0px;
+	-moz-padding-start: 0px;
+	border-spacing: 0em;
+}
+
+header[role=banner] ul li {
+	display: table-cell;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 0px;
 }
 
 header[role=banner] a{
 	color: black;
-}
-
-header[role=banner] h1{
-	font: 56px 'Soviet', 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-serif;
-	color: black;
-}
-
-header[role=banner] h1 * {
-	display: inline; 
-}
-
-header[role=banner] h1 ul{
-	list-style: none;
-	list-style-image: none;
-}
-
-header[role=banner] h1 li{
-	display: inline;
 }
 
 header[role=banner] fieldset{
@@ -74,30 +90,8 @@ header[role=banner] fieldset{
 }
 
 .logo {
-    display: none;
-    -webkit-user-select: none;
-    user-select: none;
-    background-image: url('/images/kaizou_m.png');
-    position: fixed;
-    left: 50%;
-    margin-left: -690px;
-    top: 130px;
-    z-index: 2;
-    opacity: .65;
     width: 76px;
     height: 78px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    -webkit-transition: opacity 300ms ease-in-out,top 150ms ease-in-out;
-    -moz-transition: opacity 300ms ease-in-out,top 150ms ease-in-out;
-    -ms-transition: opacity 300ms ease-in-out,top 150ms ease-in-out;
-    -o-transition: opacity 300ms ease-in-out,top 150ms ease-in-out;
-    transition: opacity 300ms ease-in-out,top 150ms ease-in-out;
-}
-
-. logo:hover {
-    opacity: 1.0;
 }
 
 /* Table of Contents */
