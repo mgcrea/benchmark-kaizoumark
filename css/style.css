@@ -57,9 +57,10 @@ header[role=banner] h1{
 
 header[role=banner] ul{
 	display: inline-block;
+	padding-top: 20px;
+	margin: 0px;
 	list-style: none;
 	list-style-image: none;
-	margin: 0px;
 	-webkit-margin-before: 0em;
 	-webkit-margin-after: 0em;
 	-webkit-margin-start: 0px;
@@ -71,12 +72,19 @@ header[role=banner] ul{
 	-moz-margin-end: 0px;
 	-moz-padding-start: 0px;
 	border-spacing: 0em;
+	background-image: url('/images/kaizou.svg');
+	background-size: 76px;
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+header[role=banner] ul li:first-child {
+	padding-left: 100px;
 }
 
 header[role=banner] ul li {
 	display: table-cell;
 	padding-left: 20px;
-	padding-top: 10px;
 	padding-bottom: 0px;
 }
 
