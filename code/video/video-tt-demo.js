@@ -14,9 +14,9 @@ function setSubtitle(se){
         track = video.textTracks[j];
         if(track.kind === "subtitles"){
             if(track.language == language){
-                track.mode = TextTrack.SHOWING;
+                track.mode = 'showing';
             }else{
-                track.mode = TextTrack.DISABLED;
+                track.mode = 'disabled';
             }
         }
     }
