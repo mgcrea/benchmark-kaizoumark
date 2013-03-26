@@ -15,8 +15,6 @@ published: true
 {:toc}
 </nav>
 
-## Introduction
-
 This is a very common use case in Web design to arrange a list of items 
 horizontally, be it to render a header, a menu, a navigation bar or a footer.
 

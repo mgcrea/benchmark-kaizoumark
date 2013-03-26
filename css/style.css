@@ -18,6 +18,7 @@ body {
 	background-color: lightgrey;
 	margin: 0%;
     font-family: 'Open Sans', sans-serif;
+	min-width: 800px;
 }
 
 a {
@@ -35,7 +36,6 @@ header[role=banner] {
 	color: black;
 	top: 0px;
 	width: 100%;
-	min-width: 800px;
 	background: -webkit-gradient(linear, left top, left bottom, from(darkorange), to(red));
 	background: -moz-linear-gradient(top, #FF0000, #FF8C00);
 	background: -o-linear-gradient(top, #FF0000, #FF8C00);
@@ -130,15 +130,25 @@ header.title {
 	padding-top: 0.5em;
 }
 
-/* Per-Post pagination */
+.frame {
+	padding: 1em;
+	color: #666;
+    background-color: white;
+    margin: 0px auto;
+}
+
+/* Text pages */
+#pages-container {
+	overflow-x: scroll;
+}
+
 .page {
 	min-width: 50em;
-	max-width: 75em;
-	background-color: white;
-	padding: 1em;
+	max-width: 50em;
+    text-align: justify;    
 	display: table-cell;
-	border-radius: 5px 5px 5px 5px;
 	border: 2px solid darkgray;
+	border-radius: 5px 5px 5px 5px;
 	border-collapse: collapse;
 }
 
@@ -147,18 +157,12 @@ header.title {
 	display: block;
 	border: none;
 	border-radius: 0px;
-	margin: 0px auto;
 }
 
-.pages-container {
-	overflow-x: scroll;
-}
 
 /* main content */
 section[role=main] {
     position: relative;
-	color: #666;
-	min-width: 50em;
 }
 
 section[role=main] h1 {
@@ -171,6 +175,8 @@ section[role=main] h2 {
 	font-size: 20px;
 	margin: 10px 0 0 0;
 }
+
+/* Posts */
 
 ol#posts {
 	list-style: none;
