@@ -24,6 +24,7 @@ function setSubtitle(se){
 function displayChapters(trackElt){
     if((trackElt) && (textTrack = trackElt.track)){
         if(textTrack.kind === "chapters"){
+            textTrack.mode = 'hidden';
             var chapterBlock = document.getElementById("chapters");
             for (var i = 0; i < textTrack.cues.length; ++i) {
                 var cue = textTrack.cues[i];
