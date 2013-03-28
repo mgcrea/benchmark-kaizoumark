@@ -125,6 +125,7 @@ header[role=banner] fieldset{
 
 /* Page & Posts title */
 header.title {
+    color: #508B88;
 	background-color: #303030;
 	padding: 0.5em;
 	padding-top: 0.5em;
@@ -182,6 +183,31 @@ ol#posts {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+.figure {    
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+     
+    display: -moz-box;
+    -moz-box-align: center;
+    -moz-box-pack: center;
+     
+    display: -ms-flexbox;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+     
+    display: box;
+    box-align: center;
+    box-pack: center;
+    
+    text-align: center;
+}
+
+.figure img {
+    width: 80%;
+    border: 1px solid;
 }
 
 /* Jekyll pagination */
