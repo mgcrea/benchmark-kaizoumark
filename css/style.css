@@ -9,7 +9,9 @@ http://www.kaizou.org/
 	src: url("/fonts/Soviet2.ttf") format("truetype");
 }
 
-/* General styling */
+/**********************************************************************/
+/*                            Document                                */
+/**********************************************************************/
 html {
 	overflow-y: scroll;
 }
@@ -30,7 +32,9 @@ a:link, a:hover, a:visited {
     color: #508B88;
 }
 
-/* Banner */
+/**********************************************************************/
+/*                              Banner                                */
+/**********************************************************************/
 header[role=banner] {
 	font: 56px 'Soviet', 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-serif;
 	color: black;
@@ -39,6 +43,7 @@ header[role=banner] {
 	background: -webkit-gradient(linear, left top, left bottom, from(darkorange), to(red));
 	background: -moz-linear-gradient(top, #FF0000, #FF8C00);
 	background: -o-linear-gradient(top, #FF0000, #FF8C00);
+	background: linear-gradient(top, #FF0000, #FF8C00);
 	text-align: center;
 	z-index:99;
 	margin: 0px;
@@ -122,61 +127,98 @@ header[role=banner] fieldset{
         font-size: 100%;
     }
 */
+/**********************************************************************/
+/*                             Content                                */
+/**********************************************************************/
+#content {
+    margin: 0px auto;
+	color: #666;
+    background-color: white;
+    -webkit-box-shadow: black 0px 0px 10px;
+    -moz-box-shadow: black 0px 0px 10px;
+    box-shadow: black 0px 0px 10px;
+}
+
+#first-col {
+    width: 800px;
+}
+
+#second-col {
+    font-size: 80%;
+    padding: 1em;
+}
+
+@media only screen and (max-width: 1200px) {
+    #content {
+        width: 800px;
+    }
+    #second-col {
+        width: 800px;
+    }
+}
+
+@media only screen and (min-width: 1201px) and (max-width: 1600px) {
+    #content {
+        width: 1200px;
+    }
+    #first-col {
+        display: table-cell;
+    }
+    #second-col {
+        display: table-cell;
+        width: 400px;
+        border-left: 1px solid lightgrey;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    #content {
+        width: 1600px;
+    }
+    #first-col {
+        display: table-cell;
+    }
+    #second-col {
+        display: table-cell;
+        width: 800px;
+        border-left: 1px solid lightgrey;
+    }
+}
+
+#recent-posts article {
+    width: 30em;
+}
 
 /* Page & Posts title */
 header.title {
-    color: #508B88;
-	background-color: #303030;
+/*    color: #508B88;
+	background-color: #303030;*/
 	padding: 0.5em;
 	padding-top: 0.5em;
 }
 
-.frame {
-	padding: 1em;
-	color: #666;
-    background-color: white;
-    margin: 0px auto;
-    -webkit-box-shadow: black 0px 0px 10px;
-    -moz-box-shadow: black 0px 0px 10px;
-    box-shadow: black 0px 0px 10px;    
+article {
+    max-width: 45em;
+    padding: 1em;
 }
 
-/* Text pages */
-#pages-container {
-	overflow-x: scroll;
+article p {
+    text-align: justify;
 }
 
-.page {
-	min-width: 50em;
-	max-width: 50em;
-    text-align: justify;    
-	display: table-cell;
-	border: 2px solid darkgray;
-	border-radius: 5px 5px 5px 5px;
-	border-collapse: collapse;
+article > header {
+    margin-left: -1em;
+    margin-top: -1em;
 }
 
-/* When there is a single page */
-.page:only-child {
-	display: block;
-	border: none;
-	border-radius: 0px;
+article h1 {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+	font-size: 1.7em;
 }
 
-
-/* main content */
-section[role=main] {
-    position: relative;
-}
-
-section[role=main] h1 {
-	font-size: 26px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-section[role=main] h2 {
-	font-size: 20px;
+article h2 {
+	font-size: 1.5em;
 	margin: 10px 0 0 0;
 }
 
@@ -236,7 +278,9 @@ ol#posts {
 	text-align: right;
 }
 
-/* Footer */
+/**********************************************************************/
+/*                              Footer                                */
+/**********************************************************************/
 footer[role=contentinfo] {
 	text-align: center;
 	background: -webkit-gradient(linear, left top, left bottom, from(red), to(darkorange));

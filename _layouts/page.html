@@ -1,9 +1,21 @@
 ---
 layout: default
 ---
+<article id='first-col' role='main'>
 <header class='title'>
   <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title }}</a></h1>
 </header>
-<div class='frame'>
 {{ content }}
+</article>
+<aside id='second-col'>
+{% include search %}
+<!-- Recent Posts -->
+<div id="recent">
+  <h2>Recent Posts</h2>
+  <ul>
+    {% for post in site.posts limit:4 %}
+      <li>{% include post-abstract %}</li>
+    {% endfor %}
+  </ul>
 </div>
+</aside>

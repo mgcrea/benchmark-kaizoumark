@@ -1,0 +1,6 @@
+<!-- search -->
+<form id="searchform" method="get" action="http://www.google.com/search">
+        <input type="text" name="s" id="s" size="15" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="sitesearch" value="www.kaizou.org" />
+</form>

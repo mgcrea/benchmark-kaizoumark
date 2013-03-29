@@ -1,32 +1,11 @@
 ---
-layout: textpage
-title: Recent Posts
+layout: page
+title: All Posts
 published: true
 ---
 <!-- List of Posts -->
 {% for post in paginator.posts %}
-<article>
-    <header>
-      <h1><a href="{{ post.url }}" rel="bookmark">{{ post.title }}</a></h1>
-      <small><span>{{ post.date | date_to_string }}</span> by David Corvoysier</small>
-    </header>
-    <section>
-      <p>{{ post.content | split:'<!--more-->' | first }}</p>
-      <p><a href="{{ post.url }}">(more…)</a></p>
-    </section>
-    <footer>
-      <span>Categories: 
-        {% for cat in post.categories %}
-        <a href="/categories.html#{{ cat }}" rel="tag">{{ cat }}</a>
-        {% endfor %}
-      </span>
-      <span>Tags: 
-        {% for tag in post.tags %}
-        <a href="/tags.html#{{ tag }}" rel="tag">{{ tag }}</a>
-        {% endfor %}
-      </span>
-    </footer>
-</article>
+{% include post-abstract %}
 {% endfor %}
 
 <!-- Pagination links -->
