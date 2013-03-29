@@ -197,7 +197,7 @@ And that's about it !
 
 Click on the image below to see how it works when all the pieces are put together:
 
-<div class='figure'>
+<div class='picture'>
 <a href='/demos/video-text-track-demo/'>
 <img src='/demos/video-text-track-demo/demo.png'>
 </a>

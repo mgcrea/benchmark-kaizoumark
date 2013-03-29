@@ -136,6 +136,9 @@ header.title {
 	color: #666;
     background-color: white;
     margin: 0px auto;
+    -webkit-box-shadow: black 0px 0px 10px;
+    -moz-box-shadow: black 0px 0px 10px;
+    box-shadow: black 0px 0px 10px;    
 }
 
 /* Text pages */
@@ -185,7 +188,7 @@ ol#posts {
 	padding: 0;
 }
 
-.figure {    
+.picture {    
     display: -webkit-box;
     -webkit-box-align: center;
     -webkit-box-pack: center;
@@ -205,7 +208,7 @@ ol#posts {
     text-align: center;
 }
 
-.figure img {
+.picture img {
     width: 80%;
     border: 1px solid;
 }
