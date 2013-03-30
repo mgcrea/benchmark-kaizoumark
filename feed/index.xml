@@ -16,7 +16,7 @@ layout: nil
     <item>
       <title>
           <![CDATA[
-          {{ post.title | xml_escape }}
+          {{ post.title }}
           ]]>
       </title>
       <link>http://www.kaizou.org{{ post.url }}</link>
@@ -25,7 +25,7 @@ layout: nil
       <guid>http://www.kaizou.org{{ post.id }}</guid>
       <description>
           <![CDATA[
-          {{ post.content | xml_escape }}
+          {{ post.content }}
           ]]>
       </description>
     </item>
