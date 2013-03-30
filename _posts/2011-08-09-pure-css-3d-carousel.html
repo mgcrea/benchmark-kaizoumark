@@ -1,9 +1,12 @@
 ---
 layout: post
 title: Pure CSS 3D Carousel
+
 categories:
+
 - Web Development
 tags:
+
 - Animation
 - Carousel
 - CSS3
@@ -13,215 +16,431 @@ type: post
 published: true
 ---
 <p>CSS 3D transformations are a wonderful tool to add very impressive animation effects to your web pages without requiring a massive amount of javascript and/or WebGL code.<!--more--></p>
+
 <p>More, unlike 2D canvas for instance, if a browser supports CSS 3D Transforms, it is almost certain that it is backed by hardware-acceleration, and thus the effects should not suffer from sluggishness in the animation.</p>
+
 <p>This post demonstrates how a pure 3D CSS carousel can be implemented.</p> 
+
 <h2>Design principles</h2>
+
 <p>The carousel is constructed dynamically based on the number of cells and their size.</p>
+
 <p>The cells are children elements of a single containing block element.</p>  
+
 <p>Relatively to the parent element, each cell element is positioned in the 3D space on an horizontal plane using its <a href='http://en.wikipedia.org/wiki/Polar_coordinate_system'>polar coordinates</a> (ie angle and distance from the coordinates origin).<p>
+
 <p>The <code>N</code> cells are positioned evenly on the carousel using a rotation based on their index <code>n</code></p>
+
 <p>
+
 <math>
+
   <mrow>
+
     <mi>alpha</mi>
+
     <mo>=</mo>
+
     <mi>n</mi>
+
     <mo>x</mo>
+
     <mfrac>
+
      <mrow>
+
       <mn>2</mn>
+
       <mo>&#960;</mo>
+
      </mrow>
+
      <mi>N</mi>
+
    </mfrac>
+
 </mrow>
+
 </math>
+
 </p>
+
 <p>they are also positioned far enough from the center of the carousel circle so that they don't overlap</p>
+
 <p>
+
 <math>
+
   <mrow>
+
     <mi>distance</mi>
+
     <mo>=</mo>
+
  <mfrac>
+
   <mi>width</mi>
+
   <mrow>
+
    <mn>2</mn>
+
    <mo>&#8290;</mo>
+
    <mrow>
+
     <mi>tan</mi>
+
     <mo>&#8289;</mo>
+
     <mo>(</mo>
+
     <mfrac>
+
      <mi>&#960;</mi>
+
      <mi>N</mi>
+
     </mfrac>
+
     <mo>)</mo>
+
    </mrow>
+
   </mrow>
+
  </mfrac>
+
 </mrow>
+
 </math>
+
 </p>
+
 <p>Only the parent element is rotated to achieve the carousel effect.</p>
+
 <p>To allow the carousel to be specialized for any type of content, the cells are created empty, and it is up to the web page code to populate them using dedicated callbacks specified during initialization.</p> 
+
 <h2>Implementation details</h2>
+
 <p>The code for the carousel looks like this:</p>
+
 <pre class='prettyprint'>
+
 /*
+
   The carousel constructor
+
   
+
   Parameters:
+
   - container : the containing DOM node
+
   - nbcell    : the number of cells in the carousel
+
   - cwidth    : the width of each cell
+
   - cheight   : the height of each cell
+
   - onadded   : a callback function when a cell is added to the carousel
+
   - onfocus   : a callback function when the front cell is focussed
+
   - onblur    : a callback function when the front cell is blurred  
+
   - onselect  : a callback function when the front cell is selected 
+
 */
+
 function Carousel(container,nbcell,cwidth,cheight,onadded,onfocus,onblur,onselect){
+
   this.carousel = document.createElement(&quot;div&quot;);
+
   this.carousel.className = &quot;carousel&quot;;
+
   this.nbcell = nbcell;
+
   this.cwidth = cwidth;
+
   this.cheight = cheight;
+
   this.onadded = onadded;
+
   this.onfocus = onfocus;
+
   this.onblur = onblur;
+
   this.onselect = onselect;
+
   this.cells = new Array();
+
   this.theta = 0;
+
   this.frontIndex = 0;
+
   this.radius = Math.ceil(this.cwidth/2/Math.tan(Math.PI/this.nbcell));
+
   this.id = this.getContainerId(container);
+
   var _this = this;
+
   var carouselRule = &#039;#&#039; + this.id + &#039; .carousel {&#039;;
+
   carouselRule +=&#039;position:relative;&#039;;
+
   carouselRule +=&#039;transform-style: preserve-3d;&#039;;
+
   carouselRule +=&#039;transition: transform 0.5s;&#039;;
+
   carouselRule +=&#039;width:100%;&#039;;
+
   carouselRule +=&#039;min-width:&#039;+this.cwidth*2+&#039;px;&#039;;
+
   carouselRule +=&#039;min-height:&#039;+this.cheight*1.2+&#039;px;&#039;;
+
   carouselRule +=&#039;transform: translateZ(-&#039;+this.radius+&#039;px)&#039;;
+
   carouselRule +=&#039;}&#039;;
+
   this.insertRule(carouselRule);
+
   var cellRule = &#039;#&#039; + this.id + &#039; .carousel .cell {&#039;;
+
   cellRule +=&#039;position:absolute;&#039;;
+
   cellRule +=&#039;left: 0px;&#039;;
+
   cellRule +=&#039;right: 0px;&#039;;
+
   cellRule +=&#039;top: 0px;&#039;;
+
   cellRule +=&#039;bottom: 0px;&#039;;      
+
   cellRule +=&#039;margin: auto;&#039;;
+
   cellRule +=&#039;width:&#039;+this.cwidth+&#039;px;&#039;;
+
   cellRule +=&#039;height:&#039;+this.cheight+&#039;px;&#039;;
+
   cellRule +=&#039;opacity:0.8;&#039;;
+
   cellRule +=&#039;transition-property: all;&#039;;
+
   cellRule +=&#039;transition-duration: 0.5s;&#039;;
+
   cellRule +=&#039;}&#039;; 
+
   this.insertRule(cellRule);
+
   var containerRule = &#039;#&#039; + this.id + &#039; {&#039;;
+
   containerRule += &quot;perspective: 1100px;&quot;;
+
   containerRule += &quot;perspective-origin: 50% 50%;&quot;;
+
   containerRule += &quot;}&quot;;
+
   this.insertRule(containerRule);
+
   for(var i=0; i&lt;this.nbcell; i++) this.addCell(i);
+
   container.appendChild(this.carousel);
+
   this.focus();
+
 }
+
+
 
 Carousel.prototype.getContainerId = function(container) {
+
   if( ! container.id ) {
+
   	var id = 0;
+
   	while (document.getElementById(&#039;carousel&#039;+ id)){};
+
   	container.id = &#039;carousel&#039;+ id;
+
   }
+
   return container.id;
+
 }
+
+
 
 Carousel.prototype.insertRule = function(rule) {
+
   if( document.styleSheets.length == 0 ) {
+
   	var style = document.createElement(&#039;style&#039;);
+
 	style.type = &#039;text/css&#039;;
+
    	document.getElementsByTagName(&#039;head&#039;)[0].appendChild(style);
+
   }
+
   var styleSheet = document.styleSheets[document.styleSheets.length-1];
+
   // If prefixfree is available, use it
+
   rule = window.PrefixFree ? PrefixFree.prefixCSS(rule,true):rule;
+
   // Insert the rule
+
   styleSheet.insertRule(rule,styleSheet.cssRules.length);  
+
 }
+
+
 
 Carousel.prototype.focus = function(){
+
   var frontCell = this.cells[this.frontIndex];
+
   frontCell.focus();
+
   if(this.onfocus) this.onfocus(frontCell,this.frontIndex);
+
 }
+
+
 
 Carousel.prototype.blur = function(){
+
   var frontCell = this.cells[this.frontIndex];
+
   frontCell.blur();
+
   if(this.onblur) this.onblur(frontCell,this.frontIndex);
+
 }
+
+
 
 Carousel.prototype.select = function(index){
+
   selIndex = index ? index : this.frontIndex;
+
   if(this.onselect) this.onselect(this.cells[selIndex],selIndex);
+
 }
+
+
 
 Carousel.prototype.addCell = function(index){
+
   var nthcellRule = &#039;.cell:nth-child(&#039;+(index+1)+&#039;) {&#039;;
+
   nthcellRule +=&#039;transform: rotateY(&#039;+index*360/this.nbcell+&#039;deg)&#039;;
+
   nthcellRule +=&#039;translateZ(&#039;+this.radius+&#039;px);&#039;;
+
   nthcellRule +=&#039;}&#039;;
+
   this.insertRule(nthcellRule);
+
   nthcellRule = &#039;.cell:nth-child(&#039;+(index+1)+&#039;):focus {&#039;;
+
   // Prevent outline to be displayed when the element is focussed
+
   nthcellRule +=&#039;outline: 0;&#039;;
+
   nthcellRule +=&#039;opacity: 1.0 !important;&#039;;
+
   nthcellRule +=&#039;transform: rotateY(&#039;+index*360/this.nbcell+&#039;deg)&#039;;
+
   nthcellRule +=&#039;translateZ(&#039;+(this.radius*1.2)+&#039;px);&#039;;
+
   nthcellRule +=&#039;transition-delay: 0.5s&#039;;
+
   nthcellRule +=&#039;}&#039;;
+
   this.insertRule(nthcellRule);
+
   var cell=document.createElement(&quot;div&quot;);
+
   cell.className = &quot;cell&quot;;
+
   // Make div focussable
+
   cell.setAttribute(&quot;tabindex&quot;,&quot;-1&quot;);
+
   this.cells.push(cell);
+
   this.carousel.appendChild(cell);
+
   if(this.onadded) this.onadded(cell,index);
+
 }
+
+
 
 Carousel.DIRECTION = {
+
 LEFT:-1,
+
 RIGHT:1
+
 };
 
+
+
 /*
+
   Rotate the carousel to the left or right
+
   
+
   Parameters:
+
   - direction: Carousel.DIRECTION.LEFT or Carousel.DIRECTION.RIGHT  
+
   
+
 */
+
 Carousel.prototype.rotate = function(direction) {
+
   this.blur();
+
   this.frontIndex = (this.frontIndex - direction + this.nbcell)%this.nbcell;
+
   this.theta = (this.theta + direction*( 360 / this.nbcell ));
+
   var style = &#039;transform: translateZ(-&#039;+this.radius+&#039;px) rotateY(&#039; + this.theta + &#039;deg)&#039;;
+
   // If prefixfree is available, use it
+
   style = window.PrefixFree ? PrefixFree.prefixCSS(style,true):style;
+
   this.carousel.setAttribute(&#039;style&#039;,style);
+
   this.focus();
+
 }
+
 </pre>
+
 <h2>Live Demonstrations</h2>
+
 <p>The following demos only work on recent Chrome, Safari or Firefox.</p>
+
 <p>Here is a first example using images.</p>
-<p><a href="/demos/3d-carousel-demo"><img src="/images/3d-carousel-images.png"></a></p>
+
+<div class='picture'>
+<a href="/demos/3d-carousel-demo"><img src="/images/3d-carousel-images.png"></a>
+</div>
+
 <p>Click on the image to see the live version.</p>
+
 <p>And another example using this time video elements.</p>
-<p><a href="/demos/3d-video-carousel-demo/"><img src="/images/3d-carousel-videos.png"></a></p>
+
+<div class='picture'>
+<a href="/demos/3d-video-carousel-demo/"><img src="/images/3d-carousel-videos.png"></a>
+</div>
+
 <p>Click on the image to see the live version.</p>
