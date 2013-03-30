@@ -75,17 +75,18 @@ default stylesheets is described in
 Then, we apply a few cosmetic styling rules:
 
     ul.container {
-        background-color: lightgrey;
+    	box-shadow: 0 0 5px black;
     }
     ul.container > li {
-        background: -webkit-linear-gradient(left , grey, transparent 1px);
-        background: linear-gradient(to left , grey, transparent 1px);
         text-align: center;
     }
+    ul.container > li:nth-child(odd) {
+    	background-color: orange;
+    }
+    ul.container > li:nth-child(even) {
+    	background-color: darkorange;
+    }
 
-Note: I have outlined the left border of each item in grey, but instead 
-of using a real CSS border, I have used a fake CSS gradient of 1px so 
-that the border doesn't increase the width of the item. 
 
 ### Shrink to fit
 
@@ -146,21 +147,25 @@ The basic structure and styling for our use cases is now:
 <style>
 div.figure {
     width: 95%;
-    max-width: 50em;
-    border: 1px solid blue;
+    border: 1px solid black;
     margin: 0 auto;
+    padding: 1em;
 }
 ul.container {
     list-style: none;
     -webkit-padding-start: 0px;
     -webkit-margin-before: 0px;
     -webkit-margin-after: 0px;
-    background-color: lightgrey;
+    box-shadow: 0 0 5px black;
 }
 ul.container > li {
-    background: -webkit-linear-gradient(left , grey, transparent 1px);
-    background: linear-gradient(to left , grey, transparent 1px);
     text-align: center;
+}
+ul.container > li:nth-child(odd) {
+	background-color: orange;
+}
+ul.container > li:nth-child(even) {
+	background-color: darkorange;
 }
 .centered {
     text-align: center;
@@ -170,7 +175,13 @@ ul.container > li {
 }
 </style>
 
-Now, let's apply more styling to arrange the items horizontally. 
+Now, let's apply more styling to arrange the items horizontally.
+
+Our target layout is displayed below:
+
+<div id='figure'>
+	<img src='/images/posts/different-ways-of-arranging.png'>
+</div> 
 
 <!--page-break-->
 
@@ -418,8 +429,10 @@ specify it explicitly also (and thus use <code>inline-block</code>):
         width: 20%;        
     }
     
-Note: as in the previsous technique, we need to make sure that all the 
+Note: as in the previous technique, we need to make sure that all the 
 items can fit on one line. 
+
+Let's look at the resulting layout:
 
 <style>
 ul.inline.even > li {
@@ -454,34 +467,30 @@ ul.inline.even > li {
 <p>Some text after</p>
 </div>
 
-Again, there seems to be an issue with the second use case, as the 
-browser has inserted a line-break, as if items couldn't fit in their 
-container despite their relative width.
+Ummm, the browser seems to have inserted extra spacing between our menu elements …
 
 ### Mind the gap
 
-A careful examination of the two rendering reveals that there is an 
-extra spacing between list items.
+The gap inserted between the list items is neither margin nor padding:
+ it does actually correspond to the space that the browser inserts
+ between words inside a text.
 
-This gap is neither margin nor padding: it does actually correspond to 
-the space that the browser inserts between words inside a text.
+Fiddling with padding and margins won't help you fixing this: the only option you have is to remove 
+this gap altogether by setting the CSS <code>word-spacing</code> property to a value negating the default
+word spacing used by the browser:
 
-You then either need to take this gap into account when calculating 
-the width of indivudual items so that they fit in the line, or remove 
-this gap altogether by setting the CSS <code>word-spacing</code> 
-property to a negative value:
-
-    ul.inline.even {
-        word-spacing: -1em;
+    ul.inline {
+        word-spacing: -0.3em;
     }
     
-Be carefoul though, as this could have nasty side-effects, for instance
- if you have multiple words in your menu items.
+Be carefoul though, as this could have nasty side-effects, for instance if you have multiple words in your menu items.
+
+Also, to my knowledge, there is no guarantee that -0.3em will work in all configurations.
 
 <div class='figure'>
 <p>A centered list of items</p>
 <div class='centered'>
-<ul class='container inline'>
+<ul class='container inline' style='word-spacing: -0.3em;'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
@@ -490,7 +499,7 @@ Be carefoul though, as this could have nasty side-effects, for instance
 </ul>
 </div>
 <p>A list of items evenly distributed</p>
-<ul class='container inline even' style='word-spacing: -1em;'>
+<ul class='container inline even' style='word-spacing: -0.3em;'>
     <li>Lorem</li>
     <li>ipsum</li>
     <li>dolor</li>
@@ -504,8 +513,8 @@ Be carefoul though, as this could have nasty side-effects, for instance
 
 Here is the full styling: 
     
-    ul.inline.even {
-        word-spacing: -1em;
+    ul.inline {
+        word-spacing: -0.3em;
     }
     ul.inline.even > li {
         display: inline-block;
@@ -548,8 +557,7 @@ the <code>float</code> technique, because we have the same limitations:
 - we need to make sure the container is large enough, 
 otherwise the browser will insert a line-break.
 
-In addition, the automatic insertion of word-spacing between items 
-complexifies the calculations to achieve the right layout.
+In addition, the fiddling with word-spacing complexifies the calculations to achieve the right layout.
 
 <!--page-break-->
 
