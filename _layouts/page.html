@@ -10,12 +10,10 @@ layout: default
 <aside id='second-col'>
 {% include search %}
 <!-- Recent Posts -->
-<div id="recent">
+<div id="recent-posts">
   <h2>Recent Posts</h2>
-  <ul>
     {% for post in site.posts limit:4 %}
-      <li>{% include post-abstract %}</li>
+      {% include post-abstract %}
     {% endfor %}
-  </ul>
 </div>
 </aside>

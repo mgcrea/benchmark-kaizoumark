@@ -190,16 +190,30 @@ header[role=banner] fieldset{
     }
 }
 
+#related-posts article {
+    width: 335px;
+    border: 1px solid #DFDFDF;
+    display: inline-block;
+    margin-right: 0.7em;
+    margin-bottom: 1em;
+    vertical-align:top;
+}
+
 #recent-posts article {
-    width: 30em;
+    width: 335px;
+    border: 1px solid #DFDFDF;
+    display: inline-block;
+    margin-right: 0.7em;
+    margin-bottom: 1em;
+    vertical-align:top;
 }
 
 /* Page & Posts title */
 header.title {
 /*    color: #508B88;
-	background-color: #303030;*/
+	background-color: #303030;
 	padding: 0.5em;
-	padding-top: 0.5em;
+	padding-top: 0.5em;*/
 }
 
 article {
@@ -212,8 +226,6 @@ article p {
 }
 
 article > header {
-    margin-left: -1em;
-    margin-top: -1em;
 }
 
 article h1 {

@@ -27,13 +27,11 @@ layout: default
 <aside id='second-col'>
 {% include search %}
 <!-- Related Posts -->
-<div id="related">
+<div id="related-posts">
   <h2>Related Posts</h2>
-  <ul>
     {% for post in site.related_posts limit:4 %}
-      <li>{% include post-abstract %}</li>
+    	{% include post-abstract %}
     {% endfor %}
-  </ul>
 </div>
 <!-- Tips -->
 <div>
