@@ -250,28 +250,12 @@ ol#posts {
 	padding: 0;
 }
 
-.picture {    
-    display: -webkit-box;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-     
-    display: -moz-box;
-    -moz-box-align: center;
-    -moz-box-pack: center;
-     
-    display: -ms-flexbox;
-    -ms-flex-align: center;
-    -ms-flex-pack: center;
-     
-    display: box;
-    box-align: center;
-    box-pack: center;
-    
+.picture {
     text-align: center;
 }
 
 .picture img {
-    width: 80%;
+	width: 80%;
     border: 1px solid;
 }
 
