@@ -2,7 +2,8 @@
 layout: default
 ---
 <!-- Post -->
-<article id='first-col' role='main'>
+<div id='first-col'>
+<article role='main'>
 <header class='title'>
   <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title }}</a></h1>
   <small><span>{{ page.date | date_to_string }}</span> by David Corvoysier</small>
@@ -24,28 +25,21 @@ layout: default
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </article>
+</div>
 <aside id='second-col'>
-{% include search %}
+{% include social %}
 <!-- Related Posts -->
 <div id="related-posts">
-  <h2>Related Posts</h2>
+  <div class='tuple'><h2>Related Posts</h2></div>
     {% for post in site.related_posts limit:4 %}
+        {% capture thecycle %}{% cycle 'odd', 'even' %}{% endcapture %}
+        {% if thecycle == 'odd' %}
+            <div class='tuple'>
+        {% endif %}
     	{% include post-abstract %}
+        {% if thecycle == 'even' %}
+            </div>
+        {% endif %}
     {% endfor %}
-</div>
-<!-- Tips -->
-<div>
-<a href="http://tiptheweb.org/tip/" class="ttw-button ttw-button-large">Tip This</a>
-<script>
-(function (window, document) {
-    var ref = document.getElementsByTagName('script')[0],
-        script = document.createElement('script'),
-        secure = window.location.protocol === 'https:';
-    script.async = true;
-    script.src = secure ? 'https://secure-platform.tiptheweb.org/tip/button.js'
-                        : 'http://platform.tiptheweb.org/tip/button.js';
-    ref.parentNode.insertBefore(script, ref);
-}(this, this.document));
-</script>
 </div>
 </aside>

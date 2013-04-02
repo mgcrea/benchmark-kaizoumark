@@ -44,7 +44,7 @@ header[role=banner] {
 	background: -o-linear-gradient(top, #FF0000, #FF8C00);
 	background: linear-gradient(top, #FF0000, #FF8C00);
 	text-align: center;
-	z-index:99;
+	z-index:1;
 	margin: 0px;
 }
 
@@ -134,18 +134,23 @@ header[role=banner] fieldset{
 	color: #666;
     background-color: white;
     text-rendering: optimizeLegibility;
-    -webkit-box-shadow: black 0px 0px 10px;
-    -moz-box-shadow: black 0px 0px 10px;
-    box-shadow: black 0px 0px 10px;
+    -webkit-box-shadow: black 0px 3px 10px;
+    -moz-box-shadow: black 0px 3px 10px;
+    box-shadow: black 0px 3px 10px;
 }
 
 #content h1 {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+	font-size: 1.7em;
 	font-family: HelveticaNeue-condensed, sans-serif;
 	font-weight: 500;
 }
 
-#first-col {
-    width: 800px;
+#content h2 {
+	font-size: 1.5em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
 }
 
 #second-col {
@@ -153,72 +158,80 @@ header[role=banner] fieldset{
     padding: 1em;
 }
 
+#demo {
+    padding: 1em;
+}
+
 @media only screen and (max-width: 1200px) {
     #content {
         width: 800px;
     }
-    #second-col {
-        width: 800px;
+    #first-col {
+        padding: 1em;
+    }
+    #first-col article {
+        margin: 0px auto;
+        width: 45em;
+    }
+    #second-col .tuple {
+        border-spacing: 1em 0.5em;
+        table-layout: fixed;
+    }
+    #second-col article {
+        display: table-cell;
     }
 }
 
 @media only screen and (min-width: 1201px) and (max-width: 1600px) {
     #content {
         width: 1200px;
+        border-spacing: 1em 0.5em;
     }
     #first-col {
         display: table-cell;
+        width: 800px;
+    }
+    #first-col article {
+        margin: 0px auto;
+        width: 45em;
     }
     #second-col {
         display: table-cell;
         width: 400px;
-        border-left: 1px solid lightgrey;
+    }
+    #second-col article {
+        margin-bottom: 1em;
     }
 }
 
 @media only screen and (min-width: 1600px) {
     #content {
         width: 1600px;
+        border-spacing: 1em 0.7em;
     }
     #first-col {
         display: table-cell;
     }
+    #first-col article {
+        margin: 0px auto;
+        width: 45em;
+    }
     #second-col {
         display: table-cell;
         width: 800px;
-        border-left: 1px solid lightgrey;
+    }
+    #second-col .tuple {
+        border-spacing: 1em 0.5em;
+        table-layout: fixed;
+    }
+    #second-col article,h2 {
+        display: table-cell;
     }
 }
 
-#related-posts article {
-    width: 335px;
-    border: 1px solid #DFDFDF;
-    display: inline-block;
-    margin-right: 0.7em;
-    margin-bottom: 1em;
-    vertical-align:top;
-}
-
-#recent-posts article {
-    width: 335px;
-    border: 1px solid #DFDFDF;
-    display: inline-block;
-    margin-right: 0.7em;
-    margin-bottom: 1em;
-    vertical-align:top;
-}
-
-/* Page & Posts title */
-header.title {
-/*    color: #508B88;
-	background-color: #303030;
-	padding: 0.5em;
-	padding-top: 0.5em;*/
-}
-
 article {
-    max-width: 45em;
     padding: 1em;
+    border: 1px solid #DFDFDF;
 }
 
 article p {
@@ -226,17 +239,6 @@ article p {
 }
 
 article > header {
-}
-
-article h1 {
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
-	font-size: 1.7em;
-}
-
-article h2 {
-	font-size: 1.5em;
-	margin: 10px 0 0 0;
 }
 
 /* Posts */

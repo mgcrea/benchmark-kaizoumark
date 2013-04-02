@@ -1,19 +1,28 @@
 ---
 layout: default
 ---
-<article id='first-col' role='main'>
+<div id='first-col'>
+<article role='main'>
 <header class='title'>
   <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title }}</a></h1>
 </header>
 {{ content }}
 </article>
+</div>
 <aside id='second-col'>
-{% include search %}
+{% include social %}
 <!-- Recent Posts -->
 <div id="recent-posts">
-  <h2>Recent Posts</h2>
+  <div class='tuple'><h2>Recent Posts</h2></div>
     {% for post in site.posts limit:4 %}
-      {% include post-abstract %}
+        {% capture thecycle %}{% cycle 'odd', 'even' %}{% endcapture %}
+        {% if thecycle == 'odd' %}
+            <div class='tuple'>
+        {% endif %}
+    	{% include post-abstract %}
+        {% if thecycle == 'even' %}
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 </aside>

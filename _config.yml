@@ -6,7 +6,7 @@ kramdown:
     parse_block_html: true;
 pygments: true
 permalink: /:year/:month/:title
-paginate: 10
+paginate: 4
 category_dir: topics
 category_title_prefix: 
 exclude: ["lib", "blog.rb", "Capfile", "config", "log", "Rakefile", "tmp"]

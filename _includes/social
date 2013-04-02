@@ -1,0 +1,7 @@
+<div id='social'>
+  <h2>Follow me: 
+    {% include github %}           
+    {% include rss %}
+    {% include twitter %}
+  </h2>
+</div>
