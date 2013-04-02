@@ -224,12 +224,13 @@ header[role=banner] fieldset{
         border-spacing: 1em 0.5em;
         table-layout: fixed;
     }
-    #second-col article,h2 {
+    #second-col article {
         display: table-cell;
     }
 }
 
 article {
+	max-width: 45em;
     padding: 1em;
     border: 1px solid #DFDFDF;
 }
