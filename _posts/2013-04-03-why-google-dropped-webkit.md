@@ -12,7 +12,7 @@ published: true
 ---
 Google announced yesterday in a [short post](http://blog.chromium.org/2013/04/blink-rendering-engine-for-chromium.html) on the Chromium Blog that they were dropping WebKit for Blink, a new rendering engine.
  
-I was at first taken aback by the announcement, but after a moment of recollection, I realized that I should have seen it coming ...  
+I was at first taken aback by the announcement, but after a while, I realized that I should have seen it coming ...  
 
 I would summarize their decision in three words: Rationalization, Emancipation, and Differentiation.
 
