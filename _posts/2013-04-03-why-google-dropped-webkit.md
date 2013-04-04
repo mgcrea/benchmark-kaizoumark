@@ -64,5 +64,7 @@ This is probably something they won't easily admit, but WebKit success on the em
 
 Switching to Blink may thus also be a tactical move to allow them to differentiate themselves from their competitors: although Blink will be Open Source, Google seems to take for granted that only a limited set of build configurations will be supported (including obviously Android). I therefore doubt it will be ever ported to a 'base' embedded distribution.
 
+But I hope they will prove me wrong …
+
 
  
