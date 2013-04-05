@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Three golden rules for working with Open Source Software'
+title: 'Three golden rules of working with Open Source Software'
 date: '2013-04-05 17:00:00'
 categories:
 - Web Development
@@ -36,7 +36,7 @@ So my first advice is: do not fork.
 ## Push your changes back upstream
 Most companies are very reluctant to develop in the Open: that's a cultural thing. 
 
-To be fair, even if the licence of most Open Source components will force you publish your changes when you release a product, nothing prevents you from keeping them private during the development phase. 
+To be fair, even if the licence of most Open Source components will force you to publish your changes when you release a product, nothing prevents you from keeping them private during the development phase. 
 
 So, the first thing you will be asked when you start a new project based on Open Source software is often to replicate everything in a private corporate environment. You can even be asked to release your changes at the end of the project in a separate public repository to limit the chances some competitor might use them (nasty !).
 
