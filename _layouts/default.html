@@ -3,7 +3,15 @@
 <head>
 	<meta charset=UTF-8>
 
-	<title>{{ page.title }}</title>
+    <!-- Metadata -->
+{% if page.date %}
+    <meta http-equiv="date" content="{{page.date |date: '%A, %d  %Y %H:%M:%S GMT'}}" />
+{% endif %}
+{% if page.tags %}
+    <meta name="keywords" content="{{page.tags | join: ','}}" />
+{% endif %}
+
+    <title>{{ page.title }}</title>
 
 	<link rel="alternate" type="application/rss+xml" href="/feed/index.xml">
 	<link rel="stylesheet" media="all" data-noprefix href="/css/style.css">
