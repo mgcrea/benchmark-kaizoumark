@@ -8,3 +8,4 @@ pygments: true
 permalink: /:year/:month/:title
 paginate: 4
 exclude: ["lib", "blog.rb", "Capfile", "config", "log", "Rakefile", "tmp"]
+description: "Technology blog about Web development and Open Source"
