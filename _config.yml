@@ -7,7 +7,4 @@ kramdown:
 pygments: true
 permalink: /:year/:month/:title
 paginate: 4
-category_dir: topics
-category_title_prefix: 
 exclude: ["lib", "blog.rb", "Capfile", "config", "log", "Rakefile", "tmp"]
-#destination: public
