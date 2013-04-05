@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 'Different ways of arranging a list of items horizontally'
+date: '2013-02-16 19:00:00'
 categories:
 - Web Development
 tags:
@@ -53,7 +54,7 @@ I assume that the elements are organized into an ordered (ol) or unordered
     </ul>
 
 
-### Getting rid of user-agent defaults
+### Getting rid of user-agent defaults
 
 All browsers provide a default styling for List elements, so our first
 task would be to override a few style properties:

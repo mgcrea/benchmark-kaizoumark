@@ -1,13 +1,10 @@
 ---
 layout: post
 title: 'Why Google Dropped WebKit'
+date: '2013-04-04 19:00:00'
 categories:
 - Web Browsers
-tags:
-- WebKit
-- Blink
-- Google
-type: post
+tags: WebKit Blink Google
 published: true
 ---
 Google announced yesterday in a [short post](http://blog.chromium.org/2013/04/blink-rendering-engine-for-chromium.html) on the Chromium Blog that they were dropping WebKit for Blink, a new rendering engine.

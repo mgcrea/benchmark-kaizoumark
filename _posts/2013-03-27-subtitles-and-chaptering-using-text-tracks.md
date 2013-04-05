@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 'Subtitles and Chaptering using Timed Text Tracks'
+date: '2013-03-27 19:00:00'
 categories:
 - Web Development
 tags: HTML5 video subtitles chapters webvtt
