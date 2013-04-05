@@ -2,7 +2,7 @@
 layout: post
 title: 'Why Google Dropped WebKit'
 categories:
-- Web Development
+- Web Browsers
 tags:
 - WebKit
 - Blink
