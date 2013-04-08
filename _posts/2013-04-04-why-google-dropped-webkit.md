@@ -37,9 +37,30 @@ From the statistics I extracted recently, things have changed.
 
 First, Google alone contributes to half of the commits made on WebKit, whereas Apple weights only a quarter.
 
+<div class='picture'>
+<a href='/tools/webkit-who/'>
+<img src='/images/posts/webkit-google-apple-2008-2013.png'></img>
+</a>
+<div class='legend'>Google vs Apple WebKit commits 2008-2013</div>
+</div>
+
 Second, Google contributes equally to the core and the chromium port.
 
+<div class='picture'>
+<a href='/tools/webkit-who/'>
+<img src='/images/posts/webkit-google-2012-2013.png'></img>
+</a>
+<div class='legend'>Google WebKit commits by type 2012-2013</div>
+</div>
+
 Third, Google is the main contributor on maintenance tasks, including in particular the WebKit 'gardening', ie the test regressions tracking.
+
+<div class='picture'>
+<a href='/tools/webkit-who/'>
+<img src='/images/posts/webkit-google-maintenance-2012-2013.png'></img>
+</a>
+<div class='legend'>Google WebKit Maintenance commits 2012-2013</div>
+</div>
 
 The latter is probably the most interesting: since 2009, the number of maintenance commits has tripled, following the overall inflation of revisions. Google being the main committer used to take most of the maintenance burden on its (large) shoulders, and I can imagine they decided it was enough ... 
 
@@ -51,7 +72,7 @@ Despite Google being the main driving force, WebKit is still Apple's baby.
 
 If you take a look at the WebKit Team page, you realize that Google has 95 members, but only 36 reviewers, whereas 48 out of 59 Apple contributors are reviewers. 
 
-More, the main architecture choices are still under Apple's hands, and they don't necessarily agree with Google: see for instance the different views on multi-process architecture also mentioned by Adam Barth (as a matter of fact, WebKit2 has introduced a multi-process architecture, but different from the one used in Chrome).
+More important, the main design choices are still under Apple's control, and they don't necessarily agree with Google: see for instance the different views on multi-process architecture also mentioned by Adam Barth (as a matter of fact, WebKit2 has introduced a multi-process architecture, but different from the one used in Chrome).
 
 At some point, Adam's team mates probably decided that it was time for them to kill the father …
 

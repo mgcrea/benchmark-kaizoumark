@@ -255,8 +255,12 @@ ol#posts {
 }
 
 .picture img {
-	width: 80%;
+	width: 90%;
     border: 1px solid;
+}
+
+.legend {
+	font-size: 0.7em;
 }
 
 /* Jekyll pagination */
