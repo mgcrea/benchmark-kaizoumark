@@ -113,23 +113,22 @@ function moveRight(){
 }
 
 function handleKeyDown(event){
-  switch(event.keyIdentifier){
-    case "Left":
-      carousel.rotate(Carousel.DIRECTION.RIGHT);
-      event.preventDefault();
-      break;
-    case "Right":
-      carousel.rotate(Carousel.DIRECTION.LEFT);
-      event.preventDefault();
-      break;
-    case "Enter":
-    case "Down":
-      carousel.select();
-      event.preventDefault();
-      break;
-    default:
-      break;
-  }
+	switch(event.keyCode){
+		case 37:
+		carousel.rotate(Carousel.DIRECTION.RIGHT);
+		event.preventDefault();
+		break;
+		case 39:
+		carousel.rotate(Carousel.DIRECTION.LEFT);
+		event.preventDefault();
+		break;
+		case 13:
+		carousel.select();
+		event.preventDefault();
+		break;
+		default:
+		break;
+	}
 }
 
 function init(event) {
