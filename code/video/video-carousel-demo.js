@@ -20,43 +20,48 @@
 var videos = [
 {
     name: "Sintel",
-    url: "http://media.kaizou.org/sintel_trailer-480p.mp4",
+    urls: ["http://media.kaizou.org/sintel_trailer-480p.mp4",
+    "http://media.kaizou.org/sintel_trailer-480p.ogg"],
     author: "Blender Foundation",
     license: "http://creativecommons.org/licenses/by/3.0/"
 },
 {
     name: "Big Buck Bunny",
-    url: "http://media.kaizou.org/bbunny_trailer.ogg",
+    urls: ["http://media.kaizou.org/bbunny_trailer.ogg",
+    "http://media.kaizou.org/bbunny_trailer.mov"],
     author: "Peach Open Movie Project",
     license: "http://creativecommons.org/licenses/by/3.0/"
 },
 {
     name: "Elephant Dreams",
-    url: "http://media.kaizou.org/edreams.mp4",
+    urls: ["http://media.kaizou.org/edreams.mp4",
+    "http://media.kaizou.org/edreams.ogg"],
     author: "Orange Open Movie Project",
     license: "http://creativecommons.org/licenses/by/2.5/"
 },
 {
     name: "Gizmo",
-    url: "http://media.kaizou.org/gizmo.mp4",
+    urls: ["http://media.kaizou.org/gizmo.mp4",
+    "http://media.kaizou.org/gizmo.webm"],
     author: "Ulrik D. Hansen",
     license: "http://creativecommons.org/licenses/by/3.0/"
 },
 {
     name: "A Shared Culture",
-    url: "http://media.kaizou.org/ASharedCulture_480p.webm",
+    urls: ["http://media.kaizou.org/ASharedCulture_480p.webm",
+    "http://media.kaizou.org/ASharedCulture_480p.m4v"],
     author: "Jesse Dylan",
     name: "http://creativecommons.org/licenses/by-nc-sa/3.0/us/"
 },
 {
     name: "Mayer And Beetle 2",
-    url: "http://media.kaizou.org/MayerandBettle2_240p.webm",
+    urls: ["http://media.kaizou.org/MayerandBettle2_240p.webm"],
     author: "Creative Commons Australia IV Motion and Black Brow",
     license: "http://creativecommons.org/licenses/by/2.5/au/"
 },
 {
     name: "Wired NextMusic",
-    url: "http://media.kaizou.org/WiredNextMusic_360p.webm",
+    urls: ["http://media.kaizou.org/WiredNextMusic_360p.webm"],
     author: "Creative Commons",
     license: "http://creativecommons.org/licenses/by/3.0/"
 }
@@ -66,7 +71,12 @@ var swipe = null;
 
 function onCellAdded(cell,index){
   var video=document.createElement("video");
-  video.src=videos[index%videos.length].url;
+  var urls = videos[index%videos.length].urls;
+  for(var i=0;i<urls.length;i++){
+    var source = document.createElement("source");
+    source.src=urls[i];
+    video.appendChild(source);
+  }
   video.autoplay=true;
   video.loop=true;
   video.muted=true;
