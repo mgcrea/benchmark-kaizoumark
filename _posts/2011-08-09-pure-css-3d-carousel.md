@@ -20,16 +20,37 @@ The carousel is constructed dynamically based on the number of cells and their s
 
 The cells are children elements of a single containing block element.  
 
+    <div class='carousel'>
+        <div class='cell>...</div>
+        <div class='cell>...</div>
+        ...
+        <div class='cell>...</div>
+        <div class='cell>...</div>
+        <div class='cell>...</div>
+    </div>
+
+### Defining Cell positions
+
 Relatively to the parent element, each cell element is positioned in the 3D space on an horizontal plane using its [polar coordinates](http://en.wikipedia.org/wiki/Polar_coordinate_system) (ie angle and distance from the coordinates origin).
 
 The <code>N</code> cells are positioned evenly on the carousel using a rotation based on their index <code>n</code>
 
 <math>
   <mrow>
-    <mi>alpha</mi>
+    <mi>rotation</mi>
     <mo>=</mo>
     <mi>n</mi>
     <mo>x</mo>
+    <mi>alpha</mi>
+  </mrow>
+</math>
+
+with 
+
+<math>
+  <mrow>
+    <mi>alpha</mi>
+    <mo>=</mo>
     <mfrac>
      <mrow>
       <mn>2</mn>
@@ -44,7 +65,7 @@ they are also positioned far enough from the center of the carousel circle so th
 
 <math>
   <mrow>
-    <mi>distance</mi>
+    <mi>radius</mi>
     <mo>=</mo>
  <mfrac>
   <mi>width</mi>
@@ -66,85 +87,51 @@ they are also positioned far enough from the center of the carousel circle so th
 </mrow>
 </math>
 
-Only the parent element is rotated to achieve the carousel effect.
+The CSS transformation applied to cell n is therefore: 
+
+    .cell:nth-child(n) {
+      transform: rotateY((n-1)*alpha) translateZ(radius);
+    }
+
+### Configuring the 3D scene
+
+The carousel element is translated in the same way along the Z axis from a negative radius to make sure that all carousel cells are visible. It is also that element that defines the 3D perspective of the scene.
+
+    transform: perspective (1100px) translate(-radiuspx);
+    transform-style: preserve-3d;
+
+### Rotating the Carousel
+
+It is only the parent element that is rotated to achieve the carousel effect. 
+
+For instance, to have the Carousel rotated p times to the right, the following additional transformation is applied:
+
+    carousel.style['transform'] = 'perspective (1100px) translate(-radiuspx) rotateY(p*alpha)';
+
+A CSS transition on the Carousel <code>transform</code> property animates the rotation:  
+
+    transition: transform 0.5s;
+
+### Allow customization
 
 To allow the carousel to be specialized for any type of content, the cells are created empty, and it is up to the web page code to populate them using dedicated callbacks specified during initialization.
 
+Specific behaviours can also be attached when a cell enters/leaves the front position.
+
 ## Implementation details
 
-The code for the carousel looks like this:
+The code source of the Carousel is available on [github](https://github.com/kaizouman/3dcarousel) under an MIT licence.
 
-    /*
-      The carousel constructor
-      
-      Parameters:
-      - container : the containing DOM node
-      - nbcell    : the number of cells in the carousel
-      - cwidth    : the width of each cell
-      - cheight   : the height of each cell
-      - onadded   : a callback function when a cell is added to the carousel
-      - onfocus   : a callback function when the front cell is focussed
-      - onblur    : a callback function when the front cell is blurred  
-      - onselect  : a callback function when the front cell is selected 
-    */
-    function Carousel(container,nbcell,cwidth,cheight,onadded,onfocus,onblur,onselect){
-      this.carousel = document.createElement("div");
-      this.carousel.className = "carousel";
-      this.nbcell = nbcell;
-      this.cwidth = cwidth;
-      this.cheight = cheight;
-      this.onadded = onadded;
-      this.onfocus = onfocus;
-      this.onblur = onblur;
-      this.onselect = onselect;
-      this.cells = new Array();
-      this.theta = 0;
-      this.frontIndex = 0;
-      this.radius = Math.ceil(this.cwidth/2/Math.tan(Math.PI/this.nbcell));
-      this.id = this.getContainerId(container);
-      var _this = this;
-      var carouselRule = '#' + this.id + ' .carousel {';
-      carouselRule +='position:relative;';
-      carouselRule +='transform-style: preserve-3d;';
-      carouselRule +='transition: transform 0.5s;';
-      carouselRule +='width:100%;';
-      carouselRule +='min-width:'+this.cwidth*2+'px;';
-      carouselRule +='min-height:'+this.cheight*1.2+'px;';
-      carouselRule +='transform: translateZ(-'+this.radius+'px)';
-      carouselRule +='}';
-      this.insertRule(carouselRule);
-      var cellRule = '#' + this.id + ' .carousel .cell {';
-      cellRule +='position:absolute;';
-      cellRule +='left: 0px;';
-      cellRule +='right: 0px;';
-      cellRule +='top: 0px;';
-      cellRule +='bottom: 0px;';      
-      cellRule +='margin: auto;';
-      cellRule +='width:'+this.cwidth+'px;';
-      cellRule +='height:'+this.cheight+'px;';
-      cellRule +='opacity:0.8;';
-      cellRule +='transition-property: all;';
-      cellRule +='transition-duration: 0.5s;';
-      cellRule +='}'; 
-      this.insertRule(cellRule);
-      var containerRule = '#' + this.id + ' {';
-      containerRule += "perspective: 1100px;";
-      containerRule += "perspective-origin: 50% 50%;";
-      containerRule += "}";
-      this.insertRule(containerRule);
-      for(var i=0; i<this.nbcell; i++) this.addCell(i);
-      container.appendChild(this.carousel);
-      this.focus();
-    }
+### Dealing with fragmentation
+At the time this article is written, CSS 3D Transformations are only available using vendor prefixes (ie -webkit, -moz or -ms).
 
-    Carousel.prototype.getContainerId = function(container) {
-      if( ! container.id ) {
-        var id = 0;
-        while (document.getElementById('carousel'+ id)){};
-        container.id = 'carousel'+ id;
-      }
-      return container.id;
-    }
+I decided however to use the standard un-prefixed syntax to keep the code generic and readable.
+
+I also decided to insert generic rules using <code>id</code> and <code>class</code> selectors instead of specifying the transformations on each element using the <code>style</code> attribute.
+
+In order to make it work with existing implementations, I use the [-prefix-free](http://leaverou.github.io/prefixfree/) library to convert the rules on the client-side whenever it is needed: this means that the code will still be valid when an implementation drops vendor prefixes.
+
+The Carousel object includes a special method for that purpose:
 
     Carousel.prototype.insertRule = function(rule) {
       if( document.styleSheets.length == 0 ) {
@@ -157,61 +144,66 @@ The code for the carousel looks like this:
       rule = window.PrefixFree ? PrefixFree.prefixCSS(rule,true):rule;
       // Insert the rule
       styleSheet.insertRule(rule,styleSheet.cssRules.length);  
+    } 
+
+### Initialization
+The Carousel lives inside a containing element that is passed as a parameter in the Carousel constructor, along with the number of cells and their dimensions:
+
+    container = document.getElementById('container');
+    carousel = new Carousel(container,9,465,352, ...)
+
+The other parameters are callback functions to populate the cells and customize the Carousel behaviour.
+
+To disambiguate between multiple instances of Carousel elements that may be inserted in the same page, each one of them is assigned a random ID:
+ 
+    function Carousel(container,nbcell,cwidth,cheight,onadded,onfocus,onblur,onselect){
+      this.carousel = document.createElement("div");
+      this.id = "Carousel" + Math.floor((Math.random()*10000000)+1);;
+      this.carousel.id = this.id;
+
+A specific rule matching the Carousel id is then built and inserted:
+
+    #Carousel8618105 {
+        position: relative;
+        transform: perspective(1100px) translateZ(-639px);
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+        ...
     }
 
-    Carousel.prototype.focus = function(){
-      var frontCell = this.cells[this.frontIndex];
-      frontCell.focus();
-      if(this.onfocus) this.onfocus(frontCell,this.frontIndex);
+Another rule is created to match the class of its children:
+
+    #Carousel8618105 .cell {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        margin: auto;
+        ...
     }
 
-    Carousel.prototype.blur = function(){
-      var frontCell = this.cells[this.frontIndex];
-      frontCell.blur();
-      if(this.onblur) this.onblur(frontCell,this.frontIndex);
+Once the carousel has been created, its cell children are added one by one.
+ 
+### Adding cells
+
+As explained in the first paragraph, each cell is a simple div element to which a specific rule is associated using the <code>nth-child</code> selector.
+
+    #Carousel8618105 .cell:nth-child(3) {
+        transform: rotateY(80deg) translateZ(639px);
     }
 
-    Carousel.prototype.select = function(index){
-      selIndex = index ? index : this.frontIndex;
-      if(this.onselect) this.onselect(this.cells[selIndex],selIndex);
-    }
+Each cell is created empty: it is up to the caller to populate it using a callback provided at initialization.
 
-    Carousel.prototype.addCell = function(index){
-      var nthcellRule = '.cell:nth-child('+(index+1)+') {';
-      nthcellRule +='transform: rotateY('+index*360/this.nbcell+'deg)';
-      nthcellRule +='translateZ('+this.radius+'px);';
-      nthcellRule +='}';
-      this.insertRule(nthcellRule);
-      nthcellRule = '.cell:nth-child('+(index+1)+'):focus {';
-      // Prevent outline to be displayed when the element is focussed
-      nthcellRule +='outline: 0;';
-      nthcellRule +='opacity: 1.0 !important;';
-      nthcellRule +='transform: rotateY('+index*360/this.nbcell+'deg)';
-      nthcellRule +='translateZ('+(this.radius*1.2)+'px);';
-      nthcellRule +='transition-delay: 0.5s';
-      nthcellRule +='}';
-      this.insertRule(nthcellRule);
-      var cell=document.createElement("div");
-      cell.className = "cell";
-      // Make div focussable
-      cell.setAttribute("tabindex","-1");
-      this.cells.push(cell);
-      this.carousel.appendChild(cell);
-      if(this.onadded) this.onadded(cell,index);
-    }
+### Rotating the Carousel
+
+As explained before, the Carousel is rotated by applying a rotation to the main element.
 
     Carousel.DIRECTION = {
     LEFT:-1,
     RIGHT:1
     };
 
-    /*
-      Rotate the carousel to the left or right
-      
-      Parameters:
-      - direction: Carousel.DIRECTION.LEFT or Carousel.DIRECTION.RIGHT  
-      
-    */
     Carousel.prototype.rotate = function(direction) {
       this.blur();
       this.frontIndex = (this.frontIndex - direction + this.nbcell)%this.nbcell;
@@ -223,7 +215,7 @@ The code for the carousel looks like this:
       this.focus();
     }
 
-
+Callback functions specified at intialization can be called when the cell displayed at the front changes. 
 
 ## Live Demonstrations
 
