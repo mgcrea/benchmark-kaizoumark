@@ -51,15 +51,15 @@ Although it would probably be overkill for most web sites, further specifying
  for a commercial-grade service.
 
 In the example below, three alternative resources are provided with an 
-increasing level of video complexity (baseline, extended, main): 
+increasing level of video complexity (baseline, main, high): 
 
     <video>
       <source src='video_baseline.mp4' 
               type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-      <source src='video_extended.mp4' 
-              type='video/mp4; codecs="avc1.58A01E, mp4a.40.2"'>
       <source src='video_main.mp4' 
               type='video/mp4; codecs="avc1.4D401E, mp4a.40.2"'>
+      <source src='video_extended.mp4' 
+              type='video/mp4; codecs="avc1.64001E, mp4a.40.2"'>
     </video>
 
 Unfortunately, the <code>codecs</code> parameter is limited to the 
@@ -140,10 +140,10 @@ When identifying sources of different qualities, you can use detailed codecs par
               type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
               media='screen and (max-device-width:480px)'>
       <source src='video_std.mp4'
-              type='video/mp4; codecs="avc1.58A01E, mp4a.40.2"'
+              type='video/mp4; codecs="avc1.4D401E, mp4a.40.2"'
               media='screen and (min-device-width:480px) and (max-device-width:1280px)'>
       <source src='video_hi.mp4'
-              type='video/mp4; codecs="avc1.4D401E, mp4a.40.2"'
+              type='video/mp4; codecs="avc1.64001E, mp4a.40.2"'
               media='screen and (min-device-width:1280px)'>
     </video>
 
