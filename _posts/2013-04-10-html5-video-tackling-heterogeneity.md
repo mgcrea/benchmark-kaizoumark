@@ -2,6 +2,7 @@
 layout: post
 title: 'Tackling the heterogeneity of HTML5 Video'
 author: 'David Corvoysier'
+date: '2013-04-10 12:00:00'
 categories:
 - Web Development
 tags: HTML5 video heterogeneity
