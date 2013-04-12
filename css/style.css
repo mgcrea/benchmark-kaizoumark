@@ -243,6 +243,12 @@ article p {
 article > header {
 }
 
+article p code, article ul code {
+    background: #f8f8ff;
+    border: 1px solid #dedede;
+    padding: 0 0.2em;
+}
+
 /* Posts */
 
 ol#posts {
