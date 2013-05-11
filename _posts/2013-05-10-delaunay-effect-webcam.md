@@ -123,7 +123,7 @@ Click on the image below to see how it works when all the pieces are put togethe
 </div>
 
 
-
+The code for this demo is [available on github](https://github.com/kaizouman/js-delaunay-effect).
 
 
 
