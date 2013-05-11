@@ -25,20 +25,20 @@ As displayed below, we will use the [<code>getUserMedia</code>](http://dev.w3.or
 
 	navigator.getUserMedia({video: true}, 
 						function(stream) {
-							try {
-								video.src = URL.createObjectURL(stream);
-							} catch (error) {
-							video.src = stream;
-						}
-						// Process frames here
-						...
-                }, function (error) {
-                    // Error handling
-                });
+							video.src = URL.createObjectURL(stream);
+							// Process frames here
+							...
+                		}, 
+                		function (error) {
+                    		// Error handling
+                		});
 
-Please note that when the <code>getUserMedia</code> API is called, the user will be prompted to give access to its WebCam: refusal will trigger the error code.
+When the <code>getUserMedia</code> API is called, the user will be prompted to give access to its WebCam:
 
-Once the stream has been successfully redirected to a <code>video</code> element, we will start capturing frames in the <code>canvas</code> at regular intervals. To make sure that there is actually something to be captured, we test against the <code>HAVE_ENOUGH_DATA</code> state for the <code>video</code> element. 
+* acceptance will trigger the first function that creates an URL object from the stream and pass it to the video element,
+* refusal will trigger the error function.
+
+Once the stream has been successfully redirected to the <code>video</code> element, we will start capturing frames in the <code>canvas</code> at regular intervals timed by <code>requestAnimationFrame</code>. To make sure that there is actually something to be captured, we test against the <code>HAVE_ENOUGH_DATA</code> state for the <code>video</code> element before grabbing a frame. 
 
 	function tick() {
 		requestAnimationFrame(tick);
@@ -46,11 +46,13 @@ Once the stream has been successfully redirected to a <code>video</code> element
 		if (video.readyState === video.HAVE_ENOUGH_DATA) {
 			...
             ctx.drawImage(video, 0, 0, canvasWidth, canvasHeight);
+            var imageData = ctx.getImageData(0, 0, cwidth, cheight);
 			...
                     
-Now we have managed to transfer frames to the <code>canvas</code>, we can extract them and apply our image processing algorithms.
+Once a frame has been transferred to the <code>canvas</code>, it is extracted as a byte array to apply our image processing algorithms.
  
 ## Detecting the singularity points
+
 
 
 ## Applying Delaunay Triangulation
