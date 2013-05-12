@@ -1,6 +1,8 @@
 ---
 layout: post
 title: 'Delaunay Triangulation applied in real-time on a WebCam stream'
+author: 'David Corvoysier'
+date: '2013-05-10 22:00:00'
 categories:
 - Web Development
 tags:
