@@ -39,10 +39,10 @@ Basically you can create a javascript event by calling the DOM document <code>cr
 
 The <code>createEvent</code> argument defines the <a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-uievents" alt="1.6.1. User Interface event types">Event interface</a>:
 
-* <code>UIEvent</code> : for DOMFocusIn, DOMFocusOut & DOMActivate events,
-* <code>MouseEvent</code>: for click, mousedown/up/over/move/out,
-* <code>MutationEvent</code>: for all DOMXX modification events,
-* <code>HTMLEvent</code>: for load, unload, abort, error, select, change, submit, reset, focus, blur, resize, scroll events,
+* <code>UIEvents</code> : for DOMFocusIn, DOMFocusOut & DOMActivate events,
+* <code>MouseEvents</code>: for click, mousedown/up/over/move/out,
+* <code>MutationEvents</code>: for all DOMXX modification events,
+* <code>HTMLEvents</code>: for load, unload, abort, error, select, change, submit, reset, focus, blur, resize, scroll events,
 * <code>Event</code>: Any other event.
 
 Note: You cannot generate a key event
