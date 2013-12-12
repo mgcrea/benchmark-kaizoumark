@@ -106,3 +106,5 @@ document.addEventListener("myEvent",handleEvent,false);
 Does you browser support custom JS events ?
 
 <a href="#" onclick="customJSEvent();">Click</a> to check.
+
+Update (2013): This method of creating events is deprecated in favor of the newest [DOM4 Custom Events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
