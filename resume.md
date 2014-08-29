@@ -1,8 +1,8 @@
 # David CORVOYSIER
 ## Senior Software Engineer, Open Source Enthousiast
 
-> [Download PDF](resume.pdf)
 > [david.corvoysier@gmail.com](david.corvoysier@gmail.com)
+> [http://www.kaizou.org](http://www.kaizou.org)
 
 ---
 
@@ -56,13 +56,16 @@ __1996-1999__ : **AQL** - *Software Engineer - Telecommunications*
 
 ---
 
-### Selected Open Source Contributions
+### Portfolio
 
-**orangemark** - *Orange Browser Graphics Performance Test Suite*
+**[orangemark](http://orange-opensource.github.io/orangemark/)** - *Orange Browser Graphics Performance Test Suite*
   An automated Test Suite to benchmark browser graphics (CSS3,Canvas,WebGL)
-    
-**dashdemux** - *GStreamer DASH demux*
+
+**[dashdemux](https://github.com/Orange-OpenSource/gstdashdemux)** - *GStreamer DASH demux*
   GStreamer plugin allowing the playback of MPEG DASH streams
+
+**[wamp.rt](https://www.npmjs.org/package/wamp.rt)** - *WAMP V2 Router*  
+  Basic WebSocket Application Messaging Protocol (WAMP) V2 router library
 
 ---
 

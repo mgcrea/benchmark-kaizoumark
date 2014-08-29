@@ -1,260 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset=UTF-8>
-	<title>David Corvoysier: Resume</title>
-	<style type="text/css">
-	html {
-		background-color: lightgrey;
-	}
-	body {
-		min-width: 30em;
-		max-width: 45em;
-		margin: 1em auto;
-		background-color: white;
-		color: #666;
-		box-shadow: 1px 1px 5px 2px rgba(0,0,0,.3);
-		font-family: 'Open Sans', sans-serif;
-		font-size: 16px;
-		border-radius: 5px;
-	}	
-	h1 {
-		font-size: 18px;
-		color: black;
-	}
-	a:link, a:hover, a:visited {
-		color: #508B88;
-		text-decoration: none;
-		font-weight: normal;
-	}
-	header {
-		text-align: center;
-		padding-top: 2em;
-		font-size: 12px;
-	}
-		header > h1 {
-			font-size: 24px;
-		}
-		header > h2 {
-			font-size: 20px;
-		}
-		header > ol > li {
-			display: inline;
-		}
-		header > ol > li::before {
-			content: '● ';
-		}
-		header > ol > li:first-child::before {
-			content: none;
-		}
-		
-	section {
-		margin-left: 2em;
-		margin-right: 2em;
-		border-top: 1px solid;
-	}
-		section > *:first-child {
-			float: left;
-		}
-		section > div {
-			margin-left: 9em;
-		}
-		section > div > div {
-			display: inline-block;
-			vertical-align: top;
-			margin-left: 1em;
-		}
-		section ol {
-			clear: both;
-		}
-		section ol > li {
-			list-style: none;
-		}
-		section > ol > li h1 {
-			font-size: 12px;
-		}
-		section > ol > li > * {
-			margin-left: 6em;
-		}
-		section > ol > li > *:first-child {
-			float: left;
-			margin-top: 0;
-			margin-left: 1em;
-		}
-		section > ol > li p {
-			font-size: 10px;
-		}
-	</style>
-  <script type="text/javascript" src="http://www.kaizou.org/code/3rdparty/prefixfree/prefixfree.min.js"></script>
+<meta charset="utf-8" />
+
+<title>David CORVOYSIER | Senior Software Engineer, Open Source Enthousiast</title>
+<style type="text/css">
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}audio,canvas,video{display:inline-block;*display:inline;*zoom:1}audio:not([controls]){display:none}[hidden]{display:none}html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html,button,input,select,textarea{font-family:sans-serif}body{margin:0}a:focus{outline:thin dotted}a:hover,a:active{outline:0}h1{font-size:2em;margin:0.67em 0}h2{font-size:1.5em;margin:0.83em 0}h3{font-size:1.17em;margin:1em 0}h4{font-size:1em;margin:1.33em 0}h5{font-size:0.83em;margin:1.67em 0}h6{font-size:0.75em;margin:2.33em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}blockquote{margin:1em 40px}dfn{font-style:italic}mark{background:#ff0;color:#000}p,pre{margin:1em 0}pre,code,kbd,samp{font-family:monospace,serif;_font-family:'courier new',monospace;font-size:1em}pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}q{quotes:none}q:before,q:after{content:'';content:none}small{font-size:75%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}dl,menu,ol,ul{margin:1em 0}dd{margin:0 0 0 40px}menu,ol,ul{padding:0 0 0 40px}nav ul,nav ol{list-style:none;list-style-image:none}img{border:0;-ms-interpolation-mode:bicubic}svg:not(:root){overflow:hidden}figure{margin:0}form{margin:0}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}legend{border:0;padding:0;white-space:normal;*margin-left:-7px}button,input,select,textarea{font-size:100%;margin:0;vertical-align:baseline;*vertical-align:middle}button,input{line-height:normal}button,input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button;*overflow:visible}button[disabled],input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;*height:13px;*width:13px}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-decoration,input[type="search"]::-webkit-search-cancel-button{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}body.pdf{color:#000}body.pdf a{text-decoration:none;color:#000}body.pdf .container{width:1000px;margin:0 auto;padding:0;background:none;border:none;border-width:8px 0 2px 0;text-align:left}body.pdf .resume{position:relative;padding:40px 80px}body.pdf a[href$='.pdf']{display:none}body.pdf h1{letter-spacing:0;margin-top:0;font-size:48px;text-transform:uppercase;font-weight:normal}body.pdf h2{letter-spacing:0;text-transform:uppercase;font-style:italic;font-weight:normal}body.pdf h3{float:left;width:16%;font-style:normal}body.pdf h3~p{float:left;margin-left:16%}body.pdf h3+p{margin-left:inherit;float:left;width:84%}body.pdf blockquote{top:40px;right:50px;position:absolute}body.pdf ul li{width:28%;float:left}body.pdf ul dl{margin:0;padding:0.3em 0 0}body.pdf ul dl dt{font-size:122%;font-weight:normal;margin:0 0 0.75em}body.pdf ul dl dd{padding:0 4em 0 0}body.pdf ol{float:left;width:84%;margin:0.7em 0 0}body.pdf ol li{width:33%;margin:0}body.pdf ol li:nth-child(3n){width:34%}body.pdf ol li:nth-child(1),body.pdf ol li:nth-child(2),body.pdf ol li:nth-child(3){border-top:none}body.pdf dl{margin:0.7em 0 0}body.pdf dl strong{float:right;margin-top:-2em}body.pdf dl em{font-size:130%;font-style:normal}.container:before,.container:after{content:"";display:table}.container:after{clear:both}.container{zoom:1}body{font-family:'Hoefler Text',Times New Roman,Times,serif;color:#444}h1,h2,h3,h4,ul dl dt{font-family:Futura,"Century Gothic",AppleGothic,sans-serif}.container{margin:0 auto;padding:0;background:whiteSmoke;border:solid #666;border-width:8px 0 4px 0;text-align:left}.resume{position:relative;padding:10px 20px}a{color:#990003}a[href$='.pdf']{display:inline-block;background:#666;color:#fff;padding:6px 12px;margin-bottom:6px;text-decoration:none}blockquote{margin:0;padding:0;line-height:1.4em}hr:nth-of-type(1){margin-top:32px}hr{display:block;position:relative;padding:0;margin:18px auto;width:100%;clear:both;border:none;border-top:1px solid #ccc;font-size:1px;line-height:0;overflow:visible;page-break-after:avoid}h1{margin:0;padding:0;font-size:36px;letter-spacing:-1px;font-weight:normal}h2{margin:0;padding:0;font-size:18px;font-style:italic;letter-spacing:-1px;font-weight:normal}h3{margin:0;padding:0 0 0.5em;font-size:150%;font-style:italic;font-weight:normal}h3+p{margin:0.6em 0 16px;padding:0;display:block;font-size:104%;line-height:24px}ul{margin:0;padding:0;list-style:none}ul li{margin:0;padding:0}ul li p{margin:1em 0.5em}ul dl{margin:0.3em 0 0;padding:0;width:100%}ul dl dt{font-size:100%}ul dl dd{margin:0 0 1em;padding:0 2em 0 0;font-size:0.8em;line-height:1.5em}ol{margin:0;padding:0 0 0.75em;width:84%;display:inline-block}ol li{margin:0 0 0 1em;padding:0;width:100%;float:left;list-style:none;line-height:24px;font-size:14px}ol li:nth-child(1){border-top:none}dl{display:inline-block;width:75%;margin:0;padding:0}dl dt{margin:0;padding:0;font-size:140%}dl dd{margin:0 0 1.5em;padding:0;font-size:80%;line-height:1.4em}dl strong{display:block}dl em{display:block;font-size:110%;margin:0.15em 0 0.5em;font-style:bold}#footer{display:none}#footer + p{width:100%;font-size:11px;text-align:center}@media screen and (min-width:37.5em){body{padding:2em 0}blockquote{top:10px;right:50px;position:absolute}h1{margin-top:0.5em}ol{margin:0 0 0 1em}ol li{width:50%;margin:0}ol li:nth-child(1),ol li:nth-child(2){border-top:none}}@media screen and (min-width:57em){.container{width:960px}.resume{position:relative;padding:40px 50px}blockquote{top:40px;right:50px;position:absolute}h1{margin-top:0;font-size:48px;text-transform:uppercase;letter-spacing:3px;font-weight:normal}h2{text-transform:uppercase;font-style:italic;letter-spacing:2px;font-weight:normal}h3{float:left;width:16%}h3~p{float:left;margin-left:16%}h3+p{margin-left:inherit;float:left;width:84%}ul li{width:28%;float:left}ul dl dt{font-size:122%;font-weight:normal;margin-bottom:0.75em}ul dl dd{padding:0 4em 0 0}ol{float:left;width:84%;margin:0.6em 0 0}ol li{width:33%;margin:0}ol li:nth-child(3n){width:34%}ol li:nth-child(1),ol li:nth-child(2),ol li:nth-child(3){border-top:none}dl{margin:0.5em 0 0}dl strong{float:right;margin-top:-2em}dl em{font-size:130%;font-style:normal}}
+</style>
+  <style>
+    a[href$='.pdf'] {
+      display: none;
+    }
+  </style>
 </head>
-<body>
-<article>
-<header>
-	<h1>David CORVOYSIER</h1>
-	<ol>				
-		<li><a href="mailto:david.corvoysier@gmail.com">david.corvoysier@gmail.com</a></li>
-		<li><a href="https://github.com/kaizouman">Github (Personal)</a></li>
-		<li><a href="https://github.com/dcorvoysier">Github (Corporate)</a></li>
-		<li><a href="http://www.kaizou.org">Web Site</a></li>
-	</ol>
-	<p>13 rue Pierre Gourdel - 35000 Rennes, France</p>
-</header>
-<section>
-	<h1>Main Skills</h1>
-	<div>
-		<div>
-			<h1>Web Standards</h1>
-			<p>HTML5, CSS3, Javascript</p>
-			<p>XMPP, SIP/SIMPLE</p>
-		</div>
-		<div>
-			<h1>Software Engineering</h1>
-			<p>C/C++, Linux</p>
-   <p>webgl, nodejs</p>
-			<p>subversion, git</p>
-		</div>
-	</div>
-</section>
-<section >
-	<h1>Other Skills</h1>
-	<div>
-		<div>
-			<h1>Open Source</h1>
-			<p>GStreamer</p>
-			<p>WebKit</p>
-		</div>
-		<div>
-			<h1>Graphics</h1>
-			<p>Cairo, Qt</p>
-			<p>DirectFB, OpenGL ES</p>
-    <p>wayland</p>
-		</div>
- 		<div>
-			<h1>Embedded Systems</h1>
-			<p>buildroot</p>
-			<p>Cross-compilation</p>
-		</div>
-	</div>
-</section>
-<section>
-	<h1>Work Experience</h1>
-	<ol>
-		<li>
-			<h1>2014-</h1>
-			<div>
-				<h1>FT/Orange - Senior Software Engineer - TV products</h1>
-				<p>Develop middleware for Orange set-top-boxes.</p>
-			</div>
-		</li>
- 		<li>
-			<h1>2007-2013</h1>
-			<div>
-				<h1>FT/Orange - Senior R&D Engineer - TV &amp; STB browsers</h1>
-				<p>Write Orange TV browser specifications. Provide support to application developers. Participate in Web & TV standardization (W3C,Open IPTV Forum,DLNA). Provide reference native Web & TV clients based on Open Source components (WebKit, GStreamer), push corresponding patches upstream.</p>
-			</div>
-		</li>
-		<li>
-			<h1>2001-2007</h1>
-			<div>
-				<h1>FT/Orange - Senior R&D Engineer - Instant Messaging</h1>
-				<p>Write FT/Orange Presence Server specifications. Participate in Instant Messaging standardization (IETF,JSF). Technical Project Manager on FT/Orange "Le Messager" Instant Messaging Server project.</p>
-			</div>
-		</li>
-		<li>
-			<h1>1999-2001</h1>
-			<div>
-				<h1>Sema Group Telecom - Project Manager - Telecommunications</h1>
-				<p>Head of a team of 10-15 people working on several subcontracting projects for FT/Orange (including the web self-care).</p>
-			</div>
-		</li>
-		<li>
-			<h1>1996-1999</h1>
-			<div>
-				<h1>AQL - Software Engineer - Telecommunications</h1>
-				<p>Developer and Project Manager (1-5 people)</p>
-			</div>
-		</li>
-	</ol>
-</section>
-<section>
-	<h1>Selected Open Source Contributions</h1>
-	<ol>
-		<li>
-			<h1><a href='https://github.com/Orange-OpenSource/orangemark'>orangemark</a></h1>
-			<div>
-				<h1>Orange Browser Graphics Performance Test Suite</h1>
-				<p>An automated Test Suite to benchmark browser graphics (CSS3,Canvas,WebGL)</p>
-			</div>
-		</li>
-		<li>
-			<h1><a href='https://github.com/Orange-OpenSource/gstdashdemux'>dashdemux</a></h1>
-			<div>
-				<h1>GStreamer DASH demux</h1>
-				<p>GStreamer plugin allowing the playback of MPEG DASH streams</p>
-			</div>
-		</li>
-	</ol>
-</section>
-<section>
-	<h1>Education</h1>
-	<ol>
-		<li>
-			<h1>1993-1995</h1>
-			<div>
-				<h1>Ecole des Mines de Paris</h1>
-				<p>Engineer's degree (Master's Degree) - Project Management & Product Design</p>
-			</div>
-		</li>
-		<li>
-			<h1>1990-1993</h1>
-			<div>
-				<h1>Ecole Polytechnique</h1>
-				<p>Engineer's degree (Master's Degree) - Applied Mathematics and Mechanics</p>
-			</div>
-		</li>
-	</ol>
-</section>
-<section>
-	<h1>Languages</h1>
-	<div>
-	<div>
-		<div>
-			<h1>English</h1>
-		</div>
-		<div>
-			<p>Fluent</p>
-		</div>
-	</div>
-	<div>
-		<div>
-			<h1>German</h1>
-		</div>
-		<div>
-			<p>Moderate</p>
-		</div>
-	</div>
-	<div>
-		<div>
-			<h1>Japanese</h1>
-		</div>
-		<div>
-			<p>Basic</p>
-		</div>
-	</div>
-	</div>
-</section>
-</article>
-<!-- Piwik --> 
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.kaizou.org/piwik/" : "http://stats.kaizou.org/piwik/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://stats.kaizou.org/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
+
+<body class="">
+
+<div class="container">
+    <div class="resume">
+        <h1 id="david-corvoysier">David CORVOYSIER</h1>
+<h2 id="senior-software-engineer-open-source-enthousiast">Senior Software Engineer, Open Source Enthousiast</h2>
+<blockquote>
+<p><a href="david.corvoysier@gmail.com">david.corvoysier@gmail.com</a><br><a href="http://www.kaizou.org">http://www.kaizou.org</a></p>
+</blockquote>
+<hr>
+<h3 id="main-skills">Main Skills</h3>
+<ul>
+<li><p><strong>Web Standards</strong><br>HTML5, CSS3, Javascript<br>XMPP, SIP/SIMPLE</p>
+</li>
+<li><p><strong>Software Engineering</strong><br>C/C++, Linux<br>webgl, nodejs<br>subversion, git</p>
+</li>
+</ul>
+<hr>
+<h3 id="other-skills">Other Skills</h3>
+<ul>
+<li><p><strong>Embedded systems</strong><br>IntelCE, Raspberry Pi<br>buildroot<br>Cross-compilation</p>
+</li>
+<li><p><strong>Graphics</strong><br>Cairo, Qt<br>DirectFB, OpenGL ES<br>wayland</p>
+</li>
+<li><p><strong>Open Source</strong><br>GStreamer<br>WebKit</p>
+</li>
+</ul>
+<hr>
+<h3 id="experience">Experience</h3>
+<p><strong>2014-</strong> : <strong>FT/Orange</strong> - <em>Senior Software Engineer - TV products</em><br>  Develop middleware for Orange set-top-boxes.</p>
+<p><strong>2007-2013</strong> : <strong>FT/Orange</strong> - <em>Senior R&amp;D Engineer - TV &amp; STB browsers</em><br>  Write Orange TV browser specifications. Provide support to application developers. Participate in Web &amp; TV standardization (W3C,Open IPTV Forum,DLNA). Provide reference native Web &amp; TV clients based on Open Source components (WebKit, GStreamer), push corresponding patches upstream.</p>
+<p><strong>2001-2007</strong> : <strong>FT/Orange</strong> - <em>Senior R&amp;D Engineer - Instant Messaging</em><br>  Write FT/Orange Presence Server specifications. Participate in Instant Messaging standardization (IETF,JSF). Technical Project Manager on FT/Orange &quot;Le Messager&quot; Instant Messaging Server project.</p>
+<p><strong>1999-2001</strong> : <strong>Sema Group Telecom</strong> - <em>Project Manager - Telecommunications</em><br>  Head of a team of 10-15 people working on several subcontracting projects for FT/Orange (including the web self-care).</p>
+<p><strong>1996-1999</strong> : <strong>AQL</strong> - <em>Software Engineer - Telecommunications</em><br>  Developer and Project Manager (1-5 people)</p>
+<hr>
+<h3 id="portfolio">Portfolio</h3>
+<p><strong><a href="http://orange-opensource.github.io/orangemark/">orangemark</a></strong> - <em>Orange Browser Graphics Performance Test Suite</em><br>  An automated Test Suite to benchmark browser graphics (CSS3,Canvas,WebGL)</p>
+<p><strong><a href="https://github.com/Orange-OpenSource/gstdashdemux">dashdemux</a></strong> - <em>GStreamer DASH demux</em><br>  GStreamer plugin allowing the playback of MPEG DASH streams</p>
+<p><strong><a href="https://www.npmjs.org/package/wamp.rt">wamp.rt</a></strong> - <em>WAMP V2 Router</em><br>  Basic WebSocket Application Messaging Protocol (WAMP) V2 router library</p>
+<hr>
+<h3 id="education">Education</h3>
+<p><strong>1993-1995</strong> : Ecole des Mines de Paris<br>  Engineer&#39;s degree (Master&#39;s Degree) - Project Management &amp; Product Design</p>
+<p><strong>1990-1993</strong> : Ecole Polytechnique<br>  Engineer&#39;s degree (Master&#39;s Degree) - Applied Mathematics and Mechanics</p>
+<hr>
+<h3 id="languages">Languages</h3>
+<ul>
+<li><p><strong>English</strong><br>Fluent</p>
+</li>
+<li><p><strong>German</strong><br>Moderate</p>
+</li>
+<li><p><strong>Japanese</strong><br>Basic</p>
+</li>
+</ul>
+
+    </div>
+</div>
+
 </body>
 </html>
