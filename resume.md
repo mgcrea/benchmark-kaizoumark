@@ -9,27 +9,33 @@
 ### Main Skills
 
 * **Web Standards**
-  HTML5, CSS3, Javascript
-  XMPP, SIP/SIMPLE
+  HTML5
+  CSS3
+  ECMAScript
 
 * **Software Engineering**
-  C/C++, Linux
-  webgl, nodejs
+  C/C++, Javascript
+  WebGL, nodejs
   subversion, git
-
----
-
-### Other Skills
 
 * **Embedded systems**
   IntelCE, Raspberry Pi
   buildroot
   Cross-compilation
 
+---
+
+### Other Skills
+
 * **Graphics**
   Cairo, Qt
-  DirectFB, OpenGL ES
-  wayland
+  OpenGL ES
+  Wayland, DirectFB
+
+* **Internet Protocols**
+  XMPP
+  SIP/SIMPLE
+  WAMP
 
 * **Open Source**
   GStreamer
@@ -40,7 +46,7 @@
 ### Experience
 
 __2014-__ : **FT/Orange** - *Senior Software Engineer - TV products*
-  Develop middleware for Orange set-top-boxes.
+  Develop a middleware for Orange set-top-boxes allowing the seamless integration of native and web applications (Wayland/Open GL ES, DBus, WebSockets).
 
 __2007-2013__ : **FT/Orange** - *Senior R&D Engineer - TV & STB browsers*
   Write Orange TV browser specifications. Provide support to application developers. Participate in Web & TV standardization (W3C,Open IPTV Forum,DLNA). Provide reference native Web & TV clients based on Open Source components (WebKit, GStreamer), push corresponding patches upstream.
@@ -63,6 +69,9 @@ __1996-1999__ : **AQL** - *Software Engineer - Telecommunications*
 
 **[dashdemux](https://github.com/Orange-OpenSource/gstdashdemux)** - *GStreamer DASH demux*
   GStreamer plugin allowing the playback of MPEG DASH streams
+  
+**[Glimp](https://github.com/Orange-OpenSource/glimp)**: - *A WebGL Image Processing Library*
+  Javascript Library for image processing using WebGL (gaussian kernels, morphology, background subtraction, skin detection)
 
 **[wamp.rt](https://www.npmjs.org/package/wamp.rt)** - *WAMP V2 Router*  
   Basic WebSocket Application Messaging Protocol (WAMP) V2 router library
