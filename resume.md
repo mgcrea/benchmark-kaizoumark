@@ -71,7 +71,7 @@ __1996-1999__ : **AQL** - *Software Engineer - Telecommunications*
   GStreamer plugin allowing the playback of MPEG DASH streams
   
 **[Glimp](https://github.com/Orange-OpenSource/glimp)**: - *A WebGL Image Processing Library*
-  Javascript Library for image processing using WebGL (gaussian kernels, morphology, background subtraction, skin detection)
+  Javascript Library for image processing using WebGL (gaussian kernels, morphology, background subtraction, skin detection, haar cascades)
 
 **[wamp.rt](https://www.npmjs.org/package/wamp.rt)** - *WAMP V2 Router*  
   Basic WebSocket Application Messaging Protocol (WAMP) V2 router library
