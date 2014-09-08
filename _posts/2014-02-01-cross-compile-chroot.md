@@ -13,7 +13,7 @@ type: post
 published: true
 ---
 
-# Introduction
+## Introduction
 
 It is generally a good practice to cross-compile in an isolated environment to avoid plaguing your host system with unneccessary tooling and dependencies, or worse corrupting it.
 
@@ -21,7 +21,9 @@ Another issue arises when using binary toolchains that have been built for a spe
 
 These two concerns (isolation and binary compatibility) are well addressed by [chroot environments](https://wiki.debian.org/chroot).
 
-# Creating a chroot to meet specific cross-compilation requirements 
+<!--more-->
+
+## Creating a chroot for your build environment
 
 A chroot is basically a special directory on your computer that behaves like another operating system inside your existing operating system.
 
@@ -29,7 +31,7 @@ It is particularly useful when using development SDKs that require a specific sy
 
 Please refer to the [Ubuntu Chroot Documentation](https://help.ubuntu.com/community/BasicChroot) for more details.
 
-## Pre-requisites
+### Pre-requisites
 
 Install the schroot utility
 
@@ -48,7 +50,7 @@ Optionally (recommended), tell schroot to cleanup orphan sessions on system star
     # end them (set to "end")?
     START_ACTION="end"
 
-## Generic instructions to create a basic build chroot for a specific Ubuntu version
+### Create a chroot for a specific Ubuntu version
 
 1.
 Create the chroot directory
@@ -112,7 +114,7 @@ or
 
     sudo schroot -c mychroot -- locale-gen fr_FR.UTF-8
 
-## Install missing dependencies
+### Install missing dependencies
 
 Once your chroot has been setup, you will probably need to install a few packages that are not included in the buildd variant. Since this requires administration privileges, you will need to issue commands as root in the chroot.
 
@@ -156,9 +158,9 @@ Note: For alternatives 2 & 3, beware of environment variables like proxy configu
 
     Defaults env_keep = "http_proxy https_proxy ftp_proxy"
 
-# Using a chroot to cross-compile for a target
+## Using a chroot to cross-compile for a target
 
-## Issueing commands
+### Issueing commands
 
 There are two ways to issue commands in a chroot environment:
 
@@ -167,7 +169,7 @@ From your host, on a per-command basis
 
     schroot -c mychroot -- <command>
 
-    >The actual syntax is schroot -c mychroot <command>, but inserting '--' makes sure that the arguments between the schroot command and the target <command> are not mixed.
+>The actual syntax is schroot -c mychroot <command>, but inserting '--' makes sure that the arguments between the schroot command and the target <command> are not mixed.
 
 2.
 From the chroot itself
@@ -179,14 +181,14 @@ The first approach is well suited for inclusion in automation scripts that switc
 
 The second approach is the one that you would use when actually developing in a chroot. I personnally keep a shell opened inside the chroot to issue all my build commands.
 
-## Editing files
+### Editing files
 
 I do not recommend installing an editor inside you chroot, as it will most likely pull an awful lot of dependencies that may conflict with your build environment.
 
 Instead, I recommend editing files from your host: using a develoment workspace inside your $HOME guarantees that the chroot sees it (thanks to the automatic mount point performed by schroot).
 
 
-## Bonus tip: orphan sessions manual cleanup
+### Bonus tip: orphan sessions manual cleanup
 
 If you have exited abnormally a schroot session, there might be some useless bind mounts left over from the schroot session (/proc & /sys for instance). You can tell schroot to manually clean up those by issueuing 
 
