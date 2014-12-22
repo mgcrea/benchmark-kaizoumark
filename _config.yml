@@ -2,7 +2,7 @@ lsi: false
 markdown: kramdown
 kramdown:
     parse_block_html: true;
-highlighter: pygments
+highlighter: rouge
 permalink: /:year/:month/:title
 paginate: 4
 exclude: ["lib", "blog.rb", "Capfile", "config", "log", "Rakefile", "tmp"]
