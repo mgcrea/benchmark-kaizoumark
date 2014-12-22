@@ -243,7 +243,7 @@ And the output files will still be located under `<path-to-target-directory>/ima
 
 ## The icing on the cake: control buildroot version using a submodule
 
-When using $(BR2_EXTERNAL), you lose the ability to control which version of buildroot is used to build your system.
+When using `$(BR2_EXTERNAL)`, you lose the ability to control which version of buildroot is used to build your system.
 
 This can be overcome easily if your project uses git by adding buildroot itself as a submodule in your project repository.
 
