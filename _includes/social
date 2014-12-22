@@ -3,5 +3,6 @@
     {% include github %}           
     {% include rss %}
     {% include twitter %}
+    {% include linkedin %}
   </h2>
 </div>
