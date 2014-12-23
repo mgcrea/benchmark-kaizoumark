@@ -13,8 +13,6 @@ type: post
 published: true
 ---
 
-## Introduction
-
 Many embedded devices run customized Linux systems that include a more or less wide range of features on top of a standard kernel delegating proprietary hardware handling to a minimal set of specific drivers.
 
 Chipset vendors typically provide SDKs to build such customized solutions without too much pain, but these proprietary tools often lack the flexibility required when you want ot build a solution that either differs too much from what was expected by the vendor or includes software components that were designed too long after the SDK was released.

@@ -13,8 +13,6 @@ type: post
 published: true
 ---
 
-## Introduction
-
 It is generally a good practice to cross-compile in an isolated environment to avoid plaguing your host system with unneccessary tooling and dependencies, or worse corrupting it.
 
 Another issue arises when using binary toolchains that have been built for a specific host (typically a 32 bits Linux host, when most users are today using a 64 bits distribution).
