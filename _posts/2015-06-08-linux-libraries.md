@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Better understanding Linux dependency solving with examples'
+title: 'Better understanding Linux secondary dependencies solving with examples'
 author: 'David Corvoysier'
 date: '2015-01-08 14:00:00'
 categories:
@@ -16,6 +16,8 @@ I only realized today in a discussion with my friend [Yann E. Morin](http://ymor
 
 This blog post is to summarize what I have now understood.
 
+There is also a [small repository on github](https://github.com/kaizouman/linux-shlib-link-samples) with the mentioned samples.
+
 <!--more-->
 
 #A few words about Linux libraries
@@ -26,11 +28,14 @@ Man pages for the linux [linker](http://linux.die.net/man/1/ld) and [loader](htt
 
 There are three kind of libraries in Linux: static, shared and dynamically loaded (DL).
 
+Dynamically loaded libraries are very specific to some use cases like plugins, and would deserve an article on their own. I will only focus here on static and shared libraries.
+
 ##Static libraries
 
 A static library is simply an archive of object files conventionally starting with the `lib` prefix and ending with the `.a` suffix.
 
 _Example:_
+
 ~~~
 libfoobar.a
 ~~~
@@ -60,6 +65,7 @@ A shared library is an __ELF__ object loaded by programs when they start.
 Shared libraries follow the same naming conventions as static libraries, but with the `.so` suffix instead of `.a`.
 
 _Example:_
+
 ~~~
 libfoobar.so
 ~~~
@@ -89,8 +95,6 @@ or
 $ gcc -o app main.c -lfoobar -L/path/to/foobar
 ~~~
 
->Note that in the latter case, if a static library is present at the same location, the linker will link against it, and not against the shared library.
-
 ##Shared libraries and undefined symbols
 
 An __ELF__ object maintains a table of all the symbols it uses, including symbols belonging to another __ELF__ object that are marked as undefined.
@@ -103,12 +107,14 @@ The content of the `DT_NEEDED` field depends on the link command:
 - the full path to the library if the library was linked with an absolute path,
 - the library name otherwise (or the library [__soname__](#library-versioning-and-compatibility) if it was defined).
 
-You can check the dependencies of an__ELF__object using the __readelf__ command:
+You can check the dependencies of an __ELF__ object using the __readelf__ command:
 
 ~~~
 $ readelf -d main
 ~~~
+
 or
+
 ~~~
 $ readelf -d libbar.so
 ~~~
@@ -120,18 +126,14 @@ For historic reason, this behavior is disabled when building a shared library: y
 ~~~
 $ gcc -Wl,--no-undefined -shared -o libbar.so -fPIC bar.c
 ~~~
+
 or
+
 ~~~
 $ gcc -Wl,--no-undefined -shared -o libbar.so -fPIC bar.c
 ~~~
 
 >Note that when producing a static library, which is just an archive of object files, no actual 'linking' operation is performed, and undefined symbols are kept unchanged.
-
-##Dynamically Loaded libraries
-
-Dynamically loaded (DL) libraries are shared libraries that are loaded at times other than during the startup of a program (ie plugins), using the [`dlopen`](http://linux.die.net/man/3/dlopen) API.
-
-They use the exact same format as shared libraries and are created using the same commands.
 
 ##Library versioning and compatibility
 
@@ -143,6 +145,7 @@ By conventions, two versions of the same library will use the same library name 
 - build revision.
 
 _Example:_
+
 ~~~
 libfoobar.so.1.2.3
 ~~~
@@ -156,6 +159,7 @@ Following that convention, an executable compiled with a shared library version 
 This concept if so fundamental for expressing compatibility between programs and shared libraries that each shared library can be associated a __soname__, which is the library name followed by a period and the major revision:
 
 _Example:_
+
 ~~~
 libfoobar.so.1
 ~~~
@@ -181,6 +185,7 @@ $ gcc -o app main.c -lfoobar -L/path/to/foobar
 For the linker to find the library, the installer will typically create a symbolic link from the library __real name__ to its __linker name__.
 
 _Example:_
+
 ~~~
 /usr/lib/libfoobar.so -> libfoobar.so.1.5.3
 ~~~
@@ -204,6 +209,7 @@ On Linux systems, this loader is named [`/lib/ld-linux.so.X`](http://linux.die.n
 Please note that if a __soname__ was specified for a library when the executable was compiled, the loader will look for the __soname__ instead of the library real name. For that reason, installation tools automatically create symbolic names from the library __soname__ to its real name.
 
 _Example:_
+
 ~~~
 /usr/lib/libfoobar.so.1 -> libfoobar.so.1.5.3
 ~~~
@@ -225,6 +231,7 @@ Let's imagine for instance a program __main__ that depends on a library __libbar
 We will use either a static __libbar.a__ or a shared __libbar.so__.
 
 _foo.c_
+
 ~~~
 int foo()
 {
@@ -233,6 +240,7 @@ int foo()
 ~~~
 
 _bar.c_
+
 ~~~
 int foo();
 
@@ -243,6 +251,7 @@ int bar()
 ~~~
 
 _main.c_
+
 ~~~
 int bar();
 
@@ -429,7 +438,7 @@ Okay, let's take a look at the `ld` man page again, looking at the `-rpath-link`
 >When using ELF or SunOS, one shared library may require another. This happens when an "ld -shared" link includes a shared library as one of the input files.
 When the linker encounters such a dependency when doing a non-shared, non-relocatable link, it will automatically try to locate the required shared library and include it in the link, if it is not included explicitly. In such a case, the -rpath-link option specifies the first set of directories to search. The -rpath-link option may specify a sequence of directory names either by specifying a list of names separated by colons, or by appearing multiple times.
 
-Ok, this is not crystal-clear, but what it actually means is that when specifying the path for a secondary dependency, you should not use the `-L` but `-rpath-link`:
+Ok, this is not crystal-clear, but what it actually means is that when specifying the path for a secondary dependency, you should not use `-L` but `-rpath-link`:
 
 ~~~
 $ gcc -o app main.c -L$(pwd) -lbar -Wl,-rpath-link=$(pwd)
