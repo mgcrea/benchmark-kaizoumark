@@ -10,7 +10,7 @@ tags:
 - ld
 type: post
 ---
-A few months ago I stumbled upon a linking problem with secondary dependencies I couldn't solved without 'over-linking' the corresponding libraries.
+A few months ago I stumbled upon a linking problem with secondary dependencies I couldn't solved without [__overlinking__](https://wiki.mageia.org/en/Overlinking_issues_in_packaging) the corresponding libraries.
 
 I only realized today in a discussion with my friend [Yann E. Morin](http://ymorin.is-a-geek.org/) that not only did I use the wrong solution for that particular problem, but that my understanding of the gcc linking process was not as good as I had imagined.
 
@@ -52,7 +52,7 @@ Linking a program with a static library is as simple as adding it to the link co
 $ gcc -o app main.c /path/to/foobar/libfoobar.a
 ~~~
 
-or indirectly using [linker options](http://linux.die.net/man/1/ld):
+or indirectly using [the `-l`/`L` options](http://linux.die.net/man/1/ld):
 
 ~~~
 $ gcc -o app main.c -lfoobar -L/path/to/foobar
@@ -182,7 +182,7 @@ As mentioned before, libraries to be linked against can be specified using a sho
 $ gcc -o app main.c -lfoobar -L/path/to/foobar
 ~~~
 
-For the linker to find the library, the installer will typically create a symbolic link from the library __real name__ to its __linker name__.
+When installing a library, the installer program will typically create a symbolic link from the library __real name__ to its __linker name__ to allow the linker to find the actual library file.
 
 _Example:_
 
@@ -192,21 +192,21 @@ _Example:_
 
 The linker uses the following search paths to locate required shared libraries:
 
-- directories specified by -rpath-link options (more on that later)
-- directories specified by -rpath options (more on that later)
+- directories specified by `-rpath-link` options (more on that later)
+- directories specified by `-rpath` options (more on that later)
 - directories specified by the environment variable `LD_RUN_PATH`
 - directories specified by the environment variable `LD_LIBRARY_PATH`
 - directories specified in `DT_RUNPATH` or `DT_RPATH` of a shared library are searched for shared libraries needed by it
-- the default directories, normally `/lib` and `/usr/lib`
-- in directories listed inthe `/etc/ld.so.conf` file
+- default directories, normally `/lib` and `/usr/lib`
+- directories listed inthe `/etc/ld.so.conf` file
 
 ##Solving versioned shared libraries dependencies at runtime
 
-On GNU glibc-based systems, including all Linux systems, starting up an__ELF__binary executable automatically causes the program loader to be loaded and run. 
+On GNU glibc-based systems, including all Linux systems, starting up an __ELF__ binary executable automatically causes the program loader to be loaded and run.
 
 On Linux systems, this loader is named [`/lib/ld-linux.so.X`](http://linux.die.net/man/8/ld-linux) (where X is a version number). This loader, in turn, finds and loads recursively all other shared libraries listed in the `DT_NEEDED` fields of the __ELF__ binary.
 
-Please note that if a __soname__ was specified for a library when the executable was compiled, the loader will look for the __soname__ instead of the library real name. For that reason, installation tools automatically create symbolic names from the library __soname__ to its real name.
+Please note that if a __soname__ was specified for a library when the executable was compiled, the loader will look for the __soname__ instead of the library real name. For that reason, installation tools automatically create symbolic names from the library __soname__ to its __real name__.
 
 _Example:_
 
@@ -343,10 +343,10 @@ Dynamic section at offset 0xe18 contains 25 entries:
 At run-time, the dynamic linker will look for __libfoo.so__, so unless you have installed it in standard directories (`/lib` or `/usr/lib`) you need to tell it where it is:
 
 ~~~
-LD_LIBRARY_PATH=. ./app
+LD_LIBRARY_PATH=$(pwd) ./app
 ~~~
 
-To summarize, when linking an executable against a static library, you need to specify explicitly all its dependencies towards shared libraries on the link command.
+To summarize, when linking an executable against a static library, you need to specify explicitly all dependencies towards shared libraries introduced by the static library on the link command.
 
 >Note however that expressing, discovering and adding implicit static libraries dependencies is typically a feature of your build system (__autotools__, __cmake__).
 
@@ -357,6 +357,8 @@ As specified in the [linker documentation](http://linux.die.net/man/1/ld), when 
 - if the linker output is a shared relocatable __ELF__ object (ie a shared library), it will add all `DT_NEEDED` entries from the input library as new `DT_NEEDED` entries in the output,
 - if the linker ouput is a non-shared, non-relocatable link (our case), it will automatically add the libraries listed in the `DT_NEEDED` of the input library on the link command line, producing an error if it can't locate them.
 
+So, let's see what happens when dealing with our two shared libraries.
+
 ###Linking against the "dumb" library
 
 When trying to link an executable against the "dumb" version of __libbar.so__, the linker encounters undefined symbols in the library itself it cannot resolve since it lacks the `DT_NEEDED` entry related to __libfoo__:
@@ -366,6 +368,10 @@ $ gcc -o app main.c -L$(pwd) -lbar_dumb
 libbar_dumb.so: undefined reference to `foo'
 collect2: error: ld returned 1 exit status
 ~~~
+
+Let's see how we can solve this.
+
+####Adding explicitly the libfoo.so dependency
 
 Just like we did when we linked against the static version, we can just add __libfoo__ to the link command to solve the problem:
 
@@ -388,8 +394,16 @@ Dynamic section at offset 0xe18 contains 25 entries:
 Again, at runtime you may need to tell the dynamic linker where __libfoo.so__ is:
 
 ~~~
-$ LD_LIBRARY_PATH=. ./app
+$ LD_LIBRARY_PATH=$(pwd) ./app
 ~~~
+
+Note that having an explicit dependency to __libfoo__ is not quite right, since our application doesn't use directly any symbols from __libfoo__. What we've just done here is called [__overlinking__](https://wiki.mageia.org/en/Overlinking_issues_in_packaging), and it is __BAD__.
+
+Let's imagine for instance that in the future we decide to provide a newer version of __libbar__ that uses the same __ABI__, but based on a new version of __libfoo__ with a different __ABI__: we should theoretically be able to use that new version of __libbar__ without recompiling our application, but what would really happen here is that the dynamic linker would actually try to load the two versions of __libfoo__ at the same time, leading to unpredictable results. We would therefore need to recompile our application even if it is still compatible with the newest __libbar__.
+
+>As a matter of fact, this [actually happened in the past](https://lists.debian.org/debian-devel-announce/2005/11/msg00016.html): a libfreetype update in the debian distro caused 583 packages to be recompiled, with only 178 of them actually using it.
+
+####Ignoring libfoo dependency
 
 There is another option you can use when dealing with the "dumb" library: tell the linker to ignore its undefined symbols altogether:
 
@@ -417,12 +431,14 @@ $ ./app: symbol lookup error: ./libbar_dumb.so: undefined symbol: foo
 Your only option is then to load __libfoo__ explicitly (yes, this is getting uglier and uglier):
 
 ~~~
-$ LD_PRELOAD=./libfoo.so LD_LIBRARY_PATH=. ./app
+$ LD_PRELOAD=$(pwd)/libfoo.so LD_LIBRARY_PATH=$(pwd) ./app
 ~~~
 
 ###Linking against the "correct" library
 
-As mentioned before, when linking against the correct shared library, the linker encounters the __libfoo.so__ `DT_NEEDED` entry and adds it to the link command, thus solving the undefined symbols ... or at least that is what I expected:
+####Doing it the right way
+
+As mentioned before, when linking against the correct shared library, the linker encounters the __libfoo.so__ `DT_NEEDED` entry, adds it to the link command and finds it at the path specified by `-L`, thus solving the undefined symbols ... or at least that is what I expected:
 
 ~~~
 $ gcc -o app main.c -L$(pwd) -lbar
@@ -444,7 +460,7 @@ Ok, this is not crystal-clear, but what it actually means is that when specifyin
 $ gcc -o app main.c -L$(pwd) -lbar -Wl,-rpath-link=$(pwd)
 ~~~
 
-You can verify that __app__ depends only explicitly on __libbar__:
+You can now verify that __app__ depends only on __libbar__:
 
 ~~~
 $ readelf -d app
@@ -457,4 +473,14 @@ Dynamic section at offset 0xe18 contains 25 entries:
 
 And this is __finally how things should be done__.
 
->In extreme cases where you don't have access to secondary dependencies at build time but only at runtime, there is still the last resort option of ignoring unresolved dependencies using --allow-shlib-undefined.
+>You may also use `-rpath` instead of `-rpath-link` but in that case the specified path will be stored in the resulting executable, which is not suitable if you plan to relocate your binaries. Tools like __cmake__ use the `-rpath` during the build phase (`make`), but remove the specified path from the executable during the installation phase(`make install`). 
+
+#Conclusion
+
+To summarize, when linking an executable against:
+
+- a __static__ library, you need to specify all dependencies towards other shared libraries this static library depends on explicitly on the link command.
+
+- a __shared__ library, you don't need to specify dependencies towards other shared libraries this shared library depends on, but you may need to specify the path to these libraries on the link command using the `-rpath`/`-rpath-link` options.
+
+>Note however that expressing, discovering and adding implicit libraries dependencies is typically a feature of your build system (__autotools__, __cmake__), as demonstrated in my samples.
