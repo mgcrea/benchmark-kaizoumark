@@ -140,6 +140,7 @@ $ gcc -Wl,--no-undefined -shared -o libbar.so -fPIC bar.c
 Several versions of the same library can coexist in the system.
 
 By conventions, two versions of the same library will use the same library name with a different version suffix that is composed of three numbers:
+
 - major revision,
 - minor revision,
 - build revision.
