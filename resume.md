@@ -1,49 +1,50 @@
-# David CORVOYSIER
-## Senior Software Engineer, Open Source Enthusiast
+# Corvoysier
+# David
+## Senior Software Engineer
 
 > [david.corvoysier@gmail.com](david.corvoysier@gmail.com)
 > [http://www.kaizou.org](http://www.kaizou.org)
 
----
+------
 
 ### Main Skills
 
-* **Web Standards**
-  HTML5
-  CSS3
-  ECMAScript
+* Web Standards
+  : HTML5
+  : CSS3
+  : ECMAScript
 
-* **Software Engineering**
-  C/C++, Javascript
-  WebGL, nodejs
-  subversion, git
+* Software Engineering
+  : C/C++, Javascript
+  : WebGL, nodejs
+  : subversion, git
 
-* **Embedded systems**
-  IntelCE, Raspberry Pi
-  buildroot
-  Cross-compilation
+* Embedded systems
+  : IntelCE, Raspberry Pi
+  : buildroot
+  : Cross-compilation
 
----
+------
 
 ### Other Skills
 
-* **Graphics**
-  Cairo, Qt
-  OpenGL ES
-  Wayland, DirectFB
+* Graphics
+  : Cairo, Qt
+  : OpenGL ES
+  : Wayland, DirectFB
 
-* **Internet Protocols**
-  XMPP
-  SIP/SIMPLE
-  WAMP
+* Internet Protocols
+  : XMPP
+  : SIP/SIMPLE
+  : WAMP
 
-* **Open Source**
-  GStreamer
-  WebKit
+* Open Source
+  : GStreamer
+  : WebKit
 
----
+------
 
-### Experience
+### Experience {#experience}
 
 __2014-__ : **FT/Orange** - *Senior Software Engineer - TV products*
   Develop a middleware for Orange set-top-boxes allowing the seamless integration of native and web applications (Wayland/Open GL ES, DBus, WebSockets).
