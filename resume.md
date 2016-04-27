@@ -1,5 +1,5 @@
 # David CORVOYSIER
-## Senior Software Engineer, Open Source Enthousiast
+## Senior Software Engineer, Open Source Enthusiast
 
 > [david.corvoysier@gmail.com](david.corvoysier@gmail.com)
 > [http://www.kaizou.org](http://www.kaizou.org)
