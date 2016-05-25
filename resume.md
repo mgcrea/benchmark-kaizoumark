@@ -7,31 +7,35 @@
 
 ------
 
-### Main Skills
+### Core
 
-* Software Engineering
-  : C/C++, Javascript
-  : WebGL, nodejs
-  : git, GNU Make
+1. C/C++
+1. Javascript
+1. Python
+1. GNU Make
+1. git
+1. subversion
 
-* Embedded systems
-  : Curie, IntelCE, Raspberry Pi
-  : buildroot, Yocto
-  : Embedded Linux, RTOS
+### Embedded
 
-------
+1. Cross-compilation
+1. buildroot
+1. Yocto
+1. Curie
+1. IntelCE
+1. Raspberry Pi
 
-### Other Skills
+### Web
 
-* Web Standards
-  : HTML5
-  : CSS3
-  : ECMAScript
+1. HTML5
+1. CSS3
+1. nodejs
 
-* Open Source
-  : GStreamer
-  : WebKit
-  : Qt
+### Open Source
+
+1. GStreamer
+1. WebKit
+1. Qt
 
 ------
 
@@ -39,8 +43,9 @@
 
 Intel
 : *Senior Embedded Software Engineer*
-  __2015-__
+  __2015- now__
   Intel SDK for Wearables - [Curie Module](http://www.intel.com/content/www/us/en/wearables/wearable-soc.html)
+  Build-system - Middleware - Application layer
 
 Orange
 : *Senior Software Engineer - TV products*
@@ -71,21 +76,20 @@ AQL
 
 ### Portfolio
 
+[Curie BSP](https://github.com/01org/curie-bsp)
+: *Intel Curie SDK for wearables*
+
 [orangemark](http://orange-opensource.github.io/orangemark/)
-: *Orange Browser Graphics Performance Test Suite*
-  An automated Test Suite to benchmark browser graphics (CSS3,Canvas,WebGL)
+: *Orange Browser Graphics Performance Test Suite (CSS3,Canvas,WebGL)*
 
 [dashdemux](https://github.com/Orange-OpenSource/gstdashdemux)
-: *GStreamer DASH demux*
-  GStreamer plugin allowing the playback of MPEG DASH streams
+: *GStreamer MPEG DASH demux plugin*
   
 [Glimp](https://github.com/Orange-OpenSource/glimp)
 : *A WebGL Image Processing Library*
-  Javascript Library for image processing using WebGL (gaussian kernels, morphology, background subtraction, skin detection, haar cascades)
 
 [wamp.rt](https://www.npmjs.org/package/wamp.rt)
-: *WAMP V2 Router*  
-  Basic WebSocket Application Messaging Protocol (WAMP) V2 router library
+: *nodejs WAMP V2 Router*  
 
 ---
 
