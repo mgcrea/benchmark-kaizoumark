@@ -76,7 +76,7 @@ AQL
 
 ### Portfolio
 
-[Curie BSP](https://github.com/01org/curie-bsp)
+[Curie BSP](https://github.com/CurieBSP)
 : *Intel Curie SDK for wearables*
 
 [orangemark](http://orange-opensource.github.io/orangemark/)
