@@ -24,16 +24,16 @@
 
 // Test for Modernizr and fpsmeter
 if(!window.Modernizr){
-    alert("This test page doesn't seem to include Modernizr: aborting"); 
+    alert("This test page doesn't seem to include Modernizr: aborting");
     return;
 }
 if(!window.FPSMeter){
-    alert("This test page doesn't seem to include FPSMeter: aborting"); 
+    alert("This test page doesn't seem to include FPSMeter: aborting");
     return;
 }
 
 var DEFAULT_DURATION = 5;
-var DEFAULT_TARGET_FPS = 30;
+var DEFAULT_TARGET_FPS = 20;
 var DEFAULT_MAX_ITERATIONS = 100;
 
 var self = window.Kaizoumark = {
@@ -49,7 +49,7 @@ var self = window.Kaizoumark = {
                     endCB) {
         var end = function (level,status) {
             var evt = document.createEvent("Event");
-            evt.initEvent("kaizoumarkResult",true,true); 
+            evt.initEvent("kaizoumarkResult",true,true);
             evt.label = label;
             evt.level = level;
             evt.status = status;
@@ -77,7 +77,7 @@ var self = window.Kaizoumark = {
                 }
                 avg = Math.round(avg/arr.length);
                 return avg;
-            }  
+            }
             setTimeout(
                 function(){
                     stopCB();
@@ -95,11 +95,11 @@ var self = window.Kaizoumark = {
                 },duration*1000);
             startCB(index);
         };
-        
+
         // Start here
         var fps = null;
         var tests = new Array();
-                
+
         // Assign default values if needed
         duration = duration ? duration : DEFAULT_DURATION;
         targetFPS = targetFPS ? targetFPS : DEFAULT_TARGET_FPS;
@@ -156,7 +156,7 @@ var self = window.Kaizoumark = {
                 document.dispatchEvent(evt);
             }
         };
-        // Explicitly set width and height attributes so that they can 
+        // Explicitly set width and height attributes so that they can
         // be used by test scripts without calling getcomputedstyle
         self.container = container;
         self.contWidth = GetFloatValueOfAttr(container,'width');
@@ -187,7 +187,7 @@ function GetFloatValueOfAttr (element,attr) {
                       floatValue = value.getFloatValue (CSSPrimitiveValue.CSS_PX);
                   }
             }
-        } 
+        }
         catch (e) {
           // Opera doesn't support the getPropertyCSSValue method
           stringValue = compStyle[attr];

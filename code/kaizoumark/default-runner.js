@@ -21,7 +21,7 @@
 // default-runner.js
 
 (function(){
-    
+
 if (window.Kaizoumark) {
     var scriptTag = document.scripts[document.scripts.length - 1];
     var parentElt = scriptTag.parentNode;
@@ -32,12 +32,15 @@ if (window.Kaizoumark) {
     container.style['border'] = '2px solid grey';
     parentElt.appendChild(container);
     var output = document.createElement('div');
-    parentElt.appendChild(output);        
+    parentElt.appendChild(output);
     var results = new Array();
+    var rawResults = new Array();
     document.addEventListener("kaizoumarkResult",
         function (evt) {
             var result = evt.label + ":" + evt.level + "[" + evt.status + "]";
             results.push(result)
+            var lastScore = s.match(/^Got\s(\d+)fps/)[1] * 1;
+            rawResults.push({label: evt.label, level: evt.level, status: evt.status, score: evt.level * 20 + lastScore })
         },
         false);
         document.addEventListener("kaizoumarkEnd",
@@ -52,11 +55,16 @@ if (window.Kaizoumark) {
             var p = document.createElement('p');
             p.innerHTML = "Browser: " + BrowserDetect.browser + " " + BrowserDetect.version + "(" + BrowserDetect.OS + ")";
             res.appendChild(p);
+            metaScore = 0;
             for (var i=0;i<results.length;i++){
                 var p = document.createElement('p');
                 p.innerHTML = results[i];
+                metaScore += rawResults[i].score;
                 res.appendChild(p);
             }
+            var h4 = document.createElement('h4');
+            h4.innerHTML = "MetaScore: " + metaScore;
+            res.appendChild(h4);
             parentElt.appendChild(res);
         },
         false);
