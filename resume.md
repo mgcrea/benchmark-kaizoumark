@@ -2,12 +2,24 @@
 # David
 ## Senior Software Engineer
 
-> [david.corvoysier@gmail.com](david.corvoysier@gmail.com)
-> [http://www.kaizou.org](http://www.kaizou.org)
+>[http://www.linkedin.com/in/dcorvoysier](http://www.linkedin.com/in/dcorvoysier)
+>[http///www.kaizou.org](http///www.kaizou.org)
+>[david.corvoysier@gmail.com](david.corvoysier@gmail.com)
 
 ------
+### Skills
 
-### Core
+* **Software Development**
+  Highly versatile coding skills, from high level languages to low-level system programming.
+
+* **Software Architecture**
+  Hands-on experience of end-to-end architecture design, from the platform to the device.
+
+* **Project Direction**
+  Proven ability to lead and manage a wide variety of design and development projects in team and independent situations.
+
+------
+### Technical
 
 1. C/C++
 1. Javascript
@@ -15,61 +27,48 @@
 1. GNU Make
 1. git
 1. subversion
-
-### Embedded
-
 1. Cross-compilation
 1. buildroot
 1. Yocto
 1. Curie
 1. IntelCE
 1. Raspberry Pi
-
-### Web
-
 1. HTML5
 1. CSS3
 1. nodejs
-
-### Open Source
-
+1. OIPF
+1. DLNA
+1. MPEG-DASH
 1. GStreamer
 1. WebKit
 1. Qt
 
 ------
 
-### Experience {#experience}
+### Experience
 
-Intel
-: *Senior Embedded Software Engineer*
-  __2015- now__
-  Intel SDK for Wearables - [Curie Module](http://www.intel.com/content/www/us/en/wearables/wearable-soc.html)
-  Build-system - Middleware - Application layer
+__2015- now__: **Intel** - *Senior Embedded Software Engineer - Intel SDK for Wearables*
+  Although involved in almost every aspect of the platform, I am more specifically in charge of the build system and the Intel IQs, software modules aiming at demonstrating the capabilities of the SDK.
 
-Orange
-: *Senior Software Engineer - TV products*
-  __2014-2015__
-  Develop a middleware for Orange set-top-boxes allowing the seamless integration of native and web applications (Wayland/Open GL ES, DBus, WebSockets).
+__2014-2015__:**Orange** - *Senior Software Engineer - TV products*
+  Technical lead for the new Orange TV middleware, allowing the seamless integration of native and web applications around a communication bus using DBus and WebSockets and a Wayland/Open GL ES compositing engine. Also in charge of build-system and continuous integration.
+  In this position, I was awarded the internal recognition title of Orange Software Expert.
 
-Orange
-: *Senior R&D Engineer - TV & STB browsers*
-  __2007-2013__
-  Write Orange TV browser specifications. Provide support to application developers. Participate in Web & TV standardization (W3C,Open IPTV Forum,DLNA). Provide reference native Web & TV clients based on Open Source components (WebKit, GStreamer), push corresponding patches upstream.
+__2007-2013__:**Orange** - *Senior Software Architect - TV & STB browsers*
+  Write Orange TV browser specifications and provide support to application developers. Participate in Web & TV standardization (W3C,Open IPTV Forum,DLNA).
+  Provide reference native Web & TV clients based on Open Source components (WebKit, GStreamer).
+  In this position, I was awarded the internal recognition title of Orange TV Expert.
 
-Orange
-: *Senior R&D Engineer - Instant Messaging*
-  __2001-2007__
-  Write FT/Orange Presence Server specifications. Participate in Instant Messaging standardization (IETF,JSF). Technical Project Manager on FT/Orange "Le Messager" Instant Messaging Server project.
+__2001-2007__:**Orange** - *Senior Software Architect - Instant Messaging*
+  Write FT/Orange Presence Server specifications.
+  Participate in Instant Messaging standardization (IETF,JSF).
+  Technical Project Manager on FT/Orange "Le Messager" Instant Messaging Server project.
+  In this position, I was awarded the internal recognition title of Orange Instant Messaging and Presence Expert.
 
-Sema Group Telecom
-: *Project Manager - Telecommunications*
-  __1999-2001__
-  Head of a team of 10-15 people working on several subcontracting projects for FT/Orange (including the web self-care).
+__1999-2001__:**Sema Group Telecom** - *Project Manager*
+  Head of a development team of 10-15 people.
 
-AQL
-: *Software Engineer - Telecommunications*
-  __1996-1999__
+__1996-1999__:**AQL** - *Software Engineer*
   Developer and Project Manager (1-5 people)
 
 ---
@@ -77,42 +76,34 @@ AQL
 ### Portfolio
 
 [Curie BSP](https://github.com/CurieBSP)
-: *Intel Curie SDK for wearables*
+  *Intel Curie SDK for wearables*
 
 [orangemark](http://orange-opensource.github.io/orangemark/)
-: *Orange Browser Graphics Performance Test Suite (CSS3,Canvas,WebGL)*
+  *Orange Browser Graphics Benchmark*
 
 [dashdemux](https://github.com/Orange-OpenSource/gstdashdemux)
-: *GStreamer MPEG DASH demux plugin*
-  
-[Glimp](https://github.com/Orange-OpenSource/glimp)
-: *A WebGL Image Processing Library*
+  *GStreamer MPEG DASH plugin*
 
 [wamp.rt](https://www.npmjs.org/package/wamp.rt)
-: *nodejs WAMP V2 Router*  
+  *nodejs WAMP V2 Router*  
 
 ---
 
 ### Education
 
-Ecole des Mines de Paris
-: __1993-1995__
+Ecole des Mines de Paris:  __1993-1995__
   Engineer's degree (Master's Degree) - Project Management & Product Design
 
-Ecole Polytechnique
-: __1990-1993__
+Ecole Polytechnique: __1990-1993__
   Engineer's degree (Master's Degree) - Applied Mathematics and Mechanics
 
 ---
 
 ### Languages
 
-* English
-  : Fluent
+* English: Fluent
 
-* German
-  : Moderate
+* German: Moderate
 
-* Japanese
-  : Basic
+* Japanese: Basic
 
