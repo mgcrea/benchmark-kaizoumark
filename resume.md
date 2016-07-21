@@ -16,7 +16,7 @@
   Hands-on experience of end-to-end architecture design, from the platform to the device.
 
 * **Project Direction**
-  Proven ability to lead and manage a wide variety of design and development projects in team and independent situations.
+  Proven ability to lead and manage a wide variety of complex development projects.
 
 ------
 ### Technical
