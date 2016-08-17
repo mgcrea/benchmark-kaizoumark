@@ -14,7 +14,7 @@ Continuous integration requires a robust test environment to be able to detect r
 
 A typical test environment will typically be composed of integration tests of the whole system and unit tests per components.
 
-This post explains how to create unit tests for a `C++` component using [__GoogleTest__](https://code.google.com/p/googletest/) and [__CMake__](http://www.cmake.org/).
+This post explains how to create unit tests for a `C++` component using [__GoogleTest__](https://github.com/google/googletest) and [__CMake__](http://www.cmake.org/).
 
 <!--more-->
 
@@ -61,9 +61,9 @@ For those interested, the code for this sample project is on [github](https://gi
 
 In my simplistic example, there is only one subdirectory under `test`, but in a typical project, it would contain several subdirectories, one for each test program.
 
-Tests programs are based on Google's [Googletest](https://code.google.com/p/googletest/) and [GoogleMock](https://code.google.com/p/googlemock/) frameworks.
+Tests programs are based on Google's [Googletest](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md) framework and its [GoogleMock](https://github.com/google/googletest/blob/master/googlemock/README.md) extension.
 
-Since all test programs will be using these packages, the root `CMakeLists.txt` file should contain all directives required to resolve the corresponding dependencies. This is where things get a bit hairy, since Google [does not recommend to install these packages in binary form](https://code.google.com/p/googletest/wiki/FAQ#Why_is_it_not_recommended_to_install_a_pre-compiled_copy_of_Goog), but instead to recompile them with your project.
+Since all test programs will be using these packages, the root `CMakeLists.txt` file should contain all directives required to resolve the corresponding dependencies. This is where things get a bit hairy, since Google [does not recommend to install these packages in binary form](https://github.com/google/googletest/blob/master/googletest/docs/FAQ.md), but instead to recompile them with your project.
 
 ###Resolving GoogleTest and GoogleMock dependencies
 
@@ -110,48 +110,38 @@ include(ExternalProject)
 # Download and install GoogleTest
 ExternalProject_Add(
     gtest
-    URL https://googletest.googlecode.com/files/gtest-1.7.0.zip
+    URL https://github.com/google/googletest/archive/master.zip
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
     # Disable install step
     INSTALL_COMMAND ""
 )
 
+# Get GTest source and binary directories from CMake project
+ExternalProject_Get_Property(gtest source_dir binary_dir)
+
 # Create a libgtest target to be used as a dependency by test programs
 add_library(libgtest IMPORTED STATIC GLOBAL)
 add_dependencies(libgtest gtest)
 
-# Set gtest properties
-ExternalProject_Get_Property(gtest source_dir binary_dir)
+# Set libgtest properties
 set_target_properties(libgtest PROPERTIES
-    "IMPORTED_LOCATION" "${binary_dir}/libgtest.a"
+    "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/libgtest.a"
     "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
-#    "INTERFACE_INCLUDE_DIRECTORIES" "${source_dir}/include"
-)
-# I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
-include_directories("${source_dir}/include")
-
-# Download and install GoogleMock
-ExternalProject_Add(
-    gmock
-    URL https://googlemock.googlecode.com/files/gmock-1.7.0.zip
-    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gmock
-    # Disable install step
-    INSTALL_COMMAND ""
 )
 
 # Create a libgmock target to be used as a dependency by test programs
 add_library(libgmock IMPORTED STATIC GLOBAL)
-add_dependencies(libgmock gmock)
+add_dependencies(libgmock gtest)
 
-# Set gmock properties
-ExternalProject_Get_Property(gmock source_dir binary_dir)
+# Set libgmock properties
 set_target_properties(libgmock PROPERTIES
-    "IMPORTED_LOCATION" "${binary_dir}/libgmock.a"
+    "IMPORTED_LOCATION" "${binary_dir}/googlemock/libgmock.a"
     "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
-#    "INTERFACE_INCLUDE_DIRECTORIES" "${source_dir}/include"
 )
+
 # I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
-include_directories("${source_dir}/include")
+include_directories("${source_dir}/googletest/include"
+                    "${source_dir}/googlemock/include")
 ~~~
 
 >Note: It should theoretically be possible to set the __GoogleTest__ and __GoogleMock__ include directories as target properties using the INTERFACE_INCLUDE_DIRECTORIES variable, but it fails because these directoires don't exist yet when they are declared. As a workaround, I had to explicitly use include_directories to specify them.
@@ -169,8 +159,8 @@ add_executable(testfoo ${SRCS})
 
 target_link_libraries(testfoo
     libfoo
-    ${GTEST_LIBRARIES}
-    ${GMOCK_LIBRARIES}
+    libgtest
+    libgmock
 )
 
 install(TARGETS testfoo DESTINATION bin)
@@ -380,23 +370,23 @@ The following output corresponds to the case where __GoogleTest__ and __GoogleMo
 
 ~~~
 Scanning dependencies of target libfoo
-[  4%] Building CXX object libfoo/CMakeFiles/libfoo.dir/foo.cpp.o
+[  7%] Building CXX object libfoo/CMakeFiles/libfoo.dir/foo.cpp.o
 Linking CXX static library liblibfoo.a
-[  4%] Built target libfoo
+[  7%] Built target libfoo
 Scanning dependencies of target libbar
-[  9%] Building CXX object libbar/CMakeFiles/libbar.dir/bar.cpp.o
+[ 15%] Building CXX object libbar/CMakeFiles/libbar.dir/bar.cpp.o
 Linking CXX static library liblibbar.a
-[  9%] Built target libbar
+[ 15%] Built target libbar
 Scanning dependencies of target myApp
-[ 14%] Building CXX object main/CMakeFiles/myApp.dir/main.cpp.o
+[ 23%] Building CXX object main/CMakeFiles/myApp.dir/main.cpp.o
 Linking CXX executable myApp
-[ 14%] Built target myApp
-Scanning dependencies of target gmock
-[ 19%] Creating directories for 'gmock'
-[ 23%] Performing download step (download, verify and extract) for 'gmock'
+[ 23%] Built target myApp
+Scanning dependencies of target gtest
+[ 30%] Creating directories for 'gtest'
+[ 38%] Performing download step (download, verify and extract) for 'gtest'
 -- downloading...
-     src='https://googlemock.googlecode.com/files/gmock-1.7.0.zip'
-     dst='~/gtest-cmake-example/build/test/gmock/src/gmock-1.7.0.zip'
+     src='https://github.com/google/googletest/archive/master.zip'
+     dst='/home/david/perso/gtest-cmake-example/build/test/gtest/src/master.zip'
      timeout='none'
 -- [download 0% complete]
 -- [download 1% complete]
@@ -405,54 +395,67 @@ Scanning dependencies of target gmock
 -- [download 100% complete]
 -- downloading... done
 -- verifying file...
-     file='~/gtest-cmake-example/build/test/gmock/src/gmock-1.7.0.zip'
+     file='/home/david/perso/gtest-cmake-example/build/test/gtest/src/master.zip'
 -- verifying file... warning: did not verify file - no URL_HASH specified?
 -- extracting...
-     src='~/gtest-cmake-example/build/test/gmock/src/gmock-1.7.0.zip'
-     dst='~/gtest-cmake-example/build/test/gmock/src/gmock'
+     src='/home/david/perso/gtest-cmake-example/build/test/gtest/src/master.zip'
+     dst='/home/david/perso/gtest-cmake-example/build/test/gtest/src/gtest'
 -- extracting... [tar xfz]
-...
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
 -- extracting... done
-[ 28%] No patch step for 'gmock'
-[ 33%] No update step for 'gmock'
-[ 38%] Performing configure step for 'gmock'
--- The CXX compiler identification is GNU 4.8.2
-...
+[ 46%] No patch step for 'gtest'
+[ 53%] No update step for 'gtest'
+[ 61%] Performing configure step for 'gtest'
+-- The C compiler identification is GNU 4.8.4
+-- The CXX compiler identification is GNU 4.8.4
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found PythonInterp: /usr/bin/python (found version "2.7.6")
+-- Looking for include file pthread.h
+-- Looking for include file pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE
+-- Configuring done
 -- Generating done
--- Build files have been written to: ~/gtest-cmake-example/build/test/gmock/src/gmock-build
-[ 42%] Performing build step for 'gmock'
-...
-[ 52%] Built target gmock
+-- Build files have been written to: /home/david/perso/gtest-cmake-example/build/test/gtest/src/gtest-build
+[ 69%] Performing build step for 'gtest'
+Scanning dependencies of target gmock
+[ 14%] Building CXX object googlemock/CMakeFiles/gmock.dir/__/googletest/src/gtest-all.cc.o
+[ 28%] Building CXX object googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+Linking CXX static library libgmock.a
+[ 28%] Built target gmock
+Scanning dependencies of target gmock_main
+[ 42%] Building CXX object googlemock/CMakeFiles/gmock_main.dir/__/googletest/src/gtest-all.cc.o
+[ 57%] Building CXX object googlemock/CMakeFiles/gmock_main.dir/src/gmock-all.cc.o
+[ 71%] Building CXX object googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+Linking CXX static library libgmock_main.a
+[ 71%] Built target gmock_main
 Scanning dependencies of target gtest
-[ 57%] Creating directories for 'gtest'
-[ 61%] Performing download step (download, verify and extract) for 'gtest'
--- downloading...
-     src='https://googletest.googlecode.com/files/gtest-1.7.0.zip'
-     dst='~/gtest-cmake-example/build/test/gtest/src/gtest-1.7.0.zip'
-     timeout='none'
--- [download 0% complete]
--- [download 1% complete]
-...
--- [download 98% complete]
--- [download 100% complete]
--- downloading... done
--- verifying file...
-     file='~/gtest-cmake-example/build/test/gtest/src/gtest-1.7.0.zip'
--- verifying file... warning: did not verify file - no URL_HASH specified?
--- extracting...
-...
--- extracting... done
-[ 66%] No patch step for 'gtest'
-[ 71%] No update step for 'gtest'
-[ 76%] Performing configure step for 'gtest'
--- The CXX compiler identification is GNU 4.8.2
-...
--- Build files have been written to: ~/gtest-cmake-example/build/test/gtest/src/gtest-build
-[ 80%] Performing build step for 'gtest'
-...
-[ 90%] Built target gtest
+[ 85%] Building CXX object googlemock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+Linking CXX static library libgtest.a
+[ 85%] Built target gtest
+Scanning dependencies of target gtest_main
+[100%] Building CXX object googlemock/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+Linking CXX static library libgtest_main.a
+[100%] Built target gtest_main
+[ 76%] No install step for 'gtest'
+[ 84%] Completed 'gtest'
+[ 84%] Built target gtest
 Scanning dependencies of target testfoo
-[ 95%] Building CXX object test/testfoo/CMakeFiles/testfoo.dir/main.cpp.o
+[ 92%] Building CXX object test/testfoo/CMakeFiles/testfoo.dir/main.cpp.o
 [100%] Building CXX object test/testfoo/CMakeFiles/testfoo.dir/testfoo.cpp.o
 Linking CXX executable testfoo
 [100%] Built target testfoo
@@ -499,7 +502,7 @@ Stack trace:
 [  PASSED  ] 3 tests.
 ~~~
 
->Note: You can get rid of __GoogleMock__ warnings by using a [__nice__ __mock__](https://code.google.com/p/googlemock/wiki/CookBook#The_Nice,_the_Strict,_and_the_Naggy).
+>Note: You can get rid of __GoogleMock__ warnings by using a [__nice__ __mock__](https://github.com/google/googletest/blob/master/googlemock/docs/CheatSheet.md).
 
 ... or globally through `CTest` ...
 
