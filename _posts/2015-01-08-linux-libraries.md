@@ -104,6 +104,7 @@ At compilation time, the linker will try to __resolve__ an undefined symbol by l
 If an undefined symbol is found in a shared library, a `DT_NEEDED` entry is created for that library in the output __ELF__ target.
 
 The content of the `DT_NEEDED` field depends on the link command:
+
 - the full path to the library if the library was linked with an absolute path,
 - the library name otherwise (or the library [__soname__](#library-versioning-and-compatibility) if it was defined).
 
@@ -130,7 +131,7 @@ $ gcc -Wl,--no-undefined -shared -o libbar.so -fPIC bar.c
 or
 
 ~~~
-$ gcc -Wl,--no-undefined -shared -o libbar.so -fPIC bar.c
+$ gcc -Wl,-zdefs -shared -o libbar.so -fPIC bar.c
 ~~~
 
 >Note that when producing a static library, which is just an archive of object files, no actual 'linking' operation is performed, and undefined symbols are kept unchanged.
@@ -309,9 +310,7 @@ $ gcc -shared -o libbar_dumb.so -fPIC bar.c
 
 Note that it is very unlikely that someone actually chooses to create such an incomplete library on purpose, but it may happen that by misfortune you encounter one of these beasts in binary form and still __need__ to link against it (yeah, sh... happens !).
 
-##Creating the main executable
-
-#Linking against the libbar.a static library
+##Linking against the libbar.a static library
 
 As mentioned before, when linking an executable, the linker must resolve all undefined symbols before producing the output binary.
 
