@@ -24,6 +24,7 @@ for each m in modules:
 ~~~~
 
 To implement this pattern, two mechanisms are required:
+
 - instantiation, to allow each module to define an 'instance' of the common interface,
 - registration, to allow each module to 'provide' this instance to other modules.
 
@@ -32,6 +33,8 @@ Instantiation is typically supported natively in high-level languages.
 Registration is more difficult and usually requires specific code to be written, or relying on external frameworks. 
 
 Let's see how these two mechanisms can be implemented for C programs.
+
+<!--more-->
 
 >Note: the code snippets in this post can be browsed on the following github [repo](https://github.com/kaizouman/c_modules_section_sample)
 
@@ -91,9 +94,15 @@ static void bar_b()
 
 The goal here is to allow client code to be able to 'find' the interface instances provided by the modules.
 
-Obviously, if some system mechanism allowing the modules to be initialized individually when the program is loaded into memory existed, the problem would be solved ... but let's assume that we are on a minimal system without such capability (this is true for most embedded targets), and that we as a consequencewe can only rely on static registration. 
+The first question we need to address is whether we register interfaces statically at design time or dynamically at runtime.
 
-A first solution is to give the client code a direct access to the interface instances, by exposing them in public headers.
+Some systems like Linux provide mechanisms for sepcial 'constructors' functions to be called at program initialization. We could take advantage of that feature to allow each module to register its interfaces: see a full example [here](https://github.com/idjelic/lttng2lxt).
+
+In this article, I assume that we are on a system without such capability, and that we as a consequencewe can only rely on static registration.
+
+>Note that static registration is also more effective, and always desirable on devices with limited hardware.
+
+A first solution for static registration of modules is to give the client code a direct access to the interface instances, by exposing them in public headers.
 
 ~~~~
 
@@ -268,7 +277,7 @@ struct module __attribute__ ((section (".modules"))) module_b = {
 The syntax is quite ugly, so you probably would hide it inside a preprocessor macro in the `module.h` file.
 
 ~~~~
-DECLARE_MODULE(name, ...) \
+#define DECLARE_MODULE(name, ...) \
     struct module __attribute__ ((section (".modules"))) name = { __VA_ARGS__ };
 ~~~~
 
@@ -305,8 +314,6 @@ void bar()
 ~~~~
 
 What we have now is a modules framework that can be extended without modifying its core. The modules registraton being static, this is greatly effective both in terms of RAM and CPU consumption.  
-
-Similar mechanisms are actually used in real-worl projects like the Linux Kernel for its drivers.
 
 ## Pitfalls with interface sections
 
