@@ -96,9 +96,9 @@ The goal here is to allow client code to be able to 'find' the interface instanc
 
 The first question we need to address is whether we register interfaces statically at design time or dynamically at runtime.
 
-Some systems like Linux provide mechanisms for sepcial 'constructors' functions to be called at program initialization. We could take advantage of that feature to allow each module to register its interfaces: see a full example [here](https://github.com/idjelic/lttng2lxt).
+Some systems like Linux provide mechanisms for special 'constructors' functions to be called at program initialization. We could take advantage of that feature to allow each module to register its interfaces: see a full example [here](https://github.com/idjelic/lttng2lxt).
 
-In this article, I assume that we are on a system without such capability, and that we as a consequencewe can only rely on static registration.
+In this article, I assume that we are on a system without such capability, and that we as a consequence can only rely on static registration.
 
 >Note that static registration is also more effective, and always desirable on devices with limited hardware.
 
