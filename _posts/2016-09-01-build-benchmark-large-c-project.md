@@ -324,15 +324,19 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'CURDIR=output/src/1'")
 
 >It seems to lead CMake to create a recursive Makefile. It would be interesting to try a different approach using include to gather fragments and per-source properties to set the CFLAGS
 
-The top-level Makefile has two rules: one to build the generated Makefile, the other one to launch it.
+The top-level Makefile has two rules: one to build the generated Makefile, the other one to create the target using it.
 
 ~~~~
-$(OUT)/foo: $(OUT)/Makefile
+$(OUT)/foo: $(OUT)/Makefile .FORCE
         $(MAKE) -C $(OUT)
+
+-include $(OUT)/Makefile
 
 $(OUT)/Makefile:
         mkdir -p $(OUT)
         cd $(OUT) && cmake -Wno-dev $(SRC)
+
+.FORCE:
 ~~~~
 
 >Note that the generated Makefile will detect automatically changes made to the Makefile fragments and regenerate the target Makefile thanks to CMake built-in checks.
@@ -361,7 +365,36 @@ set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1)
 
 I ran the benchmark on a Intel Core i7 with 16 GB RAM and an SSD drive.
 
-For a tree depth of 2, 10 subdirectories per level (12 C implementation files)
+All build times are in seconds.
+
+Tree = 2 levels, 10 subdirectories per level (12 .c files)
+
+|               | kbuild | nrecur | static | cmake | boilermake | ninja |
+|---------------|--------|--------|--------|-------|------------|-------|
+| cold start    | 0.08   | 0.06   | 0.08   | 0.55  | 0.08       | 0.36  |
+| full rebuild  | 0.06   | 0.06   | 0.06   | 0.23  | 0.07       | 0.04  |
+| rebuild leaf  | 0.04   | 0.03   | 0.03   | 0.16  | 0.04       | 0.05  |
+| nothing to do | 0.01   | 0.00   | 0.00   | 0.06  | 0.01       | 0.00  |
+
+Tree = 3 levels, 10 subdirectories per level (112 .c files)
+
+|               | kbuild | nrecur | static | cmake | boilermake | ninja |
+|---------------|--------|--------|--------|-------|------------|-------|
+| cold start    | 0.47   | 0.45   | 0.60   | 1.84  | 0.52       | 0.91  |
+| full rebuild  | 0.48   | 0.46   | 0.46   | 1.34  | 0.54       | 0.39  |
+| rebuild leaf  | 0.11   | 0.10   | 0.11   | 0.46  | 0.11       | 0.00  |
+| nothing to do | 0.06   | 0.05   | 0.06   | 0.40  | 0.07       | 0.00  |
+
+Tree = 4 levels, 10 subdirectories per level (1112 .c files)
+
+|               | kbuild | nrecur | static | cmake | boilermake | ninja |
+|---------------|--------|--------|--------|-------|------------|-------|
+| cold start    | 4.62   | 4.57   | 6.94   | 16.72 | 5.48       | 7.50  |
+| full rebuild  | 4.85   | 4.57   | 5.26   | 15.12 | 5.56       | 6.39  |
+| rebuild leaf  | 0.98   | 0.86   | 1.37   |  4.47 | 1.07       | 0.28  |
+| nothing to do | 0.53   | 0.67   | 1.22   |  4.44 | 0.88       | 0.05  |
+
+Tree = 5 levels, 10 subdirectories per level (11112 .c files)
 
 |               | kbuild | nrecur | static | cmake | boilermake | ninja |
 |---------------|--------|--------|--------|-------|------------|-------|
