@@ -249,6 +249,12 @@ article p code, article ul code {
     padding: 0 0.2em;
 }
 
+article blockquote {
+	padding: 0 15px;
+    color: #777;
+	border-left: 4px solid #ddd;
+}
+
 /* Posts */
 
 ol#posts {
