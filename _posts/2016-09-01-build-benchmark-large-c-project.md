@@ -245,6 +245,11 @@ all: $(OUT)/Makefile
 
 ...
 
+
+$(OUT)/Makefile::
+        @echo "Generating $@"
+        @echo "all: $(OUT)/foo" >> $@
+
 # Sub-directory parsing function
 define parse_subdir
 
@@ -253,10 +258,6 @@ define parse_subdir
 # Include sub-Makefile
 include $(1)/Makefile
 
-# Insert in the target Makefile a prerequisite for it to regenerate itself if
-# the sub-Makefile changes
-$(OUT)/Makefile::
-        echo "$(OUT)/Makefile: $$(abspath $(1)/Makefile)" >> $$@
 ...
 
 # Define a specific CFLAGS for objects in this subdir
@@ -281,6 +282,9 @@ $(OUT)/Makefile::
         echo '  $$(CC) $$(LOCAL_CFLAGS) -c -o $$@ $$<' >> $@
         echo "" >> $@
         $(foreach obj,$(OBJS),echo "-include $(obj:%.o=%.d)"; >> $@)
+        @echo "$(OUT)/foo: $(OBJS)" >> $@
+        @echo ' $$(CC) -o $$@ $$^' >> $@
+        @echo "Done $@"
 ~~~~
 
 The top-level Makefile includes the generated Makefile and provides a rule to generate it: GNU Make take cares of the rest.
@@ -288,19 +292,22 @@ The top-level Makefile includes the generated Makefile and provides a rule to ge
 ~~~~
 all: $(OUT)/foo
 
--include $(OUT)/Makefile
+$(OUT)/foo: $(OUT)/Makefile .FORCE
+        $(MAKE) -C $(OUT)
 
-$(OUT)/foo: $(OBJS)
-        $(CC) -o $@ $^
+FRAGMENTS := \
+        $(shell find $(SRC) -name Makefile -cnewer $(OUT)/Makefile 2>/dev/null)
 
-$(OUT)/Makefile:
+$(OUT)/Makefile: $(FRAGMENTS)
         mkdir -p $(OUT)
         $(MAKE) -C $(SRC) -f $(CURDIR)/Makefile.gen \
                 SRC=$(SRC) \
                 OUT=$(OUT)
+
+.FORCE:
 ~~~~
 
->Note the trick to make sure the Makefile is generated if one fragment changes: we insert special prerequisites in the target Makefile itself, and since it is included by the top-level Makefile, it triggers the generation.
+>Note the trick to make sure the Makefile is properly regenerated: since Make has difficulties to cope with a large number of dependencies, we use the shell to identify the fragments that have changed.
 
 ##CMake
 
@@ -324,7 +331,7 @@ TARGET_LINK_LIBRARIES(output_src_1 output_src_1_10)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'CURDIR=output/src/1'")
 ~~~~
 
->It seems to lead CMake to create a recursive Makefile. It would be interesting to try a different approach using include to gather fragments and per-source properties to set the CFLAGS
+>It seems to lead CMake to create a recursive Makefile. It would be interesting to try a different approach using include to gather fragments and per-source properties to set the CFLAGS.
 
 The top-level Makefile has two rules: one to build the generated Makefile, the other one to create the target using it.
 
@@ -347,7 +354,7 @@ $(OUT)/Makefile:
 
 [Boilermake](https://github.com/dmoulding/boilermake) is an awesome generic non-recursive Make template. I included it in order to compare it to my own non-recursive solution.
 
-##Ninja
+##Cninja (CMake + Ninja)
 
 CMake is able to generate [Ninja](https://ninja-build.org/) files, so I only had to adapt my CMake based-solution to compare the generated GNU Make build with the generated [Ninja](https://ninja-build.org/) build.
 
@@ -361,54 +368,120 @@ set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1)
 
 >Guys, gotcha: when are you gonna fix this ?
 
+##Ninja
+
+The CMake generated Ninja build performance was awesome for incremental builds, but not so good for full builds as soon as the number of files increased.
+
+I had my suspicions it may come from the way CMake generated the Ninja file, especially with the intermediate libraries I had to declare.
+
+Having received a similar feedback from the ninja mailing-list, I tried to generate the `build.ninja` file directly by parsing the Makefile fragments, in a way similar to the 'static' GNU Make solution.
+
+~~~~
+# The only goal of this Makefile is to generate the actual build.ninja
+all: $(OUT)/build.ninja
+
+# Initialize target Makefile inserting compilation and link rules
+$(OUT)/build.ninja::
+        echo "rule cc" > $@
+        echo '  deps = gcc' >> $@
+        echo '  depfile = $$out.d' >> $@
+        echo '  command = $(CC) -MD -MF $$out.d $$cflags -c $$in -o $$out' >> $@
+        echo "" >> $@
+        echo "rule ld" >> $@
+        echo '  command = $(CC) @$$out.rsp -o $$out' >> $@
+        echo '  rspfile = $$out.rsp' >> $@
+        echo '  rspfile_content = $$in' >> $@
+        echo "" >> $@
+
+OBJS:=
+
+define add_build_rule
+
+$(OUT)/build.ninja::
+        echo "build $(OUT)/$1: cc $(1:%.o=%.c)" >> $$@
+        echo "  cflags = $2" >> $$@
+
+endef
+
+# Sub-directory parsing function
+define parse_subdir
+
+...
+
+# Insert a build rule for each object
+$$(foreach obj,$$(_objs),\
+        $$(eval $$(call add_build_rule,$$(addprefix $(1)/,$$(obj)),$$(_cflags))))
+...
+
+endef
+
+# Start parsing subdirectories at the root of the source tree
+$(eval $(call parse_subdir,$(SRC)))
+
+# Finalize target Makefile inserting target executable
+$(OUT)/build.ninja::
+        echo "build foo: ld $(OBJS)" >> $@
+~~~~
+
+The results are indeed much better, as you will see in the next paragraph.
+
 #The raw results
 
 I ran the benchmark on a Intel Core i7 with 16 GB RAM and an SSD drive.
 
 All build times are in seconds.
 
+~~~~
+$make --version
+GNU Make 3.81
+$cmake --version
+cmake version 2.8.12.2
+$ninja --version
+1.3.4
+~~~~
+
 Tree = 2 levels, 10 subdirectories per level (12 .c files)
 
 ~~~~
-|               | kbuild | nrecur | static | cmake | boilermake | ninja |
-|---------------|--------|--------|--------|-------|------------|-------|
-| cold start    | 0.08   | 0.06   | 0.08   | 0.55  | 0.08       | 0.36  |
-| full rebuild  | 0.06   | 0.06   | 0.06   | 0.23  | 0.07       | 0.04  |
-| rebuild leaf  | 0.04   | 0.03   | 0.03   | 0.16  | 0.04       | 0.05  |
-| nothing to do | 0.01   | 0.00   | 0.00   | 0.06  | 0.01       | 0.00  |
+|               | kbuild | nrecur | static | cmake | b/make | cninja | ninja |
+|---------------|--------|--------|--------|-------|--------|--------|-------|
+| cold start    |  0.08  |  0.06  |  0.08  | 0.55  |  0.08  |  0.36  | 0.08  |
+| full rebuild  |  0.06  |  0.06  |  0.06  | 0.23  |  0.07  |  0.04  | 0.06  |
+| rebuild leaf  |  0.04  |  0.03  |  0.03  | 0.16  |  0.04  |  0.05  | 0.02  |
+| nothing to do |  0.01  |  0.00  |  0.00  | 0.06  |  0.01  |  0.00  | 0.00  |
 ~~~~
 
 Tree = 3 levels, 10 subdirectories per level (112 .c files)
 
 ~~~~
-|               | kbuild | nrecur | static | cmake | boilermake | ninja |
-|---------------|--------|--------|--------|-------|------------|-------|
-| cold start    | 0.47   | 0.45   | 0.60   | 1.84  | 0.52       | 0.91  |
-| full rebuild  | 0.48   | 0.46   | 0.46   | 1.34  | 0.54       | 0.39  |
-| rebuild leaf  | 0.11   | 0.10   | 0.11   | 0.46  | 0.11       | 0.00  |
-| nothing to do | 0.06   | 0.05   | 0.06   | 0.40  | 0.07       | 0.00  |
+|               | kbuild | nrecur | static | cmake | b/make | cninja | ninja |
+|---------------|--------|--------|--------|-------|--------|--------|-------|
+| cold start    |  0.47  |  0.45  |  0.51  | 1.84  |  0.52  |  0.91  | 0.53  |
+| full rebuild  |  0.48  |  0.46  |  0.44  | 1.34  |  0.54  |  0.39  | 0.32  |
+| rebuild leaf  |  0.10  |  0.09  |  0.09  | 0.46  |  0.11  |  0.07  | 0.05  |
+| nothing to do |  0.06  |  0.05  |  0.06  | 0.40  |  0.07  |  0.00  | 0.01  |
 ~~~~
 
 Tree = 4 levels, 10 subdirectories per level (1112 .c files)
 
 ~~~~
-|               | kbuild | nrecur | static | cmake | boilermake | ninja |
-|---------------|--------|--------|--------|-------|------------|-------|
-| cold start    | 4.62   | 4.57   | 6.94   | 16.72 | 5.48       | 7.50  |
-| full rebuild  | 4.85   | 4.57   | 5.26   | 15.12 | 5.56       | 6.39  |
-| rebuild leaf  | 0.98   | 0.86   | 1.37   |  4.47 | 1.07       | 0.28  |
-| nothing to do | 0.53   | 0.67   | 1.22   |  4.44 | 0.88       | 0.05  |
+|               | kbuild | nrecur | static | cmake | b/make | cninja | ninja |
+|---------------|--------|--------|--------|-------|--------|--------|-------|
+| cold start    |  4.62  |  4.57  |  5.78  | 16.72 |  5.48  |  7.50  |  5.61 |
+| full rebuild  |  4.85  |  4.57  |  4.78  | 15.12 |  5.56  |  6.39  |  3.90 |
+| rebuild leaf  |  0.98  |  0.86  |  1.04  |  4.47 |  1.07  |  0.28  |  0.21 |
+| nothing to do |  0.53  |  0.67  |  0.82  |  4.44 |  0.88  |  0.05  |  0.03 |
 ~~~~
 
 Tree = 5 levels, 10 subdirectories per level (11112 .c files)
 
 ~~~~
-|               | kbuild | nrecur | static | cmake  | boilermake | ninja  |
-|---------------|--------|--------|--------|--------|------------|--------|
-| cold start    | 59.01  | 54.07  | 164.03 | 509.96 | 72.41      | 175.58 |
-| full rebuild  | 63.41  | 61.38  | 130.83 | 376.40 | 80.17      | 101.76 |
-| rebuild leaf  | 10.86  | 17.18  |  88.37 | 215.44 | 20.19      |   2.81 |
-| nothing to do |  5.13  | 14.95  |  86.00 | 220.49 | 17.78      |   0.47 |
+|               | kbuild | nrecur | static | cmake  | b/make | cninja | ninja |
+|---------------|--------|--------|--------|--------|--------|--------|-------|
+| cold start    |  59.01 |  54.07 | 118.00 | 509.96 |  72.41 | 175.58 | 70.00 |
+| full rebuild  |  63.41 |  61.38 | 103.95 | 376.40 |  80.17 | 101.76 | 49.66 |
+| rebuild leaf  |  10.86 |  17.18 |  59.03 | 215.44 |  20.19 |   2.81 |  2.28 |
+| nothing to do |   5.13 |  14.95 |  56.87 | 220.49 |  17.78 |   0.47 |  0.03 |
 ~~~~
 
 #My two cents
@@ -418,6 +491,6 @@ From the results above, I conclude that:
 - for my use case, and with my hardware (I suspect SSD is a huge bonus for recursive Make), non-recursive and recursive Makefiles are equivalent,
 - my generated Makefile is completely suboptimal (would need to investigate),
 - CMake generated Makefiles are pretty darn slow ...
-- ninja is the fastest build-system when only a few files have changed,
-- it would be interesting to check the performance of a vanilla Ninja build (ie not generated by CMake).
+- As long as you don't generate the `build.ninja` with CMake, Ninja is as good as the best plain Make solutions for cold start and faster for rebuild,
+- Ninja is by far the fastest build-system when only a few files have changed.
 
