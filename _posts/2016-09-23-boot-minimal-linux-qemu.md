@@ -216,7 +216,7 @@ Program Headers:
 
 Both libraries are under the toolchain 'sysroot' directory.
 
->Should you decide to support duynamic linking, the dynamic linker and the C library should at some point end up on your target. 
+>Should you decide to support dynamic linking, the dynamic linker and the C library should at some point end up on your target. 
 
 Specifically for that purpose, QEMU supports specifying the path to dynamically linked libraries using the -L option or the QEMU_LD_PREFIX environment variable.
 
@@ -260,7 +260,9 @@ $ make -C linux/linux-4.7.5 ARCH=arm mainstone_defconfig O=linux/build
 
 The Linux Kernel is very versatile in the way it boots, and it can be frankly overwhelming if you consider all options.
 
-In this article, I will only consider the mainstream, legacy path using initrd. As per the Linux Kernel documentation:
+In this article, I will illustrate two boot modes: a stand-alone Kernel with a RAM initrd, and a Kernel that boots on a root filesystem on an SD card.
+
+As per the Linux Kernel documentation:
 
 >initrd provides the capability to load a RAM disk by the boot loader.
 This RAM disk can then be mounted as the root file system and programs
@@ -272,9 +274,15 @@ to a directory and can be subsequently unmounted.
 where the kernel comes up with a minimum set of compiled-in drivers, and
 where additional modules are loaded from initrd.
 
-In a nutshell, initrd is a bootstrap in RAM that allows the Kernel to get access to the 'real' rootfs. We will see how we can create an initrd in the subsequent paragraphs.
+initrd is primarily intedned to be a bootstrap in RAM that allows the Kernel to get access to the 'real' rootfs, but we can also use it to simply boot the Kernel without providing a rootfs.
 
-The mainstone default configuration is fairly minimal, and we will need to add initrd support by activating the BLK_DEV_INITRD configuration option.
+We will see how we can create an initrd in the subsequent paragraphs.
+
+The mainstone default configuration is fairly minimal, and we will need to add a few options to suppor tthese two boot modes.
+
+First, we need to add initrd support by activating the BLK_DEV_INITRD configuration option.
+
+Second, we need to add SD cards support for the mainstone board, that belongs to the PXA family. The driver is called MultiMedia card card driver for PXA, and it requires Direct Memory Access: we will therefore need to select MMC, MMC_PXA, DMADEVICES and PXA_DMA.
 
 We also need to activate the AEABI configuration to make sure the Kernel uses the latest ARM EABI convention. As per the Linux Kernel documentation:
 
@@ -287,6 +295,8 @@ $ make -C linux/build ARCH=arm menuconfig
 ~~~~
 
 >General Setup->Initial RAM filesystem and RAM disk (initramfs/initrd) support
+>Device Drivers->MMC/SD/SDIO card support->Intel PXA25x/.. Multimedia Card Interface support
+>Device Drivers->DMA Engine support->PXA DMA support
 >Kernel Features->Use the ARM EABI to compile the kernel
 
 Once our Kernel has been properly configured, we can build it:
@@ -344,6 +354,8 @@ Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)
 
 It still fails because we didn't provide a rootfs nor an initrd.
 
+#Create a tiny init
+
 Let's create a simplistic bootstrap:
 
 ~~~~
@@ -362,12 +374,17 @@ We compile it using the ARM toolchain, passing a few CFLAGS to specify the mains
 
 ~~~~
 $ arm-unknown-linux-uclibcgnueabi-gcc -static -march=armv5te -mtune=xscale -Wa,-mcpu=xscale main.c -o init
+$ chmod +x init
 ~~~~
 
-Then we create a CPIO RAM image that contains only the init program:
+We will now use that bootstrap to boot the system after the Kernel has been loaded. 
+
+#RAM boot using initrd
+
+We create a CPIO RAM image that contains only the init program:
 
 ~~~~
-echo init | cpio o --format=newc > initramfs
+$ echo init | cpio o --format=newc > initramfs
 ~~~~
 
 Now, if we launch the Kernel again, specifying our initramfs, we end up in the tiny init loop:
@@ -384,6 +401,58 @@ This architecture does not have kernel memory protection.
 Tiny init ...
 ~~~~
 
-#Create a proper init using Busybox
+#Boot on a SD card image
 
-TO BE CONTINUED
+We will now create an SD card image containing the tiny init code.
+
+~~~~
+$ qemu-img create init.img 128K
+~~~~
+
+We format the SD card image with an ext2 file-system.
+
+~~~~
+$ sudo mkfs.ext2 init.img 
+mke2fs 1.42.13 (17-May-2015)
+Discarding device blocks: done
+Creating filesystem with 128 1k blocks and 16 inodes
+
+Allocating group tables: done
+Writing inode tables: done
+Writing superblocks and filesystem accounting information: done
+~~~~
+
+Then, we can mount it and copy the init image
+
+~~~~
+$ mkdir tmp
+$ sudo mount -o loop init.img tmp
+$ mkdir -p tmp/sbin
+$ sudo cp init tmp/sbin/
+$ sudo umount tmp
+$ rmdir tmp
+~~~~
+
+>Note that the Kernel expects the init bootstrap to be under /sbin/init, and not at the root of the file system like in the initram file system.  
+
+We can now launch the Kernel specifying that the rootfs is on /dev/mmcblk0, which is the pseudo-device for the SD card passed to [QEMU](http://wiki.qemu.org/Main_Page) with the -sd option.
+
+~~~~
+$ qemu-system-arm -kernel linux/zImage -append 'console=ttyS0 root=/dev/mmcblk0' -machine mainstone -serial stdio -pflash mainstone-flash0.img -pflash mainstone-flash1.img -sd init.img
+Booting Linux on physical CPU 0x0
+Linux version 4.7.5 (xxx@yyy) (gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0) ) #1 Tue Sep 27 09:35:52 CEST 2016
+CPU: XScale-PXA270 [69054117] revision 7 (ARMv5TE), cr=00007977
+...
+XScale iWMMXt coprocessor detected.
+mmc0: host does not support reading read-only switch, assuming write-enable
+mmc0: new SD card at address 4567
+mmcblk0: mmc0:4567 QEMU! 1.00 GiB
+VFS: Mounted root (ext2 filesystem) readonly on device 179:0.
+Freeing unused kernel memory: 152K (c03ee000 - c0414000)
+This architecture does not have kernel memory protection.
+Tiny init ...
+~~~~
+
+Voila !
+
+In a following article, I will demonstrate how to create a small rootfs using [BusyBox](https://busybox.net/).
