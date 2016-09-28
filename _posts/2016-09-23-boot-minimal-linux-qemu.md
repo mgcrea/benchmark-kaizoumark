@@ -278,17 +278,17 @@ initrd is primarily intedned to be a bootstrap in RAM that allows the Kernel to 
 
 We will see how we can create an initrd in the subsequent paragraphs.
 
-The mainstone default configuration is fairly minimal, and we will need to add a few options to suppor tthese two boot modes.
+The mainstone default configuration is fairly minimal, and we will need to add a few options to support these two boot modes.
 
 First, we need to add initrd support by activating the BLK_DEV_INITRD configuration option.
 
-Second, we need to add SD cards support for the mainstone board, that belongs to the PXA family. The driver is called MultiMedia card card driver for PXA, and it requires Direct Memory Access: we will therefore need to select MMC, MMC_PXA, DMADEVICES and PXA_DMA.
+Second, we need to add SD cards support for the mainstone board, that belongs to the PXA family. The driver is called MultiMedia card driver for PXA, and it requires Direct Memory Access: we will therefore need to select MMC, MMC_PXA, DMADEVICES and PXA_DMA.
 
 We also need to activate the AEABI configuration to make sure the Kernel uses the latest ARM EABI convention. As per the Linux Kernel documentation:
 
 >This option allows for the kernel to be compiled using the latest ARM ABI (aka EABI).  This is only useful if you are using a user space environment that is also compiled with EABI.
 
-We need to add these two options manually using the curses menuconfig interface:
+We need to add these options manually using the curses menuconfig interface:
 
 ~~~~
 $ make -C linux/build ARCH=arm menuconfig
@@ -422,7 +422,7 @@ Writing inode tables: done
 Writing superblocks and filesystem accounting information: done
 ~~~~
 
-Then, we can mount it and copy the init image
+Then, we can mount it and copy the init program into the image
 
 ~~~~
 $ mkdir tmp
