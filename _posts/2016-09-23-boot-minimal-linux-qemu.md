@@ -137,12 +137,12 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ~~~~
 
 >Note that I have added a small routine to my shell startup script to automatically add paths to toolchains:
->~~~~
+>```
 >for dir in `ls ~/x-tools`; do
 >PATH=~/x-tools/$dir/bin:$PATH
 >done
 >export PATH
->~~~~
+>```
 
 #Sanity check: test cross-compilation environment
 
