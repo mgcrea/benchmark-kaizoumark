@@ -274,7 +274,7 @@ to a directory and can be subsequently unmounted.
 where the kernel comes up with a minimum set of compiled-in drivers, and
 where additional modules are loaded from initrd.
 
-initrd is primarily intedned to be a bootstrap in RAM that allows the Kernel to get access to the 'real' rootfs, but we can also use it to simply boot the Kernel without providing a rootfs.
+initrd is primarily intended to be a bootstrap in RAM that allows the Kernel to get access to the 'real' rootfs, but we can also use it to simply boot the Kernel without providing a rootfs.
 
 We will see how we can create an initrd in the subsequent paragraphs.
 
