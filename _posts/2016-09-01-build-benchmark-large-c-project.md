@@ -20,7 +20,7 @@ I recently had to develop a build-system to create firmwares for embedded target
 
 The requirements were to use build recipes that could be customized for each directory and file in the source tree, similar to what the Linux Kernel does with [kbuild](https://www.kernel.org/doc/Documentation/kbuild/makefiles.txt).
 
-I designed a custom recursive Make solution inspired by [kbuild](https://www.kernel.org/doc/Documentation/kbuild/makefiles.txt). 
+I designed a custom recursive Make solution inspired by [kbuild](https://www.kernel.org/doc/Documentation/kbuild/makefiles.txt).
 
 <!--more-->
 
@@ -36,7 +36,7 @@ I therefore decided to do a little benchmark to sort it out.
 
 >You can check for yourself the several solutions in this [repo](https://github.com/kaizouman/build-benchmark).
 
-#The benchmark
+# The benchmark
 
 The benchmark is to compile a hierachical source tree with directories containing each two source files (header + implementation), and one build fragment specifying a custom preprocessor definition. Each directory implementation 'depends' on its children directories sources by including their headers.
 
@@ -47,11 +47,11 @@ The benchmark script tests several build-system invocations in four configuratio
 - cold start (full build from a fresh tree),
 - full rebuild (touch all sources and rebuild),
 - build leaf (only touch one of the leaf headers),
-- nothing to do. 
+- nothing to do.
 
-#The solutions
+# The solutions
 
-##Kbuild
+## Kbuild
 
 The first solution is a variant of my kbuild clone. The design is dead simple:
 
@@ -74,7 +74,7 @@ It then defines rules to:
 
 - build subdirectory archives by relaunching itself on each subdirectory,
 - build local objects, taking into account local CFLAGS,
-- create the directory library as a 'thin' archive, ie a list of references to actual object files. 
+- create the directory library as a 'thin' archive, ie a list of references to actual object files.
 
 ~~~~
 THIS_FILE := $(abspath $(lastword $(MAKEFILE_LIST)))
@@ -149,7 +149,7 @@ $(OUT)/built-in.a: .FORCE
 .FORCE:
 ~~~~
 
-##Non recursive Makefile
+## Non recursive Makefile
 
 The second solution is one that is inspired by the principles of Peter Miller's paper.
 
@@ -229,7 +229,7 @@ $(OUT)/foo: $(OBJS)
 
 >It could be a single Makefile, but I found it neater to keep the "generic" template in a separate file.
 
-##Custom generated Makefile
+## Custom generated Makefile
 
 As a variant to the previous solution, I tried to parse the Makefile fragments only once to generate a Makefile in the output directory, then generate the target.
 
@@ -309,7 +309,7 @@ $(OUT)/Makefile: $(FRAGMENTS)
 
 >Note the trick to make sure the Makefile is properly regenerated: since Make has difficulties to cope with a large number of dependencies, we use the shell to identify the fragments that have changed.
 
-##CMake
+## CMake
 
 CMake is a Makefile generator. I added a CMake solution to compare it with the previous custom generated Makefile.
 
@@ -350,11 +350,11 @@ $(OUT)/Makefile:
 
 >Note that the generated Makefile will detect automatically changes made to the Makefile fragments and regenerate the target Makefile thanks to CMake built-in checks.
 
-##Boilermake
+## Boilermake
 
 [Boilermake](https://github.com/dmoulding/boilermake) is an awesome generic non-recursive Make template. I included it in order to compare it to my own non-recursive solution.
 
-##Cninja (CMake + Ninja)
+## Cninja (CMake + Ninja)
 
 CMake is able to generate [Ninja](https://ninja-build.org/) files, so I only had to adapt my CMake based-solution to compare the generated GNU Make build with the generated [Ninja](https://ninja-build.org/) build.
 
@@ -368,7 +368,7 @@ set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1)
 
 >Guys, gotcha: when are you gonna fix this ?
 
-##Ninja
+## Ninja
 
 The CMake generated Ninja build performance was awesome for incremental builds, but not so good for full builds as soon as the number of files increased.
 
@@ -402,7 +402,7 @@ build foo : ld /home/david/dev/make-benchmark/output/src/main.o ...
 
 The results are indeed much better, as you will see in the next paragraph.
 
-#The raw results
+# The raw results
 
 I ran the benchmark on a Intel Core i7 with 16 GB RAM and an SSD drive.
 
@@ -461,7 +461,7 @@ Tree = 5 levels, 10 subdirectories per level (11112 .c files)
 | nothing to do |   5.13 |  14.95 |  56.87 | 220.49 |  17.78 |   0.47 |  0.03 |
 ~~~~
 
-#My two cents
+# My two cents
 
 From the results above, I conclude that:
 
