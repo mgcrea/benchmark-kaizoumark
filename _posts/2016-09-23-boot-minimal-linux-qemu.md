@@ -406,13 +406,13 @@ Tiny init ...
 We will now create an SD card image containing the tiny init code.
 
 ```shell
-$ qemu-img create init.img 128K$
+$ qemu-img create init.img 128K
 ```
 
 We format the SD card image with an ext2 file-system.
 
 ```shell
-$ sudo mkfs.ext2 init.img
+$ mkfs.ext2 init.img
 mke2fs 1.42.13 (17-May-2015)
 Discarding device blocks: done
 Creating filesystem with 128 1k blocks and 16 inodes
