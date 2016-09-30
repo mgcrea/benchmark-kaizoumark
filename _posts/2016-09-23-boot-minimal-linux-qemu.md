@@ -60,7 +60,7 @@ Most of the time, the board manufacturer will have provided the toolchain as par
 
 Generating a toolchain used to be quite painful, but since the awesome [crosstool-ng](http://crosstool-ng.org/) tool has been made available, this is a piece of cake.
 
->More namedropping: kudos to my friend [Yann E. Morin](http://ymorin.is-a-geek.org/) for developping [crosstool-ng](http://crosstool-ng.org/) 
+>More namedropping: kudos to my friend [Yann E. Morin](http://ymorin.is-a-geek.org/) for developping [crosstool-ng](http://crosstool-ng.org/)
 
 First, we need to fetch and install the tool.
 
@@ -216,7 +216,7 @@ Program Headers:
 
 Both libraries are under the toolchain 'sysroot' directory.
 
->Should you decide to support dynamic linking, the dynamic linker and the C library should at some point end up on your target. 
+>Should you decide to support dynamic linking, the dynamic linker and the C library should at some point end up on your target.
 
 Specifically for that purpose, QEMU supports specifying the path to dynamically linked libraries using the -L option or the QEMU_LD_PREFIX environment variable.
 
@@ -377,7 +377,7 @@ $ arm-unknown-linux-uclibcgnueabi-gcc -static -march=armv5te -mtune=xscale -Wa,-
 $ chmod +x init
 ~~~~
 
-We will now use that bootstrap to boot the system after the Kernel has been loaded. 
+We will now use that bootstrap to boot the system after the Kernel has been loaded.
 
 #RAM boot using initrd
 
@@ -406,13 +406,13 @@ Tiny init ...
 We will now create an SD card image containing the tiny init code.
 
 ~~~~
-$ qemu-img create init.img 128K
+$ qemu-img create init.img 128K$
 ~~~~
 
 We format the SD card image with an ext2 file-system.
 
 ~~~~
-$ sudo mkfs.ext2 init.img 
+$ sudo mkfs.ext2 init.img
 mke2fs 1.42.13 (17-May-2015)
 Discarding device blocks: done
 Creating filesystem with 128 1k blocks and 16 inodes
@@ -433,7 +433,7 @@ $ sudo umount tmp
 $ rmdir tmp
 ~~~~
 
->Note that the Kernel expects the init bootstrap to be under /sbin/init, and not at the root of the file system like in the initram file system.  
+>Note that the Kernel expects the init bootstrap to be under /sbin/init, and not at the root of the file system like in the initram file system.
 
 We can now launch the Kernel specifying that the rootfs is on /dev/mmcblk0, which is the pseudo-device for the SD card passed to [QEMU](http://wiki.qemu.org/Main_Page) with the -sd option.
 
