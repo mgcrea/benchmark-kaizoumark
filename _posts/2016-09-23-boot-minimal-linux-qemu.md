@@ -384,13 +384,13 @@ We will now use that bootstrap to boot the system after the Kernel has been load
 We create a CPIO RAM image that contains only the init program:
 
 ```shell
-$ echo init | cpio o --format=newc > initramfs
+$ echo init | cpio -o --format=newc > initramfs
 ```
 
 Now, if we launch the Kernel again, specifying our initramfs, we end up in the tiny init loop:
 
 ```shell
-$ qemu-system-arm -kernel linux/zImage -append 'console=ttyS0' -machine mainstone -serial stdio -pflash mainstone-flash0.img -pflash mainstone-flash1.img -init
+$ qemu-system-arm -kernel linux/zImage -append 'console=ttyS0' -machine mainstone -serial stdio -pflash mainstone-flash0.img -pflash mainstone-flash1.img -initrd initramfs
 Booting Linux on physical CPU 0x0
 Linux version 4.7.5 (xxx@yyy) (gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0) ) #1 Tue Sep 27 09:35:52 CEST 2016
 CPU: XScale-PXA270 [69054117] revision 7 (ARMv5TE), cr=00007977
