@@ -20,7 +20,7 @@ There is also a [small repository on github](https://github.com/kaizouman/linux-
 
 <!--more-->
 
-#A few words about Linux libraries
+# A few words about Linux libraries
 
 This paragraph is only a brief summary of what is very well described in [The Linux Documentation Project library howto](http://tldp.org/HOWTO/Program-Library-HOWTO/introduction.html).
 
@@ -30,7 +30,7 @@ There are three kind of libraries in Linux: static, shared and dynamically loade
 
 Dynamically loaded libraries are very specific to some use cases like plugins, and would deserve an article on their own. I will only focus here on static and shared libraries.
 
-##Static libraries
+## Static libraries
 
 A static library is simply an archive of object files conventionally starting with the `lib` prefix and ending with the `.a` suffix.
 
@@ -58,7 +58,7 @@ or indirectly using [the `-l`/`L` options](http://linux.die.net/man/1/ld):
 $ gcc -o app main.c -lfoobar -L/path/to/foobar
 ~~~
 
-##Shared libraries
+## Shared libraries
 
 A shared library is an __ELF__ object loaded by programs when they start.
 
@@ -95,7 +95,7 @@ or
 $ gcc -o app main.c -lfoobar -L/path/to/foobar
 ~~~
 
-##Shared libraries and undefined symbols
+## Shared libraries and undefined symbols
 
 An __ELF__ object maintains a table of all the symbols it uses, including symbols belonging to another __ELF__ object that are marked as undefined.
 
@@ -136,7 +136,7 @@ $ gcc -Wl,-zdefs -shared -o libbar.so -fPIC bar.c
 
 >Note that when producing a static library, which is just an archive of object files, no actual 'linking' operation is performed, and undefined symbols are kept unchanged.
 
-##Library versioning and compatibility
+## Library versioning and compatibility
 
 Several versions of the same library can coexist in the system.
 
@@ -176,7 +176,7 @@ $ gcc -shared -Wl,-soname,libfoobar.so.1 -o libfoobar.so foo.o bar.o
 
 As mentioned before, whenever a library defines a __soname__, it is that __soname__ that is stored in the `DT_NEEDED` field of __ELF__ objects linked against that library.
 
-##Solving versioned libraries dependencies at build time
+## Solving versioned libraries dependencies at build time
 
 As mentioned before, libraries to be linked against can be specified using a shortened name and a path:
 
@@ -202,7 +202,7 @@ The linker uses the following search paths to locate required shared libraries:
 - default directories, normally `/lib` and `/usr/lib`
 - directories listed inthe `/etc/ld.so.conf` file
 
-##Solving versioned shared libraries dependencies at runtime
+## Solving versioned shared libraries dependencies at runtime
 
 On GNU glibc-based systems, including all Linux systems, starting up an __ELF__ binary executable automatically causes the program loader to be loaded and run.
 
@@ -224,7 +224,7 @@ When looking fo a specific library, if the value described in the `DT_NEEDED` do
 - from the cache file `/etc/ld.so.cache`, which contains a compiled list of candidate libraries previously found in the augmented library path (can be disabled at compilation time),
 - in the default path `/lib`, and then `/usr/lib` (can be disabled at compilation time).
 
-#Proper handling of secondary dependencies
+# Proper handling of secondary dependencies
 
 As mentioned in the introduction, my issue was related to secondary dependencies, ie shared libraries dependencies that are exported from one library to a target.
 
@@ -263,7 +263,7 @@ int main(int argc, char** argv)
 }
 ~~~
 
-##Creating the libfoo.so shared library
+## Creating the libfoo.so shared library
 
 __libfoo__ has no dependencies but the __libc__, so we can create it with the simplest command:
 
@@ -271,7 +271,7 @@ __libfoo__ has no dependencies but the __libc__, so we can create it with the si
 $ gcc -shared -o libfoo.so -fPIC foo.c
 ~~~
 
-##Creating the libbar.a static library
+## Creating the libbar.a static library
 
 As said before, static libraries are just archives of object files, without any means to declare external dependencies.
 
@@ -282,7 +282,7 @@ $ gcc -c bar.c
 $ ar rcs libbar.a bar.o
 ~~~
 
-##Creating the libbar.so dynamic library
+## Creating the libbar.so dynamic library
 
 The proper way to create the __libbar.so__ shared library it by explicitly 
 specifying it depends on __libfoo__:
@@ -310,7 +310,7 @@ $ gcc -shared -o libbar_dumb.so -fPIC bar.c
 
 Note that it is very unlikely that someone actually chooses to create such an incomplete library on purpose, but it may happen that by misfortune you encounter one of these beasts in binary form and still __need__ to link against it (yeah, sh... happens !).
 
-##Linking against the libbar.a static library
+## Linking against the libbar.a static library
 
 As mentioned before, when linking an executable, the linker must resolve all undefined symbols before producing the output binary.
 
@@ -350,7 +350,7 @@ To summarize, when linking an executable against a static library, you need to s
 
 >Note however that expressing, discovering and adding implicit static libraries dependencies is typically a feature of your build system (__autotools__, __cmake__).
 
-##Linking against the libbar.so shared library
+## Linking against the libbar.so shared library
 
 As specified in the [linker documentation](http://linux.die.net/man/1/ld), when the linker encounters an input shared library it processes all its `DT_NEEDED` entries as secondary dependencies:
 
@@ -359,7 +359,7 @@ As specified in the [linker documentation](http://linux.die.net/man/1/ld), when 
 
 So, let's see what happens when dealing with our two shared libraries.
 
-###Linking against the "dumb" library
+### Linking against the "dumb" library
 
 When trying to link an executable against the "dumb" version of __libbar.so__, the linker encounters undefined symbols in the library itself it cannot resolve since it lacks the `DT_NEEDED` entry related to __libfoo__:
 
@@ -371,7 +371,7 @@ collect2: error: ld returned 1 exit status
 
 Let's see how we can solve this.
 
-####Adding explicitly the libfoo.so dependency
+#### Adding explicitly the libfoo.so dependency
 
 Just like we did when we linked against the static version, we can just add __libfoo__ to the link command to solve the problem:
 
@@ -403,7 +403,7 @@ Let's imagine for instance that in the future we decide to provide a newer versi
 
 >As a matter of fact, this [actually happened in the past](https://lists.debian.org/debian-devel-announce/2005/11/msg00016.html): a libfreetype update in the debian distro caused 583 packages to be recompiled, with only 178 of them actually using it.
 
-####Ignoring libfoo dependency
+#### Ignoring libfoo dependency
 
 There is another option you can use when dealing with the "dumb" library: tell the linker to ignore its undefined symbols altogether:
 
@@ -434,9 +434,9 @@ Your only option is then to load __libfoo__ explicitly (yes, this is getting ugl
 $ LD_PRELOAD=$(pwd)/libfoo.so LD_LIBRARY_PATH=$(pwd) ./app
 ~~~
 
-###Linking against the "correct" library
+### Linking against the "correct" library
 
-####Doing it the right way
+#### Doing it the right way
 
 As mentioned before, when linking against the correct shared library, the linker encounters the __libfoo.so__ `DT_NEEDED` entry, adds it to the link command and finds it at the path specified by `-L`, thus solving the undefined symbols ... or at least that is what I expected:
 
@@ -475,7 +475,7 @@ And this is __finally how things should be done__.
 
 >You may also use `-rpath` instead of `-rpath-link` but in that case the specified path will be stored in the resulting executable, which is not suitable if you plan to relocate your binaries. Tools like __cmake__ use the `-rpath` during the build phase (`make`), but remove the specified path from the executable during the installation phase(`make install`). 
 
-#Conclusion
+# Conclusion
 
 To summarize, when linking an executable against:
 
