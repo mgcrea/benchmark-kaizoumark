@@ -27,9 +27,9 @@ if (window.Kaizoumark) {
     var parentElt = scriptTag.parentNode;
     var container = document.createElement('div');
     container.style['position'] = 'relative';
-    container.style['width'] = '600px';
-    container.style['height'] = '500px';
-    container.style['border'] = '2px solid grey';
+    container.style['width'] = '1920px';
+    container.style['height'] = '1080px';
+    container.style['border'] = 'none';
     parentElt.appendChild(container);
     var output = document.createElement('div');
     parentElt.appendChild(output);
@@ -39,7 +39,11 @@ if (window.Kaizoumark) {
         function (evt) {
             var result = evt.label + ":" + evt.level + "[" + evt.status + "]";
             results.push(result)
-            var lastScore = s.match(/^Got\s(\d+)fps/)[1] * 1;
+            var matches = evt.status.match(/^Got\s(\d+)fps/);
+            var lastScore = matches && matches[1] ? evt.status.match(/^Got\s(\d+)fps/)[1] * 1 : 0;
+            if (!lastScore) {
+                console.warn('failed to match', evt.status);
+            }
             rawResults.push({label: evt.label, level: evt.level, status: evt.status, score: evt.level * 20 + lastScore })
         },
         false);
